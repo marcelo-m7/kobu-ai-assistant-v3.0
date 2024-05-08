@@ -1,0 +1,10 @@
+(
+  "Data required for Lead Generation": "Person Name,
+  Email Address,
+  Role of Person (who the person contacting is),
+  Type of the Company,
+  Brand Name,
+  Type of Project (new brand, website, etc),
+  Available budget,
+  Timeframe for the project,
+)

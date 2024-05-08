@@ -1,0 +1,10 @@
+(
+Email Address,
+Role of Person (who the person contacting is),
+Type of the Company,
+Company/brand,
+Contact Reason,
+Contact message,
+(In case of beeing a project developing need) Available budget (minimum engagement of 10.000EUR),
+How did you find us?
+)

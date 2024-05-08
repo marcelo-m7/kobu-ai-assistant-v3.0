@@ -1,0 +1,30 @@
+[
+    {
+        "type": "function",
+        "function": {
+            "name": "extract_datas_for_lead_generation",
+            "description": "Extract the datas provided during the chat hystory  for Lead Generation",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "person_name": {"type": "string", "description": "The name of the person."},
+                    "email_address": {"type": "string", "description": "The email address."},
+                    "role_of_person": {"type": "string", "description": "The role of the person."},
+                    "brand": {"type": "string", "description": "The name of the user's company or brand."},
+                    "contact_reason": {"type": "string", "description": "The user contact reason."},
+                    "contact_description": {"type": "string", "description": "The description of the message or contact from the user to Kobu."},
+                    "how_found_us": {"type": "string", "description": "How the person found us."},
+                    "other_data": {"type": "string", "description": "Other information provided by the user"}
+                },
+                "required": [
+                    "person_name",
+                    "email_address",
+                    "role_of_person",
+                    "brand",
+                    "contact_reason",
+                    "contact_description"
+                ]
+            }
+        }
+    }
+]

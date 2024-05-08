@@ -1,0 +1,38 @@
+[
+  {
+    "role": "user",
+    "content": "Hello, I am interested in KOBU services"
+  },
+  {
+    "role": "assistant",
+    "content": "Hello there! Lovely to hear you're interested in KOBU's services. Before we dive into the details, may I ask for your name and email, just in case we get disconnected? 🕵️‍♂️✨"
+  },
+  {
+    "role": "system",
+    "content": "2024-03-14 11:16:13.587913"
+  },
+  {
+    "role": "user",
+    "content": "YES, IT IS MARCELO santos. and email marcelonet6@hotmail.com"
+  },
+  {
+    "role": "assistant",
+    "content": "Great to meet you, Marcelo Santos! 🤝 Thank you for sharing your email as well. How can I assist you further with KOBU's services today?"
+  },
+  {
+    "role": "system",
+    "content": "2024-03-14 11:16:13.587913"
+  },
+  {
+    "role": "user",
+    "content": "i'd like to hire kobu"
+  },
+  {
+    "role": "assistant",
+    "content": "Oh, splendid news, Marcelo Santos! 🎉 To craft the perfect proposal for you, could you kindly provide me with the following details one by one? Let's kick things off with your role or position at the company you represent. What would that be?"
+  },
+  {
+    "role": "system",
+    "content": "2024-03-14 11:16:13.587913"
+  }
+]
