@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <title>Kobu AI Assistant</title>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+  <link rel="icon" href="img/favicon.ico">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <assistant>
+      <div class="chatCont" id="chatCont">
+    
+        <div class="assistant_profile">
+          <div class="close" id="closeButton">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </div>
+        </div><!--assistant_profile end-->
+        
+        <div id="result_div" class="resultDiv">
+        <!-- messages -->
+        </div>
+        
+        <div class="chatForm" id="chat-div">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        
+          <input type="text" id="chat-input" autocomplete="off" placeholder="Type a message" class="form-control assistant-txt  "/>
+        
+        </div>
+        </div><!--chatCont end-->
+        
+        
+        <div class="profile_div">
+        <div class="row">
+            <div class="col-hgt">
+                <img src="img/kobu-chatbox-icon.svg" class="img-circle img-profile">
+            </div><!--col-hgt end-->
+        </div><!--row end-->
+        </div><!--profile_div end-->
+    </assistant>
+
+  </div>
+
+  <script type="module" src="js/script.js"></script>
+</body>
+
+</html>
