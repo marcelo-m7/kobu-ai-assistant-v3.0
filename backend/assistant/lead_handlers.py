@@ -7,7 +7,7 @@ import logging
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-
+import os
 
 class LeadHandlers():
     """
@@ -15,6 +15,7 @@ class LeadHandlers():
     """
     buffer_saver_file_path = 'assistant/buffer/buffer.json'
     exported_lead_datas = 'assistant/buffer/lead_datas.json'
+    exported_lead_html_path = 'assistant/buffer'
 
     async def send_leads_info(self) -> None:
         """
@@ -29,22 +30,36 @@ class LeadHandlers():
                 "Lead generated at": str(datetime.now())
             }
 
-            # self.lead["User ID"] = self.user_id
-            # self.lead["Contact Reason"] = self.subject_name
-            # self.lead["Lead generated at"] = str(datetime.now())
-
             lead.update(self.lead)
-            await asyncio.create_task(self.save_locally_leads_info(lead))
+
+            await asyncio.create_task(self.save_locally_lead_info(lead))
+
             lead_to_email_body = await asyncio.create_task(self.format_json_for_email(lead))
+            chat_formated = await asyncio.create_task(self.format_chat_history_for_email(self.chat_history))
+
+            await asyncio.create_task(self.send_lead_by_email(lead_to_email_body, chat_formated))
+            await asyncio.create_task(self.save_locally_lead_html(lead_to_email_body, chat_formated))
+
+        except Exception as e:
+            logging.error(f"Unexpected error: {e}")
+            print(f"send_leads_info(): Error {e}")
+
+    async def send_lead_by_email(self, lead_to_email_body: str, chat_formated = None) -> None:
+        """
+        Sends the data for lead generation to the server email.
+        """
+        try:
 
             print("send_leads_info() - Trying to send the email")
-
             # Building the e-mail
             sender_email = 'assistant@kobu.agency'
             receiver_email = sender_email
-            subject = f'New Lead Generated - {lead.get("brand")}, sent by {lead.get("person_name")}'
-            body = lead_to_email_body
-            print("Body recived:\n", body)
+            subject = f'New Lead Generated - {self.lead.get("brand")}, sent by {self.lead.get("person_name")}'
+
+            print("Email subject: ", subject)
+            print("Body recived:\n", lead_to_email_body)
+            body = lead_to_email_body + chat_formated
+
             message = MIMEMultipart()
             message['From'] = sender_email
             message['To'] = receiver_email
@@ -71,7 +86,7 @@ class LeadHandlers():
             logging.error(f"Unexpected error: {e}")
             print(f"send_leads_info(): Error {e}")
 
-    async def save_locally_leads_info(self, lead: json) -> None: 
+    async def save_locally_lead_info(self, lead: json) -> None: 
         """
         Write the data for lead generation to a JSON file.
         """
@@ -92,10 +107,45 @@ class LeadHandlers():
             with open(self.exported_lead_datas, 'w', encoding='utf-8') as json_file:
                 json.dump(existing_data, json_file, ensure_ascii=False, indent=2)
 
-            print(f'save_locally_leads_info() Lead datas has been exported to {self.exported_lead_datas}')
+            print(f'save_locally_lead_info() Lead datas has been exported to {self.exported_lead_datas}')
 
         except Exception as e:
-            print(f"save_locally_leads_info Error {e}")
+            print(f"save_locally_lead_info Error {e}")
+
+    async def save_locally_lead_html(self, lead_to_email_body: str, chat_formated = None) -> None:
+        """
+        Creates an HTML file with the given body content and user ID as the filename.
+
+        Parameters:
+            lead_to_email_body (str): The body content of the HTML page.
+        """
+
+        html_body_content = f"""
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>User Profile</title>
+        </head>
+        <body>
+            <h1>User: {self.user_id}</h1>
+            <p> {lead_to_email_body} </p>
+            <br>
+            <h1>Conversation </h1>
+            <p> {chat_formated} </p>
+
+        </body>
+        </html>
+        """
+
+        try:
+            filename = os.path.join(self.exported_lead_html_path, f"{self.user_id}.html")
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(html_body_content)
+            print(f"HTML file '{filename}' created successfully.")
+        except Exception as e:
+            print(f"Error creating HTML file: {e}")
 
     async def format_chat_history_for_email(self, chat_history: list) -> str:
         """
@@ -139,10 +189,6 @@ class LeadHandlers():
             email_body = ""
             for key, value in json_data.items():
                 email_body += f"{key}: {value}\n"
-
-            chat_formated = await self.format_chat_history_for_email(self.chat_history)
-            print("EMAIL BODY:\n", email_body, chat_formated)
-            email_body += chat_formated 
 
             return email_body
         

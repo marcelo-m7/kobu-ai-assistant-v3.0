@@ -26,7 +26,7 @@ class KnowledgeLoaders(ChatConsts):
         data_required (str): Data required for the current subject.
     """
     
-    extra_context = True
+    extra_context = False
     vector_store = DataStore.get_vector_store() if extra_context else None
 
     llm_conversation = ChatOpenAI(temperature=1, model="gpt-3.5-turbo")
