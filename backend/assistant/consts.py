@@ -1,5 +1,4 @@
 from .subjects_lead_extractor import HireUs, GeneralContact, JoinTheTeam
-from datetime import datetime
 from dotenv import load_dotenv
 import os
 
@@ -12,9 +11,6 @@ class ChatConsts():
     """
     Utility class containing constant values used throughout the chat application.
     """
-
-    # GENERAL CONSTANTS
-    DATA_TIME = str(datetime.now())
 
     # SUBJECTS POSSIBLES
     GENERAL_CONTACT = 'general_contact'

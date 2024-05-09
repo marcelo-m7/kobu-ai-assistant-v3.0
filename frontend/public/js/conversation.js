@@ -19,6 +19,48 @@ export class Conversation extends Interface{
     }
   
     /**
+     * Sends a request to the specified URL (default local proxy) with the provided data.
+     * @param {object} data - The data to be sent with the request.
+     * @returns {Promise<object>} - A promise resolving to the response data from the server.
+     */
+    async sendRequest(data = this.requestData()) {
+        try {
+        // Specify the URL for the request (default local proxy)
+        const url = 'http://localhost:3000/proxy'; // Default local proxy (no need to add any URL)
+    
+        // Uncomment the following lines to use a different proxy or no proxy at all
+        // const url = 'https://assistant.kobudev.com/kobu-assistant'; // Use this URL if you don't want to use any proxy
+        // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';  // Set the external proxy URL if desired
+        // const response = await fetch(proxyUrl + url, { // Use an external proxy (uncomment this line if using an external proxy)
+    
+        // Send the request to the specified URL
+        const response = await fetch(url, { // Use the default local proxy (comment this line if using an external proxy)
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+    
+        // Check if the response is successful
+        if (!response.ok) {
+            throw new Error('Network Error');
+        } else {
+            // Parse the response data and return it
+            const responseData = await response.json();
+            console.log(responseData);
+            return responseData;
+        }
+        } catch (error) {
+        // Handle any errors that occur during the request
+        console.error(error);
+        // Return a default error message if the request fails
+        return { "message": "Sorry, but I'm unable to assist you at the moment. Please contact <a href='https://kobu.agency/contact'>Kobu.agency/Contact</a> for further assistance." };
+        }
+    };
+    
+    /**
      * Generates a unique user ID using the current timestamp and a random number.
      * If a user ID is not already stored in the local storage, generates a new one and stores it.
      * @returns {string} - The generated or retrieved unique user ID.
@@ -108,47 +150,6 @@ export class Conversation extends Interface{
             }
     };
 
-    /**
-     * Sends a request to the specified URL (default local proxy) with the provided data.
-     * @param {object} data - The data to be sent with the request.
-     * @returns {Promise<object>} - A promise resolving to the response data from the server.
-     */
-    async sendRequest(data = this.requestData()) {
-        try {
-        // Specify the URL for the request (default local proxy)
-        const url = 'http://localhost:3000/proxy'; // Default local proxy (no need to add any URL)
-    
-        // Uncomment the following lines to use a different proxy or no proxy at all
-        // const url = 'https://assistant.kobudev.com/kobu-assistant'; // Use this URL if you don't want to use any proxy
-        // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';  // Set the external proxy URL if desired
-        // const response = await fetch(proxyUrl + url, { // Use an external proxy (uncomment this line if using an external proxy)
-    
-        // Send the request to the specified URL
-        const response = await fetch(url, { // Use the default local proxy (comment this line if using an external proxy)
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-    
-        // Check if the response is successful
-        if (!response.ok) {
-            throw new Error('Network Error');
-        } else {
-            // Parse the response data and return it
-            const responseData = await response.json();
-            console.log(responseData);
-            return responseData;
-        }
-        } catch (error) {
-        // Handle any errors that occur during the request
-        console.error(error);
-        // Return a default error message if the request fails
-        return { "message": "Sorry, but I'm unable to assist you at the moment. Please contact <a href='https://kobu.agency/contact'>Kobu.agency/Contact</a> for further assistance." };
-        }
-    };
     
 
     // Saves chatHistory array in LocalStorage

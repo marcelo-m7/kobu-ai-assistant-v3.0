@@ -1,6 +1,7 @@
 
 import json
 import asyncio
+from datetime import datetime
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.schema import HumanMessage, AIMessage, SystemMessage
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -20,8 +21,8 @@ class Utils(Knowledge):
     """
     Utility functions for handling chat history, saving lead data, and invoking chat chains.
     """
-    buffer_saver_file_path = 'backend/assistant/buffer/buffer.json'
-    exported_lead_datas = 'backend/assistant/buffer/lead_datas.json'
+    buffer_saver_file_path = 'assistant/buffer/buffer.json'
+    exported_lead_datas = 'assistant/buffer/lead_datas.json'
 
     def set_user_attributes(self, response: dict) -> None:
         """
@@ -48,7 +49,7 @@ class Utils(Knowledge):
             
             if user_input != None and response == None:
                 self.chat_history.append(HumanMessage(content=user_input))
-                self.chat_history.append(SystemMessage(content=f"Awnswered at: {self.DATA_TIME}"))
+                self.chat_history.append(SystemMessage(content=f"Awnswered at: {datetime.now()}"))
 
             if response != None:
                 self.chat_history.append(AIMessage(content=response))
@@ -77,7 +78,7 @@ class Utils(Knowledge):
 
         messages_history.append({'role': 'user', 'content': user_input})
         messages_history.append({'role': 'assistant', 'content': response})
-        messages_history.append({'role': 'system', 'content': self.DATA_TIME})
+        messages_history.append({'role': 'system', 'content': datetime.now()})
 
 
         try:
@@ -102,20 +103,28 @@ class Utils(Knowledge):
         Sends the data for lead generation to the server email.
         """
         try:
-            new_data = json.loads(self.lead)
-            new_data["User ID: "] = self.user_id
-            new_data["Contact Reason: "] = self.subject_name
-            new_data["Lead generated at"] = str(self.DATA_TIME)
+            self.lead = json.loads(self.lead)
 
-            await asyncio.create_task(self.save_locally_leads_info(new_data))
+            new_lead = {
+            "User ID": self.user_id,
+            "Contact Reason": self.subject_name,
+            "Lead generated at": str(datetime.now())
+            }
+            # self.lead["User ID"] = self.user_id
+            # self.lead["Contact Reason"] = self.subject_name
+            # self.lead["Lead generated at"] = str(datetime.now())
+
+            new_lead.update(self.lead)
+
+            await asyncio.create_task(self.save_locally_leads_info(new_lead))
 
             print("send_leads_info() - Trying to send the email")
 
             # Building the e-mail
             sender_email = 'assistant@kobu.agency'
             receiver_email = sender_email
-            subject = f'New Lead Generated - {new_data.get("brand")}, sent by {new_data.get("person_name")}'
-            body = json.dumps(new_data, indent=4)
+            subject = f'New Lead Generated - {new_lead.get("brand")}, sent by {new_lead.get("person_name")}'
+            body = json.dumps(new_lead, indent=4)
 
             message = MIMEMultipart()
             message['From'] = sender_email
@@ -270,19 +279,7 @@ class Utils(Knowledge):
 
             chain = prompt | self.llm_conversation
             return chain
-    
-    @ManagerTools.debugger_exception_decorator
-    async def debugger_sleeper(duration: int) -> None:
-        """
-        Implement time.sleep function to test purposes.
-        
-        Args:
-            duration (int): Duration in seconds to sleep.
-        """
-        import time
-        print("Sleeping...")
-        time.sleep(duration)
-        
+
     @ManagerTools.debugger_exception_decorator
     def debugger_print(*args):
         """
@@ -293,7 +290,3 @@ class Utils(Knowledge):
         """
         message = ' '.join(map(str, args))
         print(message)
-
-
-
-

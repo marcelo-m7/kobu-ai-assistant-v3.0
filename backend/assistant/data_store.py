@@ -27,11 +27,11 @@ class DataStore:
     PICKLE = "pickel"
     SITE_URL = "https://kobu.agency/"
 
-    site_datas_light = 'backend/assistant/knowledge/default/site_datas_light.txt'
-    site_datas = 'backend/assistant/knowledge/default/site_datas.txt'
+    site_datas_light = 'assistant/knowledge/default/site_datas_light.txt'
+    site_datas = 'assistant/knowledge/default/site_datas.txt'
 
     LOCAL_PATH = site_datas
-    docs_pickle_path = "backend/assistant/knowledge/default/docs.pickle"
+    docs_pickle_path = "assistant/knowledge/default/docs.pickle"
     origin = LOCAL
 
     @classmethod

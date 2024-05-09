@@ -69,7 +69,8 @@ export class Interface extends InterfaceElements {
     }
 
     formatAssistantMessage(message) {
-        if (message.trim() == "") {
+        // if (message.trim() == "") {
+        if (message == "") {
           message = "I couldn't get that. Let's try something else!";
         }
     
@@ -97,9 +98,10 @@ export class Interface extends InterfaceElements {
         // Append the element to the result_div
         document.getElementById("result_div").appendChild(userResponseElement);
         // Apply fadeIn effect
-        await this.fadeIn(userResponseElement);
 
         this.scrollToBottomOfResults();
+        await this.fadeIn(userResponseElement);
+
         this.showSpinner();
     };
 
@@ -111,9 +113,9 @@ export class Interface extends InterfaceElements {
         assistantResponseElement.style.opacity = 0; 
         document.getElementById("result_div").appendChild(assistantResponseElement);
 
+        this.scrollToBottomOfResults();
         await this.fadeIn(assistantResponseElement);
 
-        this.scrollToBottomOfResults();
         this.hideSpinner();
         document.getElementById("chat-input").focus();
     };
@@ -126,9 +128,9 @@ export class Interface extends InterfaceElements {
         assistantResponseElement.style.opacity = 0;
         document.getElementById("result_div").appendChild(assistantResponseElement);
 
+        this.scrollToBottomOfResults();
         await this.fadeIn(assistantResponseElement);
 
-        this.scrollToBottomOfResults();
         this.hideSpinner();
         document.getElementById("chat-input").focus();
     };
@@ -142,6 +144,7 @@ export class Interface extends InterfaceElements {
             assistantResponseElement.style.opacity = 0; 
             document.getElementById("result_div").appendChild(assistantResponseElement);
 
+            this.scrollToBottomOfResults();
             await this.fadeIn(assistantResponseElement);
 
             assistantResponseElement.style.display = "block";

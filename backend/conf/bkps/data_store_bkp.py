@@ -17,11 +17,11 @@ class DataStore:
     LOCAL = "text"
     SITE_URL = "https://kobu.agency/"
 
-    site_datas_light = 'backend/assistant/knowledge/default/site_datas_light.txt'
-    site_datas = 'backend/assistant/knowledge/default/site_datas.txt'
+    site_datas_light = 'assistant/knowledge/default/site_datas_light.txt'
+    site_datas = 'assistant/knowledge/default/site_datas.txt'
 
     LOCAL_PATH = site_datas
-    docs_pickle_path = "backend/assistant/knowledge/default/docs.pickle"
+    docs_pickle_path = "assistant/knowledge/default/docs.pickle"
     origin = LOCAL
 
     # @ManagerTools.debugger_exception_decorator
@@ -150,8 +150,8 @@ class DataStore_propose2:
     WEB = "web"
     LOCAL = "text"
     SITE_URL = "https://kobu.agency/"
-    LOCAL_PATH = 'backend/assistant/knowledge/default/site_datas.txt' #_light.txt'
-    DOCS_PICKLE_PATH = "backend/assistant/knowledge/default/docs.pickle"
+    LOCAL_PATH = 'assistant/knowledge/default/site_datas.txt' #_light.txt'
+    DOCS_PICKLE_PATH = "assistant/knowledge/default/docs.pickle"
 
     origin = LOCAL
 
@@ -228,8 +228,8 @@ class DataStore_propose2:
 
 
 class DataStore_propose3:
-    vector_store_pickle_path = "backend/assistant/knowledge/default/vector_store.pickle"
-    text_file_path = 'backend/assistant/knowledge/default/site_datas_light.txt'
+    vector_store_pickle_path = "assistant/knowledge/default/vector_store.pickle"
+    text_file_path = 'assistant/knowledge/default/site_datas_light.txt'
     
     @classmethod
     @ManagerTools.RETRY()
@@ -322,7 +322,7 @@ class DataStore_propose3:
                 )
 
             if origin == 'text':
-                file_path = 'backend/assistant/knowledge/default/site_datas_light.txt' # site_datas_light.txt or site_datas.txt (site inteiro)
+                file_path = 'assistant/knowledge/default/site_datas_light.txt' # site_datas_light.txt or site_datas.txt (site inteiro)
                 loader = TextLoader(file_path=file_path, encoding='utf-8')
 
             docs = loader.load()

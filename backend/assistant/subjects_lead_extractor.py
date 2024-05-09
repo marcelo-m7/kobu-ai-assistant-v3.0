@@ -13,12 +13,11 @@ load_dotenv()
 class LeadExtractor(ABC):
     """Abstract class for extracting lead data from conversation."""
     CLIENT = OpenAI()
-    DATA_TIME = str(datetime.now())
     TEMPERATURE = 0.6
     MODEL = "gpt-3.5-turbo"
 
     def __init__(self, subject_name):
-        self.function_description_path = f'backend/assistant/knowledge/{subject_name}/{subject_name}_function_description.json'
+        self.function_description_path = f'assistant/knowledge/{subject_name}/{subject_name}_function_description.json'
         with open(self.function_description_path, 'r', encoding='utf-8') as json_file:
             self.function_description = json.load(json_file)
         
@@ -110,7 +109,7 @@ class HireUs(LeadExtractor):
                 "how_found_us": how_found_us,
                 "project_description": project_description, 
                 "other_data": other_data,
-                "finish_datetime": self.DATA_TIME
+                "finish_datetime": str(datetime.now())
             }
             print("Data string for Lead Generation loaded successfully.")
 
@@ -161,7 +160,7 @@ class GeneralContact(LeadExtractor):
                 "how_found_us": default_values['how_found_us'],
                 "project_description": default_values['project_description'],
                 "other_data": default_values['other_data'],
-                "finish_datetime": self.DATA_TIME
+                "finish_datetime": str(datetime.now())
             }
             print("Data string for Lead Generation loaded successfully.")
 
@@ -202,7 +201,7 @@ class JoinTheTeam(LeadExtractor):
                 "video_url": video_url,
                 "how_found_us": how_found_us,
                 "other_data": other_data,
-                "finish_datetime": self.DATA_TIME
+                "finish_datetime": str(datetime.now())
             }
 
             print("Data string for Lead Generation loaded successfully.")
