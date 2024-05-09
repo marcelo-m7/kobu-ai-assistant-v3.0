@@ -1,13 +1,13 @@
 from .subjects_lead_extractor import HireUs, GeneralContact, JoinTheTeam
-from dotenv import load_dotenv
-import os
+# from dotenv import load_dotenv
+# import os
 
 # Set up OpenAI API key from environment variables
-os.environ["OPENAI_API_KEY"] = "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"
-load_dotenv()
+# os.environ["OPENAI_API_KEY"] = "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"
+# load_dotenv()
 
 
-class ChatConsts():
+class ChatConsts:
     """
     Utility class containing constant values used throughout the chat application.
     """

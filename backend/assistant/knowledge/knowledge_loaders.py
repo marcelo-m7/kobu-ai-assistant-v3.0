@@ -1,7 +1,7 @@
 from langchain_openai import ChatOpenAI
 from .data_store import DataStore
-from .manager_tools import *
-from .consts import ChatConsts
+from ..tools.manager_tools import *
+from ..consts import ChatConsts
 
 
 class KnowledgeLoaders(ChatConsts):
@@ -26,7 +26,7 @@ class KnowledgeLoaders(ChatConsts):
         data_required (str): Data required for the current subject.
     """
     
-    extra_context = False
+    extra_context = True
     vector_store = DataStore.get_vector_store() if extra_context else None
 
     llm_conversation = ChatOpenAI(temperature=1, model="gpt-3.5-turbo")
@@ -47,9 +47,9 @@ class KnowledgeLoaders(ChatConsts):
         self.search_kwargs = 3
         
         # Paths
-        self.assistant_instructions_path = f'assistant/knowledge/{self.subject_name}/{self.subject_name}_instructions.json'
-        self.data_required_path = f'assistant/knowledge/{self.subject_name}/{self.subject_name}_data_required.txt'
-        self.basic_instructions_path =  'assistant/knowledge/default/basic_instructions.json'
+        self.assistant_instructions_path = f'assistant/knowledge/data_store_files/{self.subject_name}/{self.subject_name}_instructions.json'
+        self.data_required_path = f'assistant/knowledge/data_store_files/{self.subject_name}/{self.subject_name}_data_required.txt'
+        self.basic_instructions_path =  'assistant/knowledge/data_store_files/default/basic_instructions.json'
 
         # Knowledge Holders
         self.basic_instructions = self._basic_instructions_loader()
@@ -93,10 +93,10 @@ class KnowledgeLoaders(ChatConsts):
             self.set_extra_data(self.extra_context)
 
         
-        self.assistant_instructions_path = f'assistant/knowledge/{self.subject_name}/{self.subject_name}_instructions.json'
+        self.assistant_instructions_path = f'assistant/knowledge/data_store_files/{self.subject_name}/{self.subject_name}_instructions.json'
 
         if self.stage == self.FREE_CONVERSATION_STAGE:       
-            self.assistant_instructions_path = f'assistant/knowledge/default/{self.FREE_CONVERSATION_STAGE}_instructions.txt'
+            self.assistant_instructions_path = f'assistant/knowledge/data_store_files/default/{self.FREE_CONVERSATION_STAGE}_instructions.txt'
             self.subject = 0
             self.subject_name = self.GENERAL_CONTACT
             self.subject_instance = self.CLASS_GENERAL_CONTACT
@@ -104,8 +104,8 @@ class KnowledgeLoaders(ChatConsts):
 
             print("self.assistant_instructions_path", self.assistant_instructions_path)
 
-        self.basic_instructions_path =  'assistant/knowledge/default/basic_instructions.json'
-        self.data_required_path = f'assistant/knowledge/{self.subject_name}/{self.subject_name}_data_required.txt'
+        self.basic_instructions_path =  'assistant/knowledge/data_store_files/default/basic_instructions.json'
+        self.data_required_path = f'assistant/knowledge/data_store_files/{self.subject_name}/{self.subject_name}_data_required.txt'
 
         self.basic_instructions = self._basic_instructions_loader()
         self.subject_instructions = self._subject_instructions_loader()

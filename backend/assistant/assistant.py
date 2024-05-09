@@ -1,5 +1,5 @@
 import json
-from .utils import Utils
+from .tools.utils import Utils
 
 
 class Assistant(Utils):

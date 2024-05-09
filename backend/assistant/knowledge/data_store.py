@@ -3,7 +3,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import DocusaurusLoader
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores.faiss import FAISS
-from .manager_tools import *
+from ..tools.manager_tools import *
 import pickle
 import os
 
@@ -27,11 +27,11 @@ class DataStore:
     PICKLE = "pickel"
     SITE_URL = "https://kobu.agency/"
 
-    site_datas_light = 'assistant/knowledge/default/site_datas_light.txt'
-    site_datas = 'assistant/knowledge/default/site_datas.txt'
+    site_datas_light = 'assistant/knowledge/data_store_files/default/site_datas_light.txt'
+    site_datas = 'assistant/knowledge/data_store_files/default/site_datas.txt'
 
     LOCAL_PATH = site_datas
-    docs_pickle_path = "assistant/knowledge/default/docs.pickle"
+    docs_pickle_path = "assistant/knowledge/data_store_files/default/docs.pickle"
     origin = LOCAL
 
     @classmethod

@@ -1,9 +1,0 @@
-(
-Email Address,
-Role of Person (who the person contacting is),
-Type of the Company,
-Company/brand,
-Contact Reason,
-Contact message,
-How did you find us?
-)

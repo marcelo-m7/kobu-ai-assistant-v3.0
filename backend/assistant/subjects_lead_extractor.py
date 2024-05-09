@@ -2,7 +2,7 @@ import json
 from abc import ABC, abstractmethod
 from openai import OpenAI
 from datetime import datetime
-from .manager_tools import *
+from .tools.manager_tools import *
 from dotenv import load_dotenv
 import os
 
@@ -17,7 +17,7 @@ class LeadExtractor(ABC):
     MODEL = "gpt-3.5-turbo"
 
     def __init__(self, subject_name):
-        self.function_description_path = f'assistant/knowledge/{subject_name}/{subject_name}_function_description.json'
+        self.function_description_path = f'assistant/knowledge/data_store_files/{subject_name}/{subject_name}_function_description.json'
         with open(self.function_description_path, 'r', encoding='utf-8') as json_file:
             self.function_description = json.load(json_file)
         

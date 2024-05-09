@@ -1,7 +1,7 @@
 import asyncio
-from .manager_tools import *
+from .tools.manager_tools import *
 from .assistant import Assistant
-from .lead_handlers import LeadHandlers
+from .tools.lead_handlers import LeadHandlers
 
 class Chat(Assistant, LeadHandlers):
     """

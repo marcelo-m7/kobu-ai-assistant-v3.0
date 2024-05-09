@@ -8,7 +8,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain.chains.history_aware_retriever import create_history_aware_retriever
 
-from .knowledge import Knowledge
+from ..knowledge.knowledge import Knowledge
 from .manager_tools import *
 
 
