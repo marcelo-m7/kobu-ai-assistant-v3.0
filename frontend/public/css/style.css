@@ -146,17 +146,28 @@ a:focus {
   display: none;
 }
 
+
+/* Close button */
 #assistant .close {
   position: absolute;
   right: 5px;
-  margin-top: 13px;
-  color: #868686;
-  font-size: 18px;
+  top: 5px;
   cursor: pointer;
-  border: 1px solid;
-  border-radius: 50%;
-  padding: 3px 5px;
+  border: none ;
+  background-color: transparent; /* Set background color to transparent */
 }
+
+/* Style the "X" symbol */
+#assistant .close::before {
+  content: "\00D7";
+  font-size: 30px;
+  display: block; /* Ensure the "X" symbol is displayed as a block element */
+  line-height: 30px; /* Vertically center the "X" symbol */
+  text-align: center; /* Horizontally center the "X" symbol */
+  font-weight: bold; /* Make the "X" symbol bold */
+}
+
+
 
 #assistant .assistant_profile {
   position: absolute;
@@ -214,22 +225,6 @@ a:focus {
   position: relative;
 }
 
-#assistant .assistantSuggestion {
-  background: var(--suggestion-background-color);
-  color: var(--placeholder-color);
-  border-radius: 12px;
-  padding: 12px;
-  font-size: 17px;
-  font-weight: 400;
-  float: left;
-  box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.16), 0 0px 10px 0 rgba(0, 0, 0, 0.12);
-  margin-bottom: 10px;
-  margin-top: 5px;
-  position: relative;
-  font-style: italic;
-  cursor: pointer;
-}
-
 #assistant .resultDiv .userEnteredText {
   background: var(--user-entered-text-background-color);
   float: right;
@@ -244,6 +239,28 @@ a:focus {
   margin-bottom: 10px;
   margin-top: 5px;
   word-wrap: break-word;
+  }
+
+  #assistant .resultDiv {
+    padding: 35px 20px 30px 20px;
+    overflow-y: auto;
+    height: 100%;
+  }
+  
+  #assistant .assistantSuggestion {
+  background: var(--suggestion-background-color);
+  color: var(--placeholder-color);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 17px;
+  font-weight: 400;
+  float: left;
+  box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.16), 0 0px 10px 0 rgba(0, 0, 0, 0.12);
+  margin-bottom: 10px;
+  margin-top: 5px;
+  position: relative;
+  font-style: italic;
+  cursor: pointer;
 }
 
 #assistant .profile_div {
@@ -380,11 +397,6 @@ a:focus {
 }
 /* Suggestions end */
 
-#assistant .resultDiv {
-  padding: 35px 20px 30px 20px;
-  overflow-y: auto;
-  height: 100%;
-}
 
 @media screen and (max-width: 500px) {
   #assistant .chatCont,
