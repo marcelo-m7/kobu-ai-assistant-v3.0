@@ -1,27 +1,31 @@
 @font-face {
   font-family: "Kobu Text Sans Serif";
-  src: url(../fonts/kobutextsansserif.woff2);
+  src: url(../fonts/kobutextsansserif.woff2) format('woff2'),
+       url(../fonts/kobutextsansserif.woff) format('woff'),
+       url(../fonts/kobutextsansserif.ttf) format('truetype');
 }
-@font-face {
-  font-family: "Kobu Text Sans Serif 2";
-  src: url(../fonts/kobutextsansserif.woff);
-}
-@font-face {
-  font-family: "Kobu Text Sans Serif 3";
-  src: url(../fonts/kobutextsansserif.ttf);
-}
+
 @font-face {
   font-family: "Fontawesome";
-  src: url(../fonts/fontawesome-webfont.woff2);
-  src: url(../fonts/fontawesome-webfont.woff2);
+  src: url(../fonts/fontawesome-webfont.woff2) format('woff2'),
+       url(../fonts/fontawesome-webfont.woff) format('woff'),
+       url(../fonts/fontawesome-webfont.ttf) format('truetype');
 }
+
 
 /* General */
 #assistant {
-  font-family: "Fontawesome", Helvetica, "Kobu Text Sans Serif", "Kobu Text Sans Serif 2", "Kobu Text Sans Serif 3";
+  font-family: "Fontawesome", Helvetica, "Kobu Text Sans Seri";
+  /* font-family: "Kobu Text Sans Seri"; */
   font-size: 18px;
   line-height: 1.42857143;
   color: #A0A0A0;
+}
+
+#assistant input::placeholder {
+  color: #e6e6e6;
+  font-family: "Fontawesome", Helvetica, "Kobu Text Sans Seri";
+  font-style: italic;
 }
 
 /* width */
@@ -84,7 +88,7 @@ a:focus {
   padding: 6px 12px;
   font-size: 17px;
   outline: none;
-  font-family: "Open Sans", sans-serif;
+  /* font-family: "Open Sans", sans-serif; */
 }
 
 /* Demo */
@@ -92,35 +96,6 @@ a:focus {
   margin-top: 15vh;
   font-size: 50px;
   font-weight: 100;
-}
-
-.powered {
-  font-size: 17px;
-  margin-top: 20px;
-}
-
-.powered img {
-  width: 110px;
-  position: relative;
-  top: 8px;
-}
-
-.footer {
-  margin-top: 50px;
-  position: absolute;
-  bottom: 40px;
-  width: auto;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-}
-
-.foo-txt {
-  font-size: 17px;
-  font-weight: 400;
-  font-family: "Satisfy", cursive;
-  text-shadow: none;
-  color: #e6e6e6;
 }
 
 .fa-heart {
@@ -206,9 +181,7 @@ a:focus {
   border-left: 1px solid #e53e44;
 }
 
-#assistant input::placeholder {
-  color: #e6e6e6;
-}
+
 #assistant .resultDiv .assistantResult{
   background: #aa4850;
   color: #e6e6e6;
