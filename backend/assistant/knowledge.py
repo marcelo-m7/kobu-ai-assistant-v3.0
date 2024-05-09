@@ -1,11 +1,8 @@
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
-from .data_store import DataStore
-from .manager_tools import *
-from .consts import ChatConsts
+from .knowledge_loaders import KnowledgeLoaders
 
 
-class Knowledge(ChatConsts):
+class Knowledge(KnowledgeLoaders):
     """
     A class representing the knowledge base for the chat application.
 
@@ -26,13 +23,6 @@ class Knowledge(ChatConsts):
         subject_instructions (str): Instructions specific to the current subject.
         data_required (str): Data required for the current subject.
     """
-    
-    extra_context = True
-    vector_store = DataStore.get_vector_store() if extra_context else None
-
-    llm_conversation = ChatOpenAI(temperature=1, model="gpt-3.5-turbo")
-    llm_validation = ChatOpenAI(temperature=0.6, model="gpt-3.5-turbo")
-    llm_retriver = ChatOpenAI(temperature=0.6, model="gpt-3.5-turbo")
 
     def __init__(self, stage: str = None) -> None:
         """
@@ -41,21 +31,7 @@ class Knowledge(ChatConsts):
         Args:
             stage (str): Current stage of the conversation.
         """
-        # Essential chat parameters (default configuration)
-        self.stage = stage if stage is not None else self.WELCOME_STAGE
-        self.subject_name = self.GENERAL_CONTACT
-        self.subject_instance = self.CLASS_GENERAL_CONTACT
-        self.search_kwargs = 3
-        
-        # Paths
-        self.assistant_instructions_path = f'assistant/knowledge/{self.subject_name}/{self.subject_name}_instructions.json'
-        self.data_required_path = f'assistant/knowledge/{self.subject_name}/{self.subject_name}_data_required.txt'
-        self.basic_instructions_path =  'assistant/knowledge/default/basic_instructions.json'
-
-        # Knowledge Holders
-        self.basic_instructions = self._basic_instructions_loader()
-        self.subject_instructions = self._subject_instructions_loader()
-        self.data_required = self._data_required_loader()
+        super().__init__(stage)
 
     def assistant_site_context(self) -> tuple:
         """
@@ -221,104 +197,3 @@ class Knowledge(ChatConsts):
         print("Prompt returned")
         return prompt
             
-    @ManagerTools.debugger_exception_decorator
-    @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-    def update_dependent_attributes(self, mode = None) -> None:
-        """
-        Updates dependent attributes based on the mode or subject.
-
-        Args:
-            mode (str): Mode to update attributes to.
-        """
-        if mode:
-            if mode == self.CRITICAL:
-                print("[MODE IN TEST] ", mode)
-                self.subject_name = self.GENERAL_CONTACT
-                self.subject_instance = self.CLASS_GENERAL_CONTACT
-                self.extra_context = False
-                self.subject = 0
-            print("The parameters has been refreshed to mode: ", mode)
-
-        else:
-            print("No updade mode provided")
-            if self.subject == 0:
-                self.subject_name = self.GENERAL_CONTACT
-                self.subject_instance = self.CLASS_GENERAL_CONTACT
-                self.search_kwargs = 4
-                
-            elif self.subject == 1:
-                self.subject_name = self.HIRE_US
-                self.subject_instance = self.CLASS_HIRE_US
-                self.search_kwargs = 2
-
-            elif self.subject == 2:
-                self.subject_name = self.JOIN_THE_TEAM
-                self.subject_instance = self.CLASS_JOIN_THE_TEAM
-                self.search_kwargs = 2
-            self.set_extra_data(self.extra_context)
-
-        
-        self.assistant_instructions_path = f'assistant/knowledge/{self.subject_name}/{self.subject_name}_instructions.json'
-
-        if self.stage == self.FREE_CONVERSATION_STAGE:       
-            self.assistant_instructions_path = f'assistant/knowledge/default/{self.FREE_CONVERSATION_STAGE}_instructions.txt'
-            self.subject = 0
-            self.subject_name = self.GENERAL_CONTACT
-            self.subject_instance = self.CLASS_GENERAL_CONTACT
-            self.search_kwargs = 4
-
-            print("self.assistant_instructions_path", self.assistant_instructions_path)
-
-        self.basic_instructions_path =  'assistant/knowledge/default/basic_instructions.json'
-        self.data_required_path = f'assistant/knowledge/{self.subject_name}/{self.subject_name}_data_required.txt'
-
-        self.basic_instructions = self._basic_instructions_loader()
-        self.subject_instructions = self._subject_instructions_loader()
-        self.data_required = self._data_required_loader()
-
-        print("update_dependent_attributes(): The assistant instructions has been refreshed to the subject: ", self.subject_name)
-
-    @classmethod
-    def set_extra_data(cls, value):
-        cls.extra_data = value
-        if cls.extra_context:
-            cls.vector_store = DataStore.get_vector_store()
-
-    ## Loaders ##
-    def _basic_instructions_loader(self) -> str:
-        """
-        Loads basic instructions.
-
-        Returns:
-            str: Basic instructions for the assistant.
-        """
-        with open(self.basic_instructions_path, 'r', encoding='utf-8') as file:
-            basic_instructions = file.read()
-        print("Basic instructions: ", self.basic_instructions_path)
-        return basic_instructions
-    
-    def _subject_instructions_loader(self) -> str:
-        """
-        Loads subject-specific instructions.
-
-        Returns:
-            str: Instructions specific to the current subject.
-        """
-        with open(self.assistant_instructions_path, 'r', encoding='utf-8') as file:
-            assistant_instructions = file.read()
-        print("assistant_instructions instructions: ", self.assistant_instructions_path)
-        return assistant_instructions
-    
-    def _data_required_loader(self) -> str:
-        """
-        Loads data required for the current subject.
-
-        Returns:
-            str: Data required for the current subject.
-        """
-        with open(self.data_required_path, 'r', encoding='utf-8') as file:
-            data_required = file.read()
-        # print("Data required:\n", data_required)
-        print("data_required: ", self.data_required_path)
-        return data_required
-

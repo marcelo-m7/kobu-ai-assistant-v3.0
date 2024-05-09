@@ -28,7 +28,7 @@ class Assistant(Utils):
             return response
 
     async def acceptance_of_terms(self, user_request: dict) -> dict:
-        """Sends the subjects to the user to be choosed."""
+        """[TO BE IMPLEMENTED] Sends the subjects to the user to be choosed."""
         print("ResponseHandler: acceptance_of_terms()")
         self.current_stage = self.ACCEPTANCE_OF_TERMS_STAGE
 

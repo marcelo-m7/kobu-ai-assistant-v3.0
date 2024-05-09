@@ -8,11 +8,6 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain.chains.history_aware_retriever import create_history_aware_retriever
 
-import smtplib
-import logging
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-
 from .knowledge import Knowledge
 from .manager_tools import *
 
@@ -49,14 +44,14 @@ class Utils(Knowledge):
             
             if user_input != None and response == None:
                 self.chat_history.append(HumanMessage(content=user_input))
-                self.chat_history.append(SystemMessage(content=f"Awnswered at: {datetime.now()}"))
 
             if response != None:
                 self.chat_history.append(AIMessage(content=response))
+                self.chat_history.append(SystemMessage(content=f"Awnswered at: {datetime.now()}"))
 
             if system_message != None:
                 # self.chat_history.append(HumanMessage(content='user_input'))
-                self.chat_history.append(SystemMessage(content=system_message))
+                self.chat_history.append(SystemMessage(content=f"{system_message}\nSystem Message set at: {datetime.now()}"))
                 
             # print("actual chathistory", self.chat_history)
 
@@ -98,88 +93,8 @@ class Utils(Knowledge):
         except Exception as e:
             print(f"chat_buffer_saver Error {e}")
 
-    async def send_leads_info(self) -> None:
-        """
-        Sends the data for lead generation to the server email.
-        """
-        try:
-            self.lead = json.loads(self.lead)
-
-            new_lead = {
-            "User ID": self.user_id,
-            "Contact Reason": self.subject_name,
-            "Lead generated at": str(datetime.now())
-            }
-            # self.lead["User ID"] = self.user_id
-            # self.lead["Contact Reason"] = self.subject_name
-            # self.lead["Lead generated at"] = str(datetime.now())
-
-            new_lead.update(self.lead)
-
-            await asyncio.create_task(self.save_locally_leads_info(new_lead))
-
-            print("send_leads_info() - Trying to send the email")
-
-            # Building the e-mail
-            sender_email = 'assistant@kobu.agency'
-            receiver_email = sender_email
-            subject = f'New Lead Generated - {new_lead.get("brand")}, sent by {new_lead.get("person_name")}'
-            body = json.dumps(new_lead, indent=4)
-
-            message = MIMEMultipart()
-            message['From'] = sender_email
-            message['To'] = receiver_email
-            message['Subject'] = subject
-            message.attach(MIMEText(body, 'plain'))
-
-            # SMTP server config
-            smtp_server = 'mail.kobu.agency'
-            port = 465  # SSL/TLS Port
-            password = '5Ze!m0aJkG#cElC#'
-
-            # Starting the connection with the SMTP server
-            with smtplib.SMTP_SSL(smtp_server, port) as server:
-                server.login(sender_email, password)  # Login at SMTP server
-                server.send_message(message)  # Sending the e-mail
-
-            print("Email sent successfully!")
-
-        except smtplib.SMTPException as e:
-            logging.error(f"SMTP Exception: {e}")
-            print("Failed to send email.")
-
-        except Exception as e:
-            logging.error(f"Unexpected error: {e}")
-            print(f"Unexpected error: {e}")
-
-    async def save_locally_leads_info(self, lead) -> None: 
-        """
-        Write the data for lead generation to a JSON file.
-        """
-        try:
-            new_data = lead
-
-            # Read the current content of the file if it exists
-            try:
-                with open(self.exported_lead_datas, 'r', encoding='utf-8') as json_file:
-                    existing_data = json.load(json_file)
-            except FileNotFoundError:
-                existing_data = []
-
-            # Add the new data to the end of the existing list
-            existing_data.append(new_data)
-
-            # Write the updated data to the JSON file
-            with open(self.exported_lead_datas, 'w', encoding='utf-8') as json_file:
-                json.dump(existing_data, json_file, ensure_ascii=False, indent=2)
-
-            print(f'save_locally_leads_info() Lead datas has been exported to {self.exported_lead_datas}')
-
-        except Exception as e:
-            print(f"save_locally_leads_info Error {e}")
-
     @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-    def chain_invoker(self, chain, user_input='') -> str:
+    def chain_invoker(self, chain, user_input:str = '') -> str:
         """
         Invoke the main chain and return the assistant response.
         

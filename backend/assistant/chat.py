@@ -1,9 +1,9 @@
 import asyncio
 from .manager_tools import *
 from .assistant import Assistant
+from .lead_handlers import LeadHandlers
 
-
-class Chat(Assistant):
+class Chat(Assistant, LeadHandlers):
     """
     Represents a chat interface that manages communication between users and an assistant.
 
@@ -171,7 +171,7 @@ class Chat(Assistant):
                             self.current_stage = self.next_stage = self.RESUME_VALIDATION_STAGE
                             self.orientation = self.PROCEED
 
-                            self.lead = self.subject_instance.get_leads_info(self.chat_history)
+                            # self.lead = self.subject_instance.get_leads_info(self.chat_history)
                             await asyncio.create_task(self.chat_buffer(system_message=f"Datas detected: {self.lead}"))
 
                             continue
@@ -180,7 +180,7 @@ class Chat(Assistant):
                         response = await self.resume_validation(user_request)
                         print("Resume Validation Response:\n", response)
                         self.set_user_attributes(response)
-                        self.debugger_print(response)
+                        # self.debugger_print(response)
                         # self.debugger_sleeper(2)
 
                         if response['orientation'] == self.VERIFY_ANSWER and response['message'] not in ['false', 'true']:
