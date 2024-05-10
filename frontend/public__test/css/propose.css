@@ -1,0 +1,163 @@
+/* Definição das cores */
+:root {
+    --background-color: #3a3c4b; /* Cor de fundo do chatbox */
+    --assistant-message-bg: #a81313; /* Cor de fundo para mensagens do assistente */
+    --user-message-bg: #aa4850; /* Cor de fundo para mensagens do usuário */
+    --suggestion-bg: #a74b06; /* Cor de fundo para sugestões */
+    --chat-footer-bg: #8f0c0c; /* Cor de fundo para footer */
+    --suggestion-mandatory-false-bg: #aa4850; /* Cor de fundo para sugestões não obrigatórias */
+    --user-input-placeholder-color: #e6e6e6; /* Cor do texto de espaço reservado no input do usuário */
+    --user-input-bg: #aa4850; /* Cor de fundo do input do usuário */
+    --scrollbar-track-color: #efe1e2; /* Cor de fundo da barra de rolagem */
+    --scrollbar-thumb-color: #232223; /* Cor do botão deslizante da barra de rolagem */
+    --scrollbar-thumb-hover-color: #555; /* Cor do botão deslizante da barra de rolagem ao passar o mouse */
+}
+
+/* Importação das fontes */
+@font-face {
+    font-family: "Kobu Text Sans Serif";
+    src: url(../fonts/kobutextsansserif.woff2) format('woff2'),
+         url(../fonts/kobutextsansserif.woff) format('woff'),
+         url(../fonts/kobutextsansserif.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: "Fontawesome";
+    src: url(../fonts/fontawesome-webfont.woff2) format('woff2'),
+         url(../fonts/fontawesome-webfont.woff) format('woff'),
+         url(../fonts/fontawesome-webfont.ttf) format('truetype');
+}
+
+/* Estilos gerais */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Contêiner do chatbot */
+.assistant_conteiner {
+    font-family: "Fontawesome", Helvetica, "Kobu Text Sans Serif";
+    width: 400px; /* Largura do chatbot */
+    margin: 50px auto; /* Centralizar na página */
+    border: 1px solid #ccc;
+    font-size: 14px;
+    color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Chatbox */
+.assistant_chatbox {
+    background-color: var(--background-color);
+    height: 400px; /* Altura do chatbox */
+    overflow-y: auto;
+    padding: 10px;
+}
+
+/* Mensagens */
+.assistant_message,
+.user_message {
+    margin-bottom: 10px;
+}
+
+.assistant_message p,
+.user_message p {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.assistant_message p {
+    background-color: var(--assistant-message-bg); /* Usando variável para cor de fundo do assistente */
+}
+
+.user_message p {
+    background-color: var(--user-message-bg); /* Usando variável para cor de fundo do usuário */
+}
+
+/* Sugestões */
+.assistant_suggestions_mandatory_true_container {
+    margin-top: 10px;
+}
+
+.assistant_suggestion_mandatory_true p,
+.assistant_suggestion_mandatory_false p {
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.assistant_suggestion_mandatory_true p {
+    background-color: var(--suggestion-bg); /* Usando variável para cor de fundo das sugestões obrigatórias */
+}
+
+.assistant_suggestion_mandatory_false p {
+    background-color: var(--suggestion-mandatory-false-bg); /* Usando variável para cor de fundo das sugestões não obrigatórias */
+}
+
+.assistant_chatbox_footer_container .assistant_suggestions_mandatory_false {
+    white-space: nowrap; /* Impede que as sugestões quebrem para a próxima linha */
+    overflow-x: auto; /* Adiciona scroll horizontal */
+    display: flex; /* Para alinhar as sugestões uma ao lado da outra */
+    flex: 0 0 auto; /* Impede que as sugestões forcem a mudança de tamanho */
+    margin-right: 10px; /* Espaçamento entre as sugestões */
+}
+
+/* Chatbox footer */
+.assistant_chatbox_footer_container {
+    background-color: var(--chat-footer-bg);
+    padding: 10px;
+}
+
+/* Alinhar sugestões não obrigatórias uma ao lado da outra */
+.assistant_chatbox_footer_container .assistant_suggestion_mandatory_false {
+    display: inline-block;
+    margin-right: 10px; /* Espaçamento entre as sugestões */
+}
+
+/* Input do usuário */
+.user_input_container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.user_input_container input[type="text"] {
+    background: var(--user-input-bg);
+    color: var(--user-input-placeholder-color);
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+}
+
+.user_input_container input::placeholder {
+    font-style: italic;
+    color: var(--placeholder-color); /* Não foi definido no código */
+}
+
+.user_input_container i {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 24px; /* Tamanho do ícone */
+}
+
+/* Barra de rolagem */
+.assistant_conteiner ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+/* Track */
+.assistant_conteiner ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-color);
+}
+
+/* Handle */
+.assistant_conteiner ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-color);
+}
+
+/* Handle ao passar o mouse */
+.assistant_conteiner ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-color);
+}

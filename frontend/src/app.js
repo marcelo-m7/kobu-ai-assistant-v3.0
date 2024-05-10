@@ -8,16 +8,18 @@ const port = 3000;
 app.use(bodyParser.json());
 
 // Define the directory where static files (CSS, JS, etc.) are located.
-app.use(express.static(path.join(__dirname, '/../public')));
+// app.use(express.static(path.join(__dirname, '/../public')));
+app.use(express.static(path.join(__dirname, '/../public__test')));
 
 // Route to serve the index.html file
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    // res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'propose.html'));
 });
 
 app.post('/proxy', async (req, res) => {
-  // const url = 'https://assistant.kobudev.com/kobu-assistant';
-  const url = 'http://127.0.0.1:5000/kobu-assistant';
+  const url = 'https://assistant.kobudev.com/kobu-assistant';
+  // const url = 'http://127.0.0.1:5000/kobu-assistant';
   try {
     const response = await axios.post(url, req.body, {
       headers: {
