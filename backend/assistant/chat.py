@@ -11,8 +11,6 @@ class Chat(Assistant, LeadHandlers):
     Attributes:
         extra_context (bool): Indicates whether extra context is enabled. Defaults to False.
     """
-    extra_context = False # Stay always True if subject is General (init config)
-
     def __init__(self, stage: str, subject: int = 0) -> None:
         """
         Initializes a Chat instance.
@@ -30,18 +28,8 @@ class Chat(Assistant, LeadHandlers):
         self.lead_generation = True # Default
         print("Current subject number: ", subject)
     
-    @property
-    def subject(self) -> int:
-        """int: The subject of the chat."""
-        return self._subject
-
-    @subject.setter
-    def subject(self, new_subject: int) -> None:
-        self._subject = new_subject
-        self.update_dependent_attributes()
-
     @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-    @ManagerTools.debugger_exception_decorator # It is seted in this function for to test proposes 
+    @ManagerTools.debugger_exception_decorator
     async def main(self, user_request) -> dict: 
         """
         Manages traffic responses to messages sent and received. 
@@ -56,6 +44,7 @@ class Chat(Assistant, LeadHandlers):
         print("Chat: main() Starts")
 
         try:
+            await asyncio.create_task(self.refresh_stages())
             user_input = user_request.get("user_input")
             await asyncio.create_task(self.chat_buffer(user_input=user_input))
             response = await self.get_assistant_response(user_request)
@@ -74,26 +63,9 @@ class Chat(Assistant, LeadHandlers):
 
     async def get_assistant_response(self, user_request: dict = {}) -> dict:
         """
-        Answers the user_input and manages conversation state changes based on data detection for lead generation.
-
-        Args:
-            user_request (dict, optional): The user's request. Defaults to {}.
-
-        Returns:
-            dict: The response to the user's request.
+        Answers the user_input and manages conversation state changes based on data detection.
         """
         try:
-            print("Current stage: ", self.current_stage)
-            if not self.current_stage:
-                self.current_stage = self.WELCOME_STAGE
-                print("Current stage changed from '' to: ", self.current_stage)
-
-            if self.orientation == self.NEXT_STAGE:
-                self.current_stage = self.next_stage
-                self.orientation = self.PROCEED
-                print("Current stage changed to: ", self.current_stage)
-                print("Orientation changed to: ", self.orientation)
-
             while True:
                 match self.current_stage:
                     case self.WELCOME_STAGE:
@@ -250,6 +222,32 @@ class Chat(Assistant, LeadHandlers):
             # self.debugger_print(response)
             self.set_user_attributes(response)
             return response
+        
+    @ManagerTools.debugger_exception_decorator
+    async def refresh_stages(self) -> None:
+        """
+        Updates the status of the conversation, based on the orientation setted.
+        """
+        print("Current stage: ", self.current_stage)
+        if not self.current_stage:
+            self.current_stage = self.WELCOME_STAGE
+            print("Current stage changed from '' to: ", self.current_stage)
+
+        if self.orientation == self.NEXT_STAGE:
+            self.current_stage = self.next_stage
+            self.orientation = self.PROCEED
+            print("Current stage changed to: ", self.current_stage)
+            print("Orientation changed to: ", self.orientation)
+
+    @property
+    def subject(self) -> int:
+        """int: The subject of the chat."""
+        return self._subject
+
+    @subject.setter
+    def subject(self, new_subject: int) -> None:
+        self._subject = new_subject
+        self.update_dependent_attributes()
 
     # The follow methodol is not completed integrated.
     @ManagerTools.debugger_exception_decorator
