@@ -113,6 +113,21 @@ body {
     display: inline-block;
     margin-right: 10px; /* Espaçamento entre as sugestões */
 }
+/* CSS normal */
+.assistant_suggestion_mandatory_true p,
+.assistant_suggestion_mandatory_false p {
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease; /* Transição suave */
+}
+
+/* CSS quando o mouse passa sobre a tag p */
+.assistant_suggestion_mandatory_true p:hover,
+.assistant_suggestion_mandatory_false p:hover {
+    transform: translateY(-3px); /* Pequeno salto para cima */
+    background-color: var(--user-input-bg); /* Nova cor quando o mouse passa sobre */
+}
 
 /* Input do usuário */
 .user_input_container {
@@ -146,6 +161,21 @@ body {
     width: 5px;
     height: 5px;
 }
+
+/* CSS normal */
+.user_input_container .send_icon {
+    fill: var(--scrollbar-track-color); /* Cor padrão */
+    transition: fill 0.3s ease, transform 0.2s ease; /* Transição suave */
+}
+
+/* CSS quando o mouse passa sobre a tag svg */
+.user_input_container .send_icon:hover {
+    fill: var(--suggestion-bg); /* Nova cor quando o mouse passa sobre */
+    transform: rotate(180deg); /* Pequena rotação */
+    cursor: pointer;
+    
+}
+
 
 /* Track */
 .assistant_conteiner ::-webkit-scrollbar-track {
