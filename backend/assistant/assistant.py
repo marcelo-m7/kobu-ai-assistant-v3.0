@@ -1,8 +1,10 @@
 import json
 from .tools.utils import Utils
+import asyncio
+from .knowledge.prompts import Prompts
 
 
-class Assistant(Utils):
+class Assistant(Utils, Prompts):
 
     async def welcome(self, user_request: dict) -> dict: 
         """Sends a welcome message to the user."""
@@ -12,13 +14,12 @@ class Assistant(Utils):
         try:
             # user_input = 'Hi, there!'    # user_request.get('user_input')
             user_input = user_request.get('user_input')
-            print("USER input in welcome: ", user_input)
             prompt = await self.prompt_chooser(stage=self.current_stage)
             chain = prompt | self.llm_conversation
             message = self.chain_invoker(chain=chain, user_input=user_input)
             self.orientation = self.NEXT_STAGE
 
-            print("Messase in welcome(): ", message)
+            # print("Messase in welcome(): ", message)
 
         except Exception as e:
             print(f"ResponseHandler: welcome() Error {e}")
@@ -77,7 +78,7 @@ class Assistant(Utils):
                     self.subject = self.CHOOSE_SUBJECT_STAGE_OPTIONS.index(user_input)
                     message = f"The user choosed subject: {self.subject}."
                     self.orientation = self.NEXT_STAGE
-                    print(message)
+                    # print(message)
                     options = False
 
                 except ValueError as e:
@@ -122,7 +123,7 @@ class Assistant(Utils):
                     print("data_colecting_validation() TRUE")
                     self.lead = self.subject_instance.get_leads_info(self.chat_history)
                     lead = json.loads(self.lead)
-                    print("Lead sucessfull extracted:\n", lead)
+                    print("Lead sucessfull extracted") # :\n", lead)
 
                     # 2nd: Check ff the datas has been sucessfull extracted and has no empty value
                     try:
@@ -132,7 +133,7 @@ class Assistant(Utils):
                         print("other_data and project_description pop()")
                         lead = str(str(lead).strip('{').strip('}').strip(']').strip(']')).lower()
                         print("strip ok")
-                        print("lead string", lead)
+                        # print("lead string", lead)
                         
                         if 'not provided' in lead or 'not specified' in lead:
                             message = 'The lead are not compleated.'
@@ -157,7 +158,7 @@ class Assistant(Utils):
 
             finally:
                 response = {"message": message, "current_stage": self.current_stage, 'orientation': self.orientation}
-                print(message)
+                # print(message)
                 return response
         
     async def data_colecting(self, user_request: dict) -> dict:
@@ -170,6 +171,38 @@ class Assistant(Utils):
             chain = await self.chain_builder(self.DATA_COLLECTING_STAGE)
             message = self.chain_invoker(chain=chain, user_input=user_input)
             self.orientation = self.PROCEED
+
+        except Exception as e:
+            print(f"ResponseHandler: data_colecting() Error {e}")
+
+        finally:
+            response = {"message": message, 'orientation': self.orientation, 'current_stage': self.DATA_COLLECTING_STAGE}
+            return response
+       
+    async def data_colecting_in_changing(self, user_request: dict) -> dict:
+        """[Methodol beeing refactorated] Send a welcome message to the user"""
+        print("ResponseHandler:  data_colecting_in_changing()")
+        self.current_stage = self.DATA_COLLECTING_STAGE 
+
+        try:
+            retriver_chain = await asyncio.create_task(self.retriver_chain_extra_context())
+
+            user_input = user_request.get('user_input')
+
+            retriver_extra_context = await asyncio.create_task(self.retriever_chain_invoker(
+                retriver_chain, 
+                {'input': user_input, 
+                 'chat_history': self.chat_history}))
+            
+            print("retriver_extra_context: \n", retriver_extra_context)
+
+            prompt = self.prompt_chooser(self.DATA_COLLECTING_STAGE)
+            chain = prompt | self.llm_conversation
+            message = await self.chain_invoker(chain=chain, user_input=user_input, extra_context=retriver_extra_context)
+            self.orientation = self.PROCEED
+
+            print("message agter retriver_extra_context: \n", message)
+
 
         except Exception as e:
             print(f"ResponseHandler: data_colecting() Error {e}")
@@ -209,7 +242,7 @@ class Assistant(Utils):
             print(f"ResponseHandler: resume_validation() Error {e}")
 
         finally:
-            print(message)
+            # print(message)
             response = {"message": message, 'options': self.RESUME_VALIDATION_STAGE_OPTIONS, 'orientation': self.orientation, "current_stage": self.current_stage}
             return response
 

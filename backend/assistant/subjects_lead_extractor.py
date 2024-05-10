@@ -1,10 +1,11 @@
-import json
 from abc import ABC, abstractmethod
+from dotenv import load_dotenv
 from openai import OpenAI
 from datetime import datetime
 from .tools.manager_tools import *
-from dotenv import load_dotenv
+import json
 import os
+
 
 os.environ["OPENAI_API_KEY"] = "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"
 load_dotenv()
@@ -213,4 +214,3 @@ class JoinTheTeam(LeadExtractor):
             print(f"get_leads_info Error {e}")
             return ''
         
-

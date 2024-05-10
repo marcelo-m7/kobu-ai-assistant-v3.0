@@ -1,4 +1,3 @@
-
 import json
 import asyncio
 from datetime import datetime
@@ -7,12 +6,10 @@ from langchain.schema import HumanMessage, AIMessage, SystemMessage
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain.chains.history_aware_retriever import create_history_aware_retriever
-
-from ..knowledge.knowledge import Knowledge
 from .manager_tools import *
 
 
-class Utils(Knowledge):
+class Utils:
     """
     Utility functions for handling chat history, saving lead data, and invoking chat chains.
     """
@@ -94,7 +91,7 @@ class Utils(Knowledge):
             print(f"chat_buffer_saver Error {e}")
 
     @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-    def chain_invoker(self, chain, user_input:str = '') -> str:
+    def chain_invoker(self, chain, user_input: str = '', extra_context = '') -> str:
         """
         Invoke the main chain and return the assistant response.
         
@@ -112,7 +109,8 @@ class Utils(Knowledge):
                 "subject_instructions": self.subject_instructions,
                 "basic_instructions": self.basic_instructions, 
                 "lead_string": str(self.lead).strip('{').strip('}').strip(']').strip(']'),
-                "data_required": self.data_required})
+                "data_required": self.data_required,
+                "context": extra_context})
             
             print("chain_invoker(): The chain has been invoked.")
 
@@ -194,6 +192,71 @@ class Utils(Knowledge):
 
             chain = prompt | self.llm_conversation
             return chain
+   
+    @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
+    def retriever_chain_invoker(self, chain, data_dict: dict = {}) -> str:
+        """
+        Invoke the a chain and return the assistant response.
+        
+        Args:
+            chain: retriever chain to be invoked.
+            data_dict: dict with the args variables to be insered in the chain prompt.
+        
+        Returns:
+            str: Assistant response.
+        """
+        try:
+            response = chain.invoke(data_dict)
+
+            print("chain_invoker(): The chain has been invoked.")
+
+            if type(response) == dict:
+                message = response['answer']
+            else:
+                message = response.content
+
+        except Exception as e:
+            print(f"retriever_chain_invoker() Error {e}")
+                
+        finally:
+            return message
+     
+    @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))        
+    async def retriver_chain_extra_context(self) -> object:
+        """
+        [To be tested] Build the main chain that will answer the user_input.
+        
+        Args:
+            stage (str): Stage of the conversation.
+        
+        Returns:
+            object: Main chat chain.
+        """
+        print("retriver_chain() starts")
+
+        try:
+            retriever = self.vector_store.as_retriever(search_kwargs={"k": self.search_kwargs})
+
+            # return retriever
+            retriever_prompt = ChatPromptTemplate.from_messages([
+                # MessagesPlaceholder(variable_name="chat_history"),
+                ("system", "Messages History: {chat_history}"),
+                ("human", "{input}"),
+                ("human", "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation")
+            ])
+
+            retrieval_chain = create_history_aware_retriever(
+                llm=self.llm_retriver,
+                retriever=retriever,
+                prompt=retriever_prompt
+            )
+
+            return retrieval_chain
+
+        except Exception as e:
+            print(f"retriver_chain_extra_context Error {e}")
+            self.extra_context = False
+            return None
 
     @ManagerTools.debugger_exception_decorator
     def debugger_print(*args):

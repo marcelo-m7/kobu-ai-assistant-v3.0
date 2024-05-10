@@ -1,7 +1,8 @@
 import asyncio
 from .tools.manager_tools import *
-from .assistant import Assistant
 from .tools.lead_handlers import LeadHandlers
+from .assistant import Assistant
+
 
 class Chat(Assistant, LeadHandlers):
     """
@@ -56,7 +57,6 @@ class Chat(Assistant, LeadHandlers):
 
         try:
             user_input = user_request.get("user_input")
-            print("user imput in main ", user_input)
             await asyncio.create_task(self.chat_buffer(user_input=user_input))
             response = await self.get_assistant_response(user_request)
             await asyncio.create_task(self.chat_buffer(response=response['message']))
@@ -156,6 +156,7 @@ class Chat(Assistant, LeadHandlers):
                                 
                     case self.DATA_COLLECTING_STAGE:
                         validation = await asyncio.create_task(self.data_colecting_validation(user_request))
+                        # response = await asyncio.create_task(self.data_colecting_in_changing(user_request))
                         response = await asyncio.create_task(self.data_colecting(user_request))
                         self.set_user_attributes(response)
                         print("Data Collecting Response:\n", response)

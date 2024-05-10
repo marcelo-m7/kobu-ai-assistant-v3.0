@@ -6,10 +6,10 @@ import smtplib
 import logging
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
 import os
 
-class LeadHandlers():
+
+class LeadHandlers:
     """
     Utility functions for handling chat history, saving lead data, and invoking chat chains.
     """

@@ -30,7 +30,7 @@ class DataStore:
     site_datas_light = 'assistant/knowledge/data_store_files/default/site_datas_light.txt'
     site_datas = 'assistant/knowledge/data_store_files/default/site_datas.txt'
 
-    LOCAL_PATH = site_datas
+    LOCAL_PATH = site_datas_light
     docs_pickle_path = "assistant/knowledge/data_store_files/default/docs.pickle"
     origin = LOCAL
 
