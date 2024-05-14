@@ -7,12 +7,29 @@ export class StartConversation {
     this.userChat = new Conversation(this.userId);
 
     // Listeners
-    document.querySelectorAll(".profile_div", ".close_chatbox_container").addEventListener('click', async () => {
-      await this.userChat.openChat(this.main.bind(this));
+    const openChatboxContainer = document.getElementById("open_chatbox_container");
+    const closeChatboxContainer = document.getElementById("close_chatbox_container");
+    const chatbotToggle = document.getElementById("chatbot_toggle");
+    const closeButton = document.getElementById("closeButton");
+    const closeChatboxButton = document.getElementById("closeChatboxButton");
+
+    chatbotToggle.addEventListener("click", async () => {
+        openChatboxContainer.style.display = "block";
+        closeChatboxContainer.style.display = "none";
+
+        await this.userChat.openChat(this.main.bind(this));
     });
-    document.getElementById("closeButton").addEventListener('click', async () => {
-      await this.userChat.closeChat();
+
+    closeButton.addEventListener("click", async () => {
+        openChatboxContainer.style.display = "none";
+        closeChatboxContainer.style.display = "block";
     });
+
+    closeChatboxButton.addEventListener("click", () => {
+        openChatboxContainer.style.display = "none";
+        closeChatboxContainer.style.display = "block";
+    });
+
     document.getElementById("user_input_container").addEventListener('keyup', async (e) => {
       await this.enterClick(e);
     });
@@ -27,7 +44,7 @@ export class StartConversation {
    * @returns {Promise<void>} - A promise that resolves once the main function completes.
    */
   async main() {
-    const inputElement = document.getElementById('chat-input');
+    const inputElement = document.getElementById('user_input');
     const userChatActive = this.userChat; // Fixing the scope issue
 
     switch (userChatActive.currentStage) {
@@ -110,7 +127,7 @@ export class StartConversation {
    */
   async enterClick(e) {
     var keyCode = e.keyCode || e.which;
-    var text = document.getElementById("chat-input").value;
+    var text = document.getElementById("user_input").value;
 
     if (keyCode === 13) {
       if (text == "" || text.trim() == "") {
@@ -118,7 +135,7 @@ export class StartConversation {
         return false;
       } else {
         e.preventDefault();
-        document.getElementById("chat-input").blur();
+        document.getElementById("user_input").blur();
         await this.main();
       }
     }

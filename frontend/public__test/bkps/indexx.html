@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kobu AI Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="css/propose.css">
+    <script type="module" src="js/scripts.js"></script>
+</head>
+<body>
+    <div class="chatbox_container">
+        <!-- Chat aberto -->
+        <div class="open_chatbox_container">
+            <div class="assistant_chatbox_container">
+                <div class="assistant_chatbox">
+                    <div class="assistant_profile">
+                        <div class="close" id="closeButton">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="messages_container" id="messages_container">
+                        <div class="assistant_message">
+                            <p>
+                                Greetings, dear visitor! Thank you for stopping by and showing interest in contacting KOBU Agency. Nuno has something quite intriguing to share with you. Let's see what he's got up his sleeve! 🎥
+                            </p>
+                        </div>
+                        <div class="assistant_message">
+                            <video src="video/hire_us_1920x1080.webm" id="assistant_welcome_video" controls></video>
+                        </div>
+                        <div class="assistant_message">
+                            <p>
+                                First things first, my dear friend! What marvelous project has brought you to our doorstep today? Is it a venture into the digital realm? An escapade in branding perhaps? Do tell! 🚀💼
+                            </p>
+                        </div>
+                        <div class="assistant_suggestions mandatory">
+                            <div class="assistant_suggestion">
+                                <p>I'd like to know more about KOBU Agency.</p>
+                            </div>
+                            <div class="assistant_suggestion">
+                                <p>I'd like to hire KOBU.</p>
+                            </div>
+                            <div class="assistant_suggestion">
+                                <p>I'd like to join KOBU team.</p>
+                            </div>
+                        </div>
+                        <div class="user_message">
+                            <p>I'd like to know more about KOBU Agency.</p>
+                        </div>
+                    </div>
+                    <div class="assistant_chatbox_footer_container">
+                        <div class="assistant_suggestions non_mandatory">
+                            <div class="assistant_suggestion">
+                                <p>What are you and what can you do?</p>
+                            </div>
+                            <div class="assistant_suggestion">
+                                <p>What type of services does KOBU offer?</p>
+                            </div>
+                            <div class="assistant_suggestion">
+                                <p>Tell me about the case studies.</p>
+                            </div>
+                            <div class="assistant_suggestion">
+                                <p>Finalize chat.</p>
+                            </div>
+                        </div>
+                        <div class="user_input_container">
+                            <input type="text" placeholder="Please, choose an option." id="user_input">
+                            <button id="sendButton" class="send_icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path d="M21.426 11.095l-17-8A1 1 0 003.03 4.242l1.212 4.849L12 12l-7.758 2.909-1.212 4.849a.998.998 0 001.396 1.147l17-8a1 1 0 000-1.81z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Chat fechado -->
+        <div class="close_chatbox_container">
+            <button id="openChatButton">Open Chat</button>
+        </div>
+    </div>
+</body>
+</html>

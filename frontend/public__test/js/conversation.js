@@ -92,7 +92,7 @@ export class Conversation extends Interface{
             inputElement.placeholder = '';
             await this.setAssistantSuggestion(this.options);
             this.scrollToBottomOfResults();
-            document.getElementById("user_input_container").blur();
+            inputElement.blur();
             await this.addOptionListinner();
         }
 
@@ -105,11 +105,12 @@ export class Conversation extends Interface{
     async addOptionListinner() {
         // Seleciona o elemento de entrada pelo ID
     var inputElement = document.getElementById('user_input');
+    inputElement.blur()
     inputElement.placeholder = 'Please, select an option';
 
     return new Promise((resolve, reject) => {
         document.addEventListener("click", async (e) => {
-        if (e.target.classList.contains("assistant_suggestions_mandatory_true_container")) {
+        if (e.target.classList.contains("assistant_suggestion_mandatory_true")) {
             inputElement.placeholder = '';
             var optionText = e.target.textContent;
             e.stopImmediatePropagation();
@@ -149,8 +150,6 @@ export class Conversation extends Interface{
                 "orientation": orientation
             }
     };
-
-    
 
     // Saves chatHistory array in LocalStorage
     chatHistoryBuffer(userInput, assistantMessage) {

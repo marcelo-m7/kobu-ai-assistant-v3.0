@@ -29,7 +29,6 @@ class Chat(Assistant, LeadHandlers):
         print("Current subject number: ", subject)
     
     @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-    @ManagerTools.debugger_exception_decorator
     async def main(self, user_request) -> dict: 
         """
         Manages traffic responses to messages sent and received. 

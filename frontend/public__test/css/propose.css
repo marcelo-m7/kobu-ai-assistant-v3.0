@@ -1,19 +1,21 @@
-/* Definição das cores */
+/* Color definitions */
 :root {
-    --background-color: #3a3c4b; /* Cor de fundo do chatbox */
-    --assistant-message-bg: #a81313; /* Cor de fundo para mensagens do assistente */
-    --user-message-bg: #aa4850; /* Cor de fundo para mensagens do usuário */
-    --suggestion-bg: #a74b06; /* Cor de fundo para sugestões */
-    --chat-footer-bg: #8f0c0c; /* Cor de fundo para footer */
-    --suggestion-mandatory-false-bg: #aa4850; /* Cor de fundo para sugestões não obrigatórias */
-    --user-input-placeholder-color: #e6e6e6; /* Cor do texto de espaço reservado no input do usuário */
-    --user-input-bg: #aa4850; /* Cor de fundo do input do usuário */
-    --scrollbar-track-color: #efe1e2; /* Cor de fundo da barra de rolagem */
-    --scrollbar-thumb-color: #232223; /* Cor do botão deslizante da barra de rolagem */
-    --scrollbar-thumb-hover-color: #555; /* Cor do botão deslizante da barra de rolagem ao passar o mouse */
+    --background-color: #3a3c4b; /* Chatbox background color */
+    --assistant-message-bg: #a81313; /* Background color for assistant messages */
+    --user-message-bg: #aa4850; /* Background color for user messages */
+    --suggestion-bg: #a74b06; /* Background color for suggestions */
+    --chat-footer-bg: #8f0c0c; /* Background color for footer */
+    --suggestion-mandatory-false-bg: #aa4850; /* Background color for non-mandatory suggestions */
+    --user-input-placeholder-color: #e6e6e6; /* Placeholder text color in user input */
+    --user-input-bg: #aa4850; /* Background color for user input */
+    --scrollbar-track-color: #efe1e2; /* Scrollbar track background color */
+    --scrollbar-thumb-color: #232223; /* Scrollbar thumb button color */
+    --scrollbar-thumb-hover-color: #555; /* Scrollbar thumb button color on hover */
+    --spinner-background-color: darkgray;
+    --user-input-placeholder-color: color-mix(in srgb, var(--assistant-message-bg) 80%, black 50%); /* Placeholder color 20% darker */
 }
 
-/* Importação das fontes */
+/* Font imports */
 @font-face {
     font-family: "Kobu Text Sans Serif";
     src: url(../fonts/kobutextsansserif.woff2) format('woff2'),
@@ -28,17 +30,17 @@
          url(../fonts/fontawesome-webfont.ttf) format('truetype');
 }
 
-/* Estilos gerais */
+/* General styles */
 body {
     margin: 0;
     padding: 0;
 }
 
-/* Contêiner do chatbot */
+/* Chatbot container */
 .assistant_conteiner {
     font-family: "Fontawesome", Helvetica, "Kobu Text Sans Serif";
-    width: 400px; /* Largura do chatbot */
-    margin: 50px auto; /* Centralizar na página */
+    width: 400px; /* Chatbot width */
+    margin: 50px auto; /* Centering on the page */
     border: 1px solid #ccc;
     font-size: 14px;
     color: white;
@@ -48,53 +50,77 @@ body {
 
 /* Chatbox */
 .assistant_chatbox {
-    display: flex; /* Usando flexbox */
-    flex-direction: column; /* Direção do fluxo de conteúdo */
-    /* align-items: flex-end;  Alinhamento vertical dos itens à direita */ 
+    display: flex; /* Using flexbox */
+    flex-direction: column; /* Direction of content flow */
     background-color: var(--background-color);
     height: 400px;
     overflow-y: auto;
     padding: 10px;
 }
 
-/* Mensagens */
-.assistant_message,
+/* Messages */
+.assistant_message {
+    margin-bottom: 10px;
+    display: flex; /* Using flexbox */
+}
+
 .user_message {
     margin-bottom: 10px;
+    display: flex; /* Using flexbox */
+    align-self: flex-end; /* Right alignment */
+    align-items: flex-end; /* Right alignment */
+
 }
-/* Alinhar as mensagens à direita */
+
+/* Align messages to the right */
 .messages_container {
     display: flex;
+    margin-bottom: 10px;
+
+    position: relative;
     flex-direction: column;
-    align-items: flex-end; /* Alinhamento à direita */
-    width: 100%; /* Adicione isso para garantir que as mensagens ocupem toda a largura */
+    width: 100%; /* Add this to ensure messages take up full width */
+}
+/* Align messages to the right */
+.messages_container #assistant_welcome_video {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start; /* Right alignment */
+    width: 100%; /* Add this to ensure messages take up full width */
 }
 
 .assistant_message p,
 .user_message p {
     padding: 10px;
     border-radius: 5px;
-    padding: 10px;
-    border-radius: 5px;
-    max-width: 70%; /* Define a largura máxima das mensagens */
+    max-width: 70%; /* Set maximum width of messages */
     margin-bottom: 10px;
 }
 
 .assistant_message p {
     background-color: var(--assistant-message-bg);
-    align-self: flex-start; /* Alinha as mensagens do assistente à esquerda */
-    /* Usando variável para cor de fundo do assistente */
+    align-self: flex-start; /* Align assistant messages to the left */
+}
+.assistant_message p span, a {
+    /* Add your styles for the span tag here */
+    font-weight: bold; /* Example font weight */
+    color: white;
+    
+    text-decoration: underline;
+    text-decoration: overline;
+    /* Add any other styles you need */
+    display: contents;
 }
 
 .user_message p {
     background-color: var(--user-message-bg);
-    align-self: flex-end; /* 
-    Usando variável para cor de fundo do usuário */
+    align-self: flex-end; /* Align user messages to the right */
 }
 
-/* Sugestões */
+/* Suggestions */
 .assistant_suggestions_mandatory_true_container {
-    margin-top: 10px;
+    /* margin-top: 10px; */
     align-self: flex-start;
 }
 
@@ -106,19 +132,19 @@ body {
 }
 
 .assistant_suggestion_mandatory_true p {
-    background-color: var(--suggestion-bg); /* Usando variável para cor de fundo das sugestões obrigatórias */
+    background-color: var(--suggestion-bg); 
 }
 
 .assistant_suggestion_mandatory_false p {
-    background-color: var(--suggestion-mandatory-false-bg); /* Usando variável para cor de fundo das sugestões não obrigatórias */
+    background-color: var(--suggestion-mandatory-false-bg); 
 }
 
 .assistant_chatbox_footer_container .assistant_suggestions_mandatory_false {
-    white-space: nowrap; /* Impede que as sugestões quebrem para a próxima linha */
-    overflow-x: auto; /* Adiciona scroll horizontal */
-    display: flex; /* Para alinhar as sugestões uma ao lado da outra */
-    flex: 0 0 auto; /* Impede que as sugestões forcem a mudança de tamanho */
-    margin-right: 10px; /* Espaçamento entre as sugestões */
+    white-space: nowrap; /* Prevent suggestions from breaking to next line */
+    overflow-x: auto; /* Add horizontal scroll */
+    display: flex; /* To align suggestions side by side */
+    flex: 0 0 auto; /* Prevent suggestions from resizing */
+    margin-right: 10px; /* Spacing between suggestions */
 }
 
 /* Chatbox footer */
@@ -127,28 +153,29 @@ body {
     padding: 10px;
 }
 
-/* Alinhar sugestões não obrigatórias uma ao lado da outra */
+/* Align non-mandatory suggestions side by side */
 .assistant_chatbox_footer_container .assistant_suggestion_mandatory_false {
     display: inline-block;
-    margin-right: 10px; /* Espaçamento entre as sugestões */
+    margin-right: 10px; /* Spacing between suggestions */
 }
-/* CSS normal */
+
+/* Normal CSS */
 .assistant_suggestion_mandatory_true p,
 .assistant_suggestion_mandatory_false p {
     padding: 5px;
     border-radius: 5px;
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease; /* Transição suave */
+    transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition */
 }
 
-/* CSS quando o mouse passa sobre a tag p */
+/* CSS when mouse hovers over p tag */
 .assistant_suggestion_mandatory_true p:hover,
 .assistant_suggestion_mandatory_false p:hover {
-    transform: translateY(-3px); /* Pequeno salto para cima */
-    background-color: var(--user-input-bg); /* Nova cor quando o mouse passa sobre */
+    transform: translateY(-3px); /* Small jump up */
+    background-color: var(--user-input-bg); /* New color on hover */
 }
 
-/* Input do usuário */
+/* User input */
 .user_input_container {
     display: flex;
     align-items: center;
@@ -166,36 +193,56 @@ body {
 
 .user_input_container input::placeholder {
     font-style: italic;
-    color: var(--placeholder-color); /* Não foi definido no código */
+    color: var(--user-input-placeholder-color); /* Not defined in the code */
 }
 
 .user_input_container i {
     margin-left: 10px;
     cursor: pointer;
-    font-size: 24px; /* Tamanho do ícone */
+    font-size: 24px; /* Icon size */
+
+}
+.user_input_container .send_icon {
+    margin-left: 10px;
+
 }
 
-/* Barra de rolagem */
+/* Normal CSS */
+.user_input_container .send_icon {
+    fill: var(--scrollbar-track-color); /* Default color */
+    transition: fill 0.3s ease
+}
+
+/* Define keyframes for the bounce animation */
+@keyframes bounce {
+    0% {
+        transform: translateY(0) rotate(-90deg); /* Start with the icon rotated */
+        fill: var(--assistant-message-bg); /* New color on hover */
+
+    }
+    50% {
+        transform: translateY(-5px) rotate(-90deg); /* Adjust the bounce height as needed */
+        fill: white; /* New color on hover */
+
+    }
+    100% {
+        transform: translateY(0) rotate(-90deg); /* End with the icon still rotated */
+        fill: var(--assistant-message-bg); /* New color on hover */
+
+    }
+}
+
+/* CSS when mouse hovers over svg tag */
+.user_input_container .send_icon:hover {
+    animation: bounce 0.5s infinite; /* Apply the bounce animation */
+    cursor: pointer;
+}
+
+/* Scrollbar */
 .assistant_conteiner ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
 }
-
-/* CSS normal */
-.user_input_container .send_icon {
-    fill: var(--scrollbar-track-color); /* Cor padrão */
-    transition: fill 0.3s ease, transform 0.2s ease; /* Transição suave */
-}
-
-/* CSS quando o mouse passa sobre a tag svg */
-.user_input_container .send_icon:hover {
-    fill: var(--suggestion-bg); /* Nova cor quando o mouse passa sobre */
-    transform: rotate(-90deg); /* Pequena rotação */
-    cursor: pointer;
-    
-}
-
-
 /* Track */
 .assistant_conteiner ::-webkit-scrollbar-track {
     background: var(--scrollbar-track-color);
@@ -206,7 +253,96 @@ body {
     background: var(--scrollbar-thumb-color);
 }
 
-/* Handle ao passar o mouse */
+/* Handle on hover */
 .assistant_conteiner ::-webkit-scrollbar-thumb:hover {
     background: var(--scrollbar-thumb-hover-color);
+}
+
+/* Styles for the chatbot toggle button */
+.chatbot_toggle {
+    width: 50px;
+    height: 50px;
+    background-color: var(--assistant-message-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position:absolute right; /* Adjust as necessary */
+    cursor: pointer;
+    position: relative;
+    margin: 20px auto;
+    border: none;
+}
+
+/* Spinner */
+.spinner {
+    position: absolute;
+    bottom: -20px; /* Adjust as necessary */
+    left: 10px; /* Adjust as necessary */
+}
+
+.spinner > div {
+    width: 10px;
+    height: 10px;
+    background-color: var(--spinner-background-color);
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    margin-right: 5px;
+    margin-bottom: 7px;
+}
+  
+.spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+  
+.spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+  
+@-webkit-keyframes sk-bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1);
+    }
+}
+  
+@keyframes sk-bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+/* Styles for the close chatbox button */
+.close_chatbox_container {
+    width: 50px;
+    height: 50px;
+    background-color: var(--assistant-message-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: fixed; /* Changed to position: fixed */
+    bottom: 0; /* Aligned to the bottom of the page */
+    right: 0; /* Aligned to the right of the page */
+    margin: 20px; /* Corner spacing */
+    border: none;
+}
+
+/* closeButton */
+.assistant_profile {
+    border: none;
+
+    background-color: transparent;
 }
