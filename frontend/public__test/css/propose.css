@@ -76,7 +76,7 @@ body {
 .messages_container {
     display: flex;
     margin-bottom: 10px;
-
+    align-items: center;
     position: relative;
     flex-direction: column;
     width: 100%; /* Add this to ensure messages take up full width */
@@ -343,6 +343,5 @@ body {
 /* closeButton */
 .assistant_profile {
     border: none;
-
     background-color: transparent;
 }

@@ -24,8 +24,9 @@ class Utils:
             response (dict): Response containing attribute-value pairs.
         """
         for key, valor in response.items():
-            if hasattr(self, key):
-                setattr(self, key, valor)       
+            if hasattr(self, key) and valor not in (None, '', []):
+                setattr(self, key, valor)
+
   
     async def chat_buffer(self, user_input: str = None, response: str = None, system_message: str = None) -> None:
         """

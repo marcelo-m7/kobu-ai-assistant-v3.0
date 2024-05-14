@@ -6,15 +6,26 @@ class Prompts(KnowledgeLoaders):
     """
     A class representing the knowledge base for the chat application.
     """
-    def __init__(self, stage: str = None) -> None:
+    """
+    A class representing the knowledge base for the chat application.
+    """
+    def __init__(self, stage: str = None, 
+                 extra_context: bool = False, 
+                 subject_name: str = ''
+                 ) -> None:
         """
         Initializes a Knowledge instance.
 
         Args:
             stage (str): Current stage of the conversation.
+            extra_context (bool): Whether extra context is available.
+            subject_name (str): Name of the subject being discussed.
+            consts: imported from class ConstChat.
         """
         super().__init__(stage)
-   
+        self.extra_context = extra_context
+        self.subject_name = subject_name
+
     async def prompt_chooser(self, stage: str = None) -> ChatPromptTemplate:
         """
         Chooses the appropriate prompt based on the stage of the conversation.
@@ -62,7 +73,6 @@ class Prompts(KnowledgeLoaders):
                         ("system", "{subject_instructions}"),
                         ("system", "Please, NEVER ASK more of 2 datas in the same massage. Keep the conversation smooth. Start by asking for the name and e-mail."),
                         ("system", "These are the data riquired: \n{data_required}"),
-                        ("system", "Please, NEVER ASK more of 2 datas in the same massage. Keep the conversation smooth. Start by asking for the name and e-mail."),
                         ("system", "Note: If a user provide o budget bellow 10.000 EURS, inform the user that KOBU Agency has a minimum engagement level of 10.000EUR and the average project is around 25.000EUR."),
                         ("system", "Keep answering the user based on the instructions provided by the system. Do not greeting again. Keep the tone of voice provided."),
                         ("system", """"Aproach example:\n
