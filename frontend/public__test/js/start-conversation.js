@@ -30,6 +30,9 @@ export class StartConversation {
         closeChatboxContainer.style.display = "block";
     });
 
+    document.getElementById("send_icon").addEventListener('click', async () => {
+      await this.userChat.openChat(this.main());
+    });
     document.getElementById("user_input_container").addEventListener('keyup', async (e) => {
       await this.enterClick(e);
     });

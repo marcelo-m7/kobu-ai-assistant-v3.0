@@ -27,7 +27,6 @@ class Utils:
             if hasattr(self, key) and valor not in (None, '', []):
                 setattr(self, key, valor)
 
-  
     async def chat_buffer(self, user_input: str = None, response: str = None, system_message: str = None) -> None:
         """
         Store site history in a list self.chat_history.
@@ -134,7 +133,6 @@ class Utils:
         finally:
             return message
 
-    @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))        
     async def chain_builder(self, stage: str = '') -> object:
         """
         Build the main chain that will answer the user_input.
@@ -194,6 +192,19 @@ class Utils:
             chain = prompt | self.llm_conversation
             return chain
    
+    @ManagerTools.debugger_exception_decorator
+    def debugger_print(*args):
+        """
+        Print debugging information.
+        
+        Args:
+            *args: Variable number of arguments to print.
+        """
+        message = ' '.join(map(str, args))
+        print(message)
+
+
+    """ The bellow methods are experimental"""
     @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
     def retriever_chain_invoker(self, chain, data_dict: dict = {}) -> str:
         """
@@ -222,7 +233,6 @@ class Utils:
         finally:
             return message
      
-    @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))        
     async def retriver_chain_extra_context(self) -> object:
         """
         [To be tested] Build the main chain that will answer the user_input.
@@ -259,13 +269,3 @@ class Utils:
             self.extra_context = False
             return None
 
-    @ManagerTools.debugger_exception_decorator
-    def debugger_print(*args):
-        """
-        Print debugging information.
-        
-        Args:
-            *args: Variable number of arguments to print.
-        """
-        message = ' '.join(map(str, args))
-        print(message)

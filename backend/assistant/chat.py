@@ -11,23 +11,32 @@ class Chat(Assistant, LeadHandlers):
     Attributes:
         extra_context (bool): Indicates whether extra context is enabled. Defaults to False.
     """
-    def __init__(self, stage: str, subject: int = 0) -> None:
+
+    def __init__(self, stage: str, subject: int = 0, user_id=None, subject_name=None, lead=None) -> None:
         """
         Initializes a Chat instance.
 
         Args:
             stage (str): The current stage of the chat.
             subject (int, optional): The subject of the chat. Defaults to 0.
+            user_id (str, optional): The user ID. Defaults to None.
+            subject_name (str, optional): The subject name. Defaults to None.
+            lead (str, optional): The lead information in JSON format. Defaults to None.
         """
-        super().__init__(stage) #, subject)
+
+        # Initialize Chat specific attributes
         self._subject = subject
         self.stage = stage
         self.chat_history = []
-        self.lead = None
+        self.lead = lead
         self.save_chat_mode = False
-        self.lead_generation = True # Default
+        
+        # Initialize parents
+        Assistant.__init__(self, stage)
+        LeadHandlers.__init__(self, user_id, subject_name, lead, chat_history=[])
+
         print("Current subject number: ", subject)
-    
+
     @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
     async def main(self, user_request) -> dict: 
         """

@@ -74,13 +74,14 @@ export class Interface extends InterfaceElements {
           return false
         }
     
-        message = message.replace(/\*/g, '<strong>'); 
-        message = message.replace(/\*\//g, '</strong>'); 
-        message = message.replace(/_([^_]+)_/g, '<em>$1</em>'); 
-        message = message.replace(/~([^~]+)~/g, '<del>$1</del>'); 
-        message = message.replace(/\[([^[]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>'); 
-        message = message.replace(/#([^#\s]+)/g, '<span class="hashtag assistant_message">#$1</span>'); 
-        message = message.replace(/@([^@\s]+)/g, '<span class="mention assistant_message">@$1</span>'); 
+        // Replace characters with HTML format. There is an option to put the modifications on the backend side (using or not AI to format)
+        message = message.replace(/\*/g, '<strong class="assistant_message">'); // Replace * with <strong>
+        message = message.replace(/\*\//g, '</strong>'); // Add closing tag </strong> after each <strong>
+        message = message.replace(/_([^_]+)_/g, '<em class="assistant_message">$1</em>'); // Replace _text_ with <em>text</em>
+        message = message.replace(/~([^~]+)~/g, '<del class="assistant_message">$1</del>'); // Replace ~text~ with <del>text</del>
+        message = message.replace(/\[([^[]+)\]\(([^)]+)\)/g, '<a class="assistant_message" href="$2">$1</a>'); // Replace [link](URL) with <a href="URL">link</a>
+        message = message.replace(/#([^#\s]+)/g, '<span class="hashtag">#$1</span>'); // Replace #hashtag with <span class="hashtag">hashtag</span>
+        message = message.replace(/@([^@\s]+)/g, '<span class="mention">@$1</span>'); // Replace @mention with <span class="mention">@mention</span>
         message = message.replace(new RegExp("\r?\n", "g"), "<br />");
     
         return message;

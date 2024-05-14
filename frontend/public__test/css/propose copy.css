@@ -69,6 +69,7 @@ body {
     display: flex; /* Using flexbox */
     align-self: flex-end; /* Right alignment */
     align-items: flex-end; /* Right alignment */
+
 }
 
 /* Align messages to the right */
@@ -80,7 +81,6 @@ body {
     flex-direction: column;
     width: 100%; /* Add this to ensure messages take up full width */
 }
-
 /* Align messages to the right */
 .messages_container #assistant_welcome_video {
     display: flex;
@@ -96,42 +96,32 @@ body {
     border-radius: 5px;
     max-width: 70%; /* Set maximum width of messages */
     margin-bottom: 10px;
-    word-break: break-word; /* Ensure words break correctly */
-    overflow-wrap: break-word; /* Ensure words break correctly */
 }
 
 .assistant_message p {
     background-color: var(--assistant-message-bg);
     align-self: flex-start; /* Align assistant messages to the left */
 }
-
-.assistant_message a, strong, span, em, del {
+.assistant_message span {
+    position: relative;
     font-weight: bold; /* Example font weight */
     color: white;
-    background-color: var(--assistant-message-bg);
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    display: contents;
 }
 
-.assistant_message a {
+.assistant_message span a {
     text-decoration: underline;
-    color: inherit;
-}
-
-.assistant_message a:hover {
-    text-decoration: underline;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-    transform: translateY(-3px); /* Small jump up */
-    background-color: var(--user-input-bg); /* New color on hover */
+    display: contents;
 }
 
 .user_message p {
     background-color: var(--user-message-bg);
     align-self: flex-end; /* Align user messages to the right */
-    
 }
 
 /* Suggestions */
 .assistant_suggestions_mandatory_true_container {
+    /* margin-top: 10px; */
     align-self: flex-start;
 }
 
@@ -195,7 +185,7 @@ body {
 
 .user_input_container input[type="text"] {
     background: var(--user-input-bg);
-    color: white;
+    color: var(--user-input-placeholder-color);
     flex: 1;
     padding: 8px;
     border: none;
@@ -204,17 +194,18 @@ body {
 
 .user_input_container input::placeholder {
     font-style: italic;
-    color: var(--user-input-placeholder-color);
+    color: var(--user-input-placeholder-color); /* Not defined in the code */
 }
 
 .user_input_container i {
     margin-left: 10px;
     cursor: pointer;
     font-size: 24px; /* Icon size */
-}
 
+}
 .user_input_container .send_icon {
     margin-left: 10px;
+
 }
 
 /* Normal CSS */
@@ -228,14 +219,17 @@ body {
     0% {
         transform: translateY(0) rotate(-90deg); /* Start with the icon rotated */
         fill: var(--assistant-message-bg); /* New color on hover */
+
     }
     50% {
         transform: translateY(-5px) rotate(-90deg); /* Adjust the bounce height as needed */
         fill: white; /* New color on hover */
+
     }
     100% {
         transform: translateY(0) rotate(-90deg); /* End with the icon still rotated */
         fill: var(--assistant-message-bg); /* New color on hover */
+
     }
 }
 
@@ -250,7 +244,6 @@ body {
     width: 5px;
     height: 5px;
 }
-
 /* Track */
 .assistant_conteiner ::-webkit-scrollbar-track {
     background: var(--scrollbar-track-color);
@@ -300,17 +293,17 @@ body {
     margin-right: 5px;
     margin-bottom: 7px;
 }
-
+  
 .spinner .bounce1 {
     -webkit-animation-delay: -0.32s;
     animation-delay: -0.32s;
 }
-
+  
 .spinner .bounce2 {
     -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
 }
-
+  
 @-webkit-keyframes sk-bouncedelay {
     0%, 80%, 100% {
         -webkit-transform: scale(0);
@@ -319,7 +312,7 @@ body {
         -webkit-transform: scale(1);
     }
 }
-
+  
 @keyframes sk-bouncedelay {
     0%, 80%, 100% {
         -webkit-transform: scale(0);

@@ -1,4 +1,3 @@
-
 import json
 import asyncio
 from datetime import datetime
@@ -16,6 +15,12 @@ class LeadHandlers:
     buffer_saver_file_path = 'assistant/buffer/buffer.json'
     exported_lead_datas = 'assistant/buffer/lead_datas.json'
     exported_lead_html_path = 'assistant/buffer'
+
+    def __init__(self, user_id=None, subject_name=None, lead=None, chat_history=None):
+        self.user_id = user_id
+        self.subject_name = subject_name
+        self.lead = lead
+        self.chat_history = chat_history or []
 
     async def send_leads_info(self) -> None:
         """
@@ -38,6 +43,7 @@ class LeadHandlers:
             chat_formated = await asyncio.create_task(self.format_chat_history_for_email(self.chat_history))
 
             await asyncio.create_task(self.send_lead_by_email(lead_to_email_body, chat_formated))
+
             await asyncio.create_task(self.save_locally_lead_html(lead_to_email_body, chat_formated))
 
         except Exception as e:
@@ -160,7 +166,7 @@ class LeadHandlers:
         try:
             formatted_history = ""
             for entry in chat_history:
-                formatted_history += f"{entry.content}\n"
+                formatted_history += f"{entry.content}<br>"
             
             return formatted_history
         except Exception as e:
@@ -188,7 +194,7 @@ class LeadHandlers:
             # Format the data into visually appealing format for email
             email_body = ""
             for key, value in json_data.items():
-                email_body += f"{key}: {value}\n"
+                email_body += f"{key}: {value}<br>"
 
             return email_body
         
@@ -196,3 +202,50 @@ class LeadHandlers:
             # Return the original JSON in case of error
             print(f"format_json_for_email() - Error formatting JSON for email: {e}")
             return json.dumps(json_data, indent=4)
+        
+    def format_data_to_html_list(data_str: str) -> str:
+        """
+        Format data from a string to an HTML list if it matches the pattern "person_name": ...
+        and ends with a closing curly brace '}'.
+
+        Args:
+            data_str (str): The string containing the data.
+
+        Returns:
+            str: The formatted data as an HTML list.
+        """
+        html_list = ""
+
+        # Split the data string by '}' to extract each object
+        objects = data_str.split("}")
+
+        for obj in objects:
+            # Check if the object contains "person_name": and ends with a closing curly brace '}'
+            if '"person_name":' in obj and obj.endswith('}'):
+                # Extract the contents between '{' and '}'
+                content = obj[obj.index('{') + 1:]
+
+                # Replace double quotes with single quotes for valid JSON
+                content = content.replace('"', "'")
+
+                # Convert the content to a valid JSON format
+                content = "{" + content + "}"
+
+                try:
+                    # Load the content as a JSON object
+                    data = json.loads(content)
+
+                    # Extract the person's name
+                    person_name = data.get("person_name")
+
+                    # Create an HTML list item for the person's name
+                    html_list += f"<li>{person_name}</li>"
+                except json.JSONDecodeError:
+                    # Skip this object if it cannot be loaded as JSON
+                    continue
+
+        # Wrap the HTML list items with an unordered list tag
+        if html_list:
+            html_list = f"<ul>{html_list}</ul>"
+
+        return html_list

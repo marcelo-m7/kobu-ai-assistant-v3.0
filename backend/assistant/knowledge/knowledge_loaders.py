@@ -27,7 +27,7 @@ class KnowledgeLoaders(ChatConsts):
     """
 
     # Context-related attributes
-    extra_context = True
+    extra_context = False
     vector_store = DataStore.get_vector_store() if extra_context else None
 
     def __init__(self, stage: str = None) -> None:
