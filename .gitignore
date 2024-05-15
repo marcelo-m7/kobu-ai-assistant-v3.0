@@ -1,6 +1,6 @@
 .venv
 .idea
 __pycache__
-*_test*
+# *_test*
 .vscode
 node_modules

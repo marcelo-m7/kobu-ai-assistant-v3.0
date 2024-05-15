@@ -1,5 +1,0 @@
-"Data required for Lead Generation: \n
-  Person Name,
-  Email Address,
-  Video URL,
-  How did you find us?"

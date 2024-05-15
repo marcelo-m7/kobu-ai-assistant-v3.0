@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Kobu AI Assistant</title>
+        <meta name=viewport content="width=device-width, initial-scale=1">
+        <link rel="icon" href="img/favicon.ico">
+        <link rel="stylesheet" href="css/propose.css">
+        <script type="module" src="js/scripts.js"></script>
+    </head>
+<body>
+    <div class="assistant_conteiner">
+        <div class="assistant_chatbox">
+            <div class="messages_container">
+                <div class="assistant_message">
+                    <p id="assistant_message">
+                        Greetings, dear visitor! Thank you for stopping by and showing interest in contacting KOBU Agency. Nuno has something quite intriguing to share with you. Let's see what he's got up his sleeve! 🎥
+                    </p>
+                </div>
+                
+                <div class="assistant_message">
+                    <video src="video\hire_us_1920x1080.webm" id="assistant_welcome_video">
+                    </video>
+                </div>
+                
+                <div class="assistant_message">
+                    <p id="assistant_message">
+                        First things first, my dear friend! What marvelous project has brought you to our doorstep today? Is it a venture into the digital realm? An escapade in branding perhaps? Do tell! 🚀💼
+                    </p>
+                </div>
+
+                <div class="assistant_mandatory_true_suggestions">
+                    <div class="assistant_suggestion_mandatory_true">
+                        <p id="assistant_suggestion_mandatory_true">
+                            I'd like to know more about KOBU Agency.
+                        </p>
+                    </div>
+
+                    <div class="assistant_suggestion_mandatory_true">
+                        <p id="assistant_suggestion_mandatory_true">
+                            I'd like to hire KOBU.
+                        </p>
+                    </div>
+
+                    <div class="assistant_suggestion_mandatory_true">
+                        <p id="assistant_suggestion_mandatory_true">
+                            I'd like to join KOBU team.
+                        </p>
+                    </div>
+                </div>
+                    
+                <div class="user_message">
+                    <p id="user_message">
+                        I'd like to know more about KOBU Agency.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="assistant_chatbox_footer_container">
+            <div class="assistant_suggestions_mandatory_false">
+                <div class="assistant_suggestion_mandatory_false">
+                    <p id="assistant_suggestion_mandatory_false">
+                        What are you and what can you do?
+                    </p>
+                </div>
+                <div class="assistant_suggestion_mandatory_false">
+                    <p id="assistant_suggestion_mandatory_false">
+                        What type of services Kobu does?
+                    </p>
+                </div>
+
+                <div class="assistant_suggestion_mandatory_false">
+                    <p id="assistant_suggestion_mandatory_false">
+                        Tell me about the case studies.
+                    </p>
+                </div>
+
+                <div class="assistant_suggestion_mandatory_false">
+                    <p id="assistant_suggestion_mandatory_false">
+                        Finalize chat.
+                    </p>
+                </div>
+            </div>
+
+            <div class="user_input_container">
+                <input type="text" placeholder="Please, choose an option." id="user_input">
+                <icons>
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAA2tJREFUSEvFllmojVEUx38XUWRIhlDmMZREpgdKZMqUuFJIhpKQIVMyZCZDMicpGZMHZMgLKXMK8WCeM2V+IcP+n9a+fXf3fed857zc9XLO3t/a+7/2Gv5rFVFGUlRGuOQLXB7oCjQG6pnRb4CnwHXgT9qHpAVuASwAhgE1Ei7/BJwAVgNPchmQC7gysAaYCui1aeQXsB5YDuh/rGQDljtPAu3spC457lx9FrgDPAIqmNs7AP3d/nDb0xG5fjDwLg45CbgNcBmoaYfO2Kuf5Xhyc2An0Nv0XltOvArPxQHXBW4BDUx5mftdmsbHpqM71wFzbP0A6Az8jN4RB3wEGGlKSyxWeeCWqG4GZthqCzAzG3B7i590TgODCkG0M0rGS0B34LflgkovI+GL97tSGGtuaQl4xRXAJOCqq9lxzvovKQ1qBdyzhFvlDFgUB1wR+AhUBXZYMklPRKEk8UaOBg4HwI2shOo4L90EFCIfU9X2UECJ2SQOWJl4wT4MAJTJkvqAsjIJWJ4RmAz2onLraEw20SXqHvsg3Yehq8cD+0xBGV0SD3NRD+AlMC9w9UKgb4zr5drzgGr8tn1XXYsbSsV4rpWB9itlY52U8fVqotjPtlBmK8NLAc8GNphCdeBbngBJ6rrLJ6MwNobAxcAhO93W1fJ9o7xZBRogvlZJinLv2h2jgKMhcBcrF+33A84BzYyT88VW3Ta1pBwInLILOhkrlnK1svY9UAvY5FztX3rM1eKICPJzK42oMWooKikvex2oslmy1ZXpNGsWKs1/4Yu13uWyebLj2R9WRt+NcUQCVeyiOO4Wl6t2JR8AhUq/SixxgNqrDJjuLQuZq7XFVvu7gSmm2MdKQ8tcwKLIK3ZOL59glKnO9SIJWPsHXJGPMQX1VzGPJOOiFMD+MWo0ajiS6CMyG3HdqbZr6teM3uRyvfog8Nf0NdqINKIistBoJB01B/H5NguP2mI34Gv0QNIgIGqTu/wgILbp6WqwGnAR6BUAa2gQs2nuUiNRJkvEfgItcXE2V/tv4egTxdoOrAXUWBZbRwts4YajyiHOY2/DD0mujuopk9USlY3l4i6I2dNspgFxZaHDXvROZft8G2/l7jiRmzUMKt6q9aySa7wND2uqVMwaBgP9YxdXuVbJlUryBU51aRqlMgP+DzURph9AiI5PAAAAAElFTkSuQmCC"/>
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAcJJREFUSEvl1r1qFVEUBeAvoJbR0p8mwYCNhc+gYh5Ai2AqNUJawTdQUBEFtVIr0RACklhrwAdIRMuI2glWio1YKOpsOIYwnLl3ztwJEdzVwMzstf/WXnvMDtnYDuH6p4AP4gBebWc16hkfxgZ2JeBrWMbvvoOoA0/hXQ3kLW7gMX72FUCux5+wPwPwEbeqNtzH91EDyAEv4OwAx59xD3fwtWsAOeA5PGzh8Bse4CaiSkWWA871eZDTH6n/MYjv26I38bipz4P8/sKzihFX8XpYAE3Ap3AJ03RaMs9TC1abAhi2uQ7hPM5hclgWmfdruI6V+i4YBvzXV3x3AhdwGrsLg4hdEC14stVhoQ/7qiUzi3kcLfx5BkvxT9uMt/rfm4AvVsN0rBA49sNiCXAEeDz1+wz2FAJ+wJVqTh61LXUMVwxWDFiX4VpH8DtoFnTbtKZSn8RlBK26tONlAnxRSqdRFkhkGJkOtL5WZtAkpDNo08pGFYkQk5DKkMwi6yKLX5Is3kU8d7LSQ+B2ksKQxJEsd3PVpS1Oodi3cfqEBPZideCJdHPFsfcmUeJpnYN9IOdKfQTjCGXZNuuyHHoJ5v8D/gMahFIfyNU1wwAAAABJRU5ErkJggg=="/>
+                </icons>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

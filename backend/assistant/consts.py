@@ -1,17 +1,10 @@
 from .subjects_lead_extractor import HireUs, GeneralContact, JoinTheTeam
-from dotenv import load_dotenv
-import os
-
-# Set up OpenAI API key from environment variables
-os.environ["OPENAI_API_KEY"] = "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"
-load_dotenv()
 
 
-class ChatConsts():
+class ChatConsts:
     """
     Utility class containing constant values used throughout the chat application.
     """
-
     # SUBJECTS POSSIBLES
     GENERAL_CONTACT = 'general_contact'
     HIRE_US = 'hire_us'
@@ -43,6 +36,7 @@ class ChatConsts():
         "I agree to the terms and conditions.",
         "I do not agree to the terms and conditions."
     ]  # Options for the acceptance of terms stage
+    
     CHOOSE_SUBJECT_STAGE_OPTIONS = [
         "I'd like to know more about KOBU Agency.",
         "I'd like to hire KOBU.",
