@@ -1,6 +1,7 @@
 import asyncio
 from datetime import datetime, timedelta
 from flask import jsonify, json
+from assistant.chat import Chat
 
 
 class RequestHandler():
@@ -18,6 +19,38 @@ class RequestHandler():
 
     active_users = {}
     
+    class User(Chat):
+        def __init__(self, user_id, current_stage='welcome', orientation='', next_stage=''):
+            """
+            Initializes a User object with specified attributes.
+            
+            Parameters:
+            - user_id (str): The unique identifier for the user.
+            - current_stage (str): The current stage of interaction.
+            - orientation (str): The orientation information of the user.
+            - next_stage (str): The next stage of interaction.
+            """
+            self.user_id = user_id
+            self.current_stage = current_stage
+            self.orientation = orientation
+            self.next_stage = next_stage
+            self.last_interaction_time = datetime.now()  # Initialize last interaction time
+            super().__init__(stage=current_stage)
+
+    async def check_last_interaction(self):
+        """
+        Checks the last interaction time of all active users and removes inactive users.
+        """
+        now = datetime.now()
+        inactive_users = []
+        for user_id, user in self.active_users.items():
+            if (now - user.last_interaction_time) > timedelta(minutes=10):
+                inactive_users.append(user_id)
+                print("Inactive user detected: ", user_id)
+        
+        for user_id in inactive_users:
+            del self.active_users[user_id]
+            print(f"User {user_id} removed due to inactivity.")
 
     async def request_received(self, request: json) -> jsonify:
         """
@@ -40,7 +73,12 @@ class RequestHandler():
                 print("New user connected")
             
             user = self.active_users[user_id]
-           
+            user.set_user_attributes(request)
+            user.last_interaction_time = datetime.now()  # Update last interaction time
+            
+            # Run the function to check last interaction in parallel
+            asyncio.create_task(self.check_last_interaction())
+            
             response = await user.main(request)
 
         except Exception as e:
