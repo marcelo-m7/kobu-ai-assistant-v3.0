@@ -131,7 +131,7 @@ class Prompts(KnowledgeLoaders):
                     ("system", "Now ask the user if that would like to change the conversation subject.")])
         """
                     
-        print("Prompt returned")
+        print("prompt_chooser(): Prompt returned.")
         return prompt
             
     def assistant_site_context(self) -> tuple:

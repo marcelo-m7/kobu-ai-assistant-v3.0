@@ -103,6 +103,8 @@ class Utils:
             str: Assistant response.
         """
         try:
+            # if self.extra_context:
+            #     print("extra contex a invocar: ", self.extra_context, self.vector_store)
             response = chain.invoke({
                 "input": user_input, 
                 "chat_history": self.chat_history, 
