@@ -2,6 +2,11 @@
 
 The project is a conversational AI chatbot designed to handle various tasks and interactions with users. It utilizes OpenAI's GPT-3.5 model to provide natural language understanding and generation capabilities.
 
+**Note:** It is recommended to ignore the summary below and directly refer to the README files in the backend and frontend directories for comprehensive instructions.
+
+- [Backend README](https://github.com/marcelo-m7/kobu-ai-assistant-v3.0/blob/main/backend/conf/README.md)
+- [Frontend README](https://github.com/marcelo-m7/kobu-ai-assistant-v3.0/blob/main/frontend/conf/README.md)
+
 ## Getting Started
 
 To get started with the project, follow these steps:
