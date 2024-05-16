@@ -13,28 +13,82 @@ export class Interface extends InterfaceElements {
 
     userInput = () => document.getElementById('user_input').value;
 
-    /**
-     * Closes the chatbox by hiding its content.
-     * @returns {Promise<void>} - A promise that resolves after the chatbox is closed.
-     */
+    // /**
+    //  * Closes the chatbox by hiding its content.
+    //  * @returns {Promise<void>} - A promise that resolves after the chatbox is closed.
+    //  */
+    // async closeChat() {
+    //     const chatContent = document.querySelector(".open_chatbox_container");
+    //     if (chatContent) {
+    //         chatContent.style.display = 'none';
+    //         await this.fadeIn(chatContent);
+    //         console.log("Chat closed.");
+
+    //     } else {
+    //         console.log("Chat element has not been found.");
+    //     }
+    // }
     async closeChat() {
         const chatContent = document.querySelector(".open_chatbox_container");
         if (chatContent) {
+            // Animação de fade out
+            chatContent.style.transition = 'opacity 0.5s';
+            chatContent.style.opacity = '0';
+    
+            // Espera a animação terminar
+            await new Promise(resolve => setTimeout(resolve, 300));
+    
+            // Esconde o elemento após a animação terminar
             chatContent.style.display = 'none';
-            await this.fadeIn(chatContent);
+    
             console.log("Chat closed.");
-
         } else {
             console.log("Chat element has not been found.");
         }
     }
-
+    
     /**
      * Opens the chatbox by displaying its content and optionally executing a main function.
      * @param {Function} main - The main function to execute after opening the chatbox.
      * @returns {Promise<void>} - A promise that resolves after the chatbox is opened.
      */
     async openChat(main) {
+        const chat = document.querySelectorAll(".open_chatbox_container");
+        chat.forEach(element => {
+            element.style.display = 'block';
+        });
+        console.log("Chat opened.");
+    
+        // Call animation function
+        await this.animateChatItems(main, chat);
+    }
+
+    async animateChatItems(main, chat) {
+        // const chat = document.querySelectorAll(".open_chatbox_container");
+
+        for (let i = 0; i < chat.length; i++) {
+            const item = chat[i];
+            item.style.opacity = 0;
+            item.style.transform = "translateY(20px)";
+            item.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+    
+            // Delay each item by 500 milliseconds
+            await new Promise(resolve => setTimeout(resolve, 1));
+    
+            item.style.opacity = 1;
+            item.style.transform = "translateY(0)";
+        }
+    
+        console.log("Chat animation completed.");
+    
+        // Check if it's the first access to the chat
+        if (this.count === 0) {
+            console.log("First access to the chat.");
+            this.count += 1;
+            await main();
+        }
+    }
+    async openChat_old(main) {
         const chat = document.querySelectorAll(".open_chatbox_container");
         chat.forEach(async function(element) {
             element.style.display = 'block';
@@ -47,7 +101,7 @@ export class Interface extends InterfaceElements {
             await main();
         }
     }
-
+    
     /**
      * Animates the fadeIn effect for an HTML element by gradually increasing its opacity.
      * @param {HTMLElement} element - The HTML element to apply the fadeIn effect to.

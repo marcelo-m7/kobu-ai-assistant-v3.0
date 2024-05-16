@@ -19,9 +19,11 @@ export class StartConversation {
         await this.userChat.openChat(this.main.bind(this));
     });
 
-    closeChatboxButton.addEventListener("click", () => {
-        openChatboxContainer.style.display = "none";
-        closeChatboxContainer.style.display = "block";
+    closeChatboxButton.addEventListener("click", async () => {
+      await this.userChat.closeChat();
+      // openChatboxContainer.style.display = "none";
+      closeChatboxContainer.style.display = "block";
+      await this.userChat.animateChatItems(null, closeChatboxContainer);
     });
     
     document.getElementById("send_icon").addEventListener('click', async () => {
