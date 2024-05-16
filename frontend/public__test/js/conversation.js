@@ -136,29 +136,6 @@ export class Conversation extends Interface {
         });
         }
 
-    async addOptionListinnerMandatoryFalse() {
-        // Seleciona o elemento de entrada pelo ID
-        
-        var inputElement = document.getElementById('user_input');
-        // inputElement.blur()
-        // inputElement.placeholder = 'Please, select an option';
-
-        return new Promise((resolve, reject) => {
-            document.addEventListener("click", async (e) => {
-            if (e.target.classList.contains("assistant_suggestion_mandatory_false")) {
-                inputElement.placeholder = '';
-                var optionText = e.target.textContent;
-                console.log(e, optionText)
-                e.stopImmediatePropagation();
-                await this.optionListinner(optionText);
-                // Define o novo valor do placeholder
-                inputElement.placeholder = 'Type a message';
-                resolve();
-            }
-            });
-        });
-        }
-
     async optionListinner(optionText) {
         await this.setUserResponse(optionText);
         var request = this.requestData(optionText);

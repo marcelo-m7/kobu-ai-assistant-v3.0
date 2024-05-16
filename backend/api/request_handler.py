@@ -1,7 +1,7 @@
 import asyncio
 from datetime import datetime, timedelta
 from flask import jsonify, json
-from assistant.chat import Chat
+from assistant.conversation import Conversation
 
 
 class RequestHandler():
@@ -19,7 +19,7 @@ class RequestHandler():
 
     active_users = {}
     
-    class User(Chat):
+    class User(Conversation):
         def __init__(self, user_id, current_stage='welcome', orientation='', next_stage=''):
             """
             Initializes a User object with specified attributes.
@@ -75,11 +75,18 @@ class RequestHandler():
             user = self.active_users[user_id]
             user.set_user_attributes(request)
             user.last_interaction_time = datetime.now()  # Update last interaction time
-            
+        
+            if 'Finalize chat.' in str(request.get("user_input")): 
+                del self.active_users[user_id]
+                print("User desconected: ", user_id)
             # Run the function to check last interaction in parallel
             asyncio.create_task(self.check_last_interaction())
             
             response = await user.main(request)
+            
+            if 'Finalize chat.' in request.get("user_input"): 
+                del self.active_users[user_id]
+                print("User desconected: ", user_id)
 
         except Exception as e:
             response = "I'm not feeling ok... Would you mind if we talk another time?"
