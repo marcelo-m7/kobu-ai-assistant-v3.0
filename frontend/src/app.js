@@ -19,8 +19,8 @@ app.get('/', function(req, res) {
 });
 
 app.post('/proxy', async (req, res) => {
-  // const url = 'https://assistant.kobudev.com/kobu-assistant';
-  const url = 'http://127.0.0.1:5000/kobu-assistant';
+  const url = 'https://assistant.kobudev.com/kobu-assistant';
+  // const url = 'http://127.0.0.1:5000/kobu-assistant';
   try {
     const response = await axios.post(url, req.body, {
       headers: {

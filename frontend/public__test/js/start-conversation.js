@@ -11,7 +11,7 @@ export class StartConversation {
     const openChatboxContainer = document.getElementById("open_chatbox_container");
     const closeChatboxButton = document.getElementById("closeChatboxButton");
     const closeChatboxContainer = document.getElementById("close_chatbox_container");
-
+    
     chatbotToggle.addEventListener("click", async () => {
         openChatboxContainer.style.display = "block";
         closeChatboxContainer.style.display = "none";
@@ -23,7 +23,7 @@ export class StartConversation {
         openChatboxContainer.style.display = "none";
         closeChatboxContainer.style.display = "block";
     });
-
+    
     document.getElementById("send_icon").addEventListener('click', async () => {
       await this.userChat.openChat(this.main());
     });
@@ -58,11 +58,13 @@ export class StartConversation {
         var request = userChatActive.requestData("Hi, there!");
         var response = await userChatActive.sendRequest(request);
         
-        if (response.message === false) {
+        console.log(response)
+        
+        await userChatActive.assistantResponseHandler(response);
+        if (response.current_stage === 'error') {
           break;
         }
-
-        await userChatActive.assistantResponseHandler(response);
+        
         await userChatActive.setVideo();
 
         userChatActive.currentStage = userChatActive.CHOOSE_SUBJECT_STAGE;

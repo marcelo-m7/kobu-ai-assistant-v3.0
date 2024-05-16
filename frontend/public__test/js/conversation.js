@@ -5,7 +5,7 @@ import { Interface } from './conversation-interface.js';
  * Extends Interface class to handle conversation interface.
  * @param {string} userId - The unique ID of the user.
  */
-export class Conversation extends Interface{
+export class Conversation extends Interface {
     constructor(userId) {
         super();
         this.userId = userId;
@@ -16,6 +16,19 @@ export class Conversation extends Interface{
         this.subject = null
         this.orientation = 'proceed'
         this.message = null
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const elements = document.getElementsByClassName('assistant_suggestion_mandatory_false');
+        
+            Array.from(elements).forEach(element => {
+                element.addEventListener("click", async (e) => {
+                    var optionText = e.target.textContent;
+                    console.log(e, optionText);
+                    e.stopImmediatePropagation();
+                    await this.optionListinner(optionText);
+                });
+            });
+        });
     }
   
     /**
@@ -55,7 +68,9 @@ export class Conversation extends Interface{
         // Handle any errors that occur during the request
         console.error(error);
         // Return a default error message if the request fails
-        return { "message": "Sorry, but I'm unable to assist you at the moment. Please contact <a href='https://kobu.agency/contact'>Kobu.agency/Contact</a> for further assistance." };
+        return { "message": "Sorry, but I'm unable to assist you at the moment. Please contact <a href='https://kobu.agency/contact'>Kobu.agency/Contact</a> for further assistance.",
+            "current_stage": "error"
+         };
         }
     };
     
@@ -103,24 +118,46 @@ export class Conversation extends Interface{
 
     async addOptionListinner() {
         // Seleciona o elemento de entrada pelo ID
-    var inputElement = document.getElementById('user_input');
-    inputElement.blur()
-    inputElement.placeholder = 'Please, select an option';
+        var inputElement = document.getElementById('user_input');
+        inputElement.blur()
+        inputElement.placeholder = 'Please, select an option';
 
-    return new Promise((resolve, reject) => {
-        document.addEventListener("click", async (e) => {
-        if (e.target.classList.contains("assistant_suggestion_mandatory_true")) {
-            inputElement.placeholder = '';
-            var optionText = e.target.textContent;
-            e.stopImmediatePropagation();
-            await this.optionListinner(optionText);
-            // Define o novo valor do placeholder
-            inputElement.placeholder = 'Type a message';
-            resolve();
-        }
+        return new Promise((resolve, reject) => {
+            document.addEventListener("click", async (e) => {
+            if (e.target.classList.contains("assistant_suggestion_mandatory_true")) {
+                inputElement.placeholder = '';
+                var optionText = e.target.textContent;
+                e.stopImmediatePropagation();
+                await this.optionListinner(optionText);
+                inputElement.placeholder = 'Type a message';
+                resolve();
+            }
+            });
         });
-    });
-    }
+        }
+
+    async addOptionListinnerMandatoryFalse() {
+        // Seleciona o elemento de entrada pelo ID
+        
+        var inputElement = document.getElementById('user_input');
+        // inputElement.blur()
+        // inputElement.placeholder = 'Please, select an option';
+
+        return new Promise((resolve, reject) => {
+            document.addEventListener("click", async (e) => {
+            if (e.target.classList.contains("assistant_suggestion_mandatory_false")) {
+                inputElement.placeholder = '';
+                var optionText = e.target.textContent;
+                console.log(e, optionText)
+                e.stopImmediatePropagation();
+                await this.optionListinner(optionText);
+                // Define o novo valor do placeholder
+                inputElement.placeholder = 'Type a message';
+                resolve();
+            }
+            });
+        });
+        }
 
     async optionListinner(optionText) {
         await this.setUserResponse(optionText);

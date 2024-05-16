@@ -87,8 +87,8 @@ export class Interface extends InterfaceElements {
         return message;
     };
     formatAssistantMessage(message) {
-    // Escapar caracteres HTML para evitar vulnerabilidades XSS
-    const escapeHTML = (str) => str.replace(/[&<>"']/g, (tag) => ({
+    // Escapar caracteres HTML fora das tags existentes para evitar vulnerabilidades XSS
+    const escapeHTML = (str) => str.replace(/&(?![a-zA-Z0-9#]+;)|<|>|"|'/g, (tag) => ({
         '&': '&amp;',
         '<': '&lt;',
         '>': '&gt;',
@@ -96,26 +96,29 @@ export class Interface extends InterfaceElements {
         "'": '&#39;',
     }[tag]));
 
-    // Separar a mensagem em parágrafos
-    const paragraphs = message.split('\n').map(para => escapeHTML(para));
+    // Função para identificar e proteger tags HTML existentes
+    const protectHTMLTags = (str) => {
+        return str.replace(/(<\/?[^>]+>)/g, '\0$1\0');
+    };
 
-    // Formatar negrito e links
-    const formattedParagraphs = paragraphs.map(para => {
-        // Formatar negrito
-        para = para.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // Processar a mensagem, protegendo tags HTML existentes
+    const protectedMessage = protectHTMLTags(message);
 
-        // Formatar links
-        para = para.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-
-        return para;
+    // Dividir a mensagem em partes protegidas e não protegidas
+    const parts = protectedMessage.split('\0').map(part => {
+        return part.startsWith('<') ? part : escapeHTML(part);
     });
 
-    // Juntar os parágrafos formatados em uma string com quebras de linha
-    const htmlMessage = formattedParagraphs.join('<br>');
+    // Juntar as partes novamente
+    let processedMessage = parts.join('');
 
-    return htmlMessage;
+    // Formatar negrito e links em partes não protegidas
+    processedMessage = processedMessage.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                                       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+    return processedMessage;
 }
-    
+ 
     // Set user response in messages_container
     async setUserResponse(user_input = this.userInput()) {
         document.getElementById("user_input").blur();

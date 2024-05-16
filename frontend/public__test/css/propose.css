@@ -101,25 +101,25 @@ body {
     align-self: flex-start; /* Align assistant messages to the left */
 }
 
-.assistant_message a, strong, span, em, del {
+.assistant_message a, .assistant_message strong, .assistant_message span, .assistant_message em, .assistant_message del {
     font-weight: bold; /* Example font weight */
     color: white;
     background-color: var(--assistant-message-bg);
     transition: transform 0.2s ease, background-color 0.2s ease;
-
 }
 
 .assistant_message a {
     text-decoration: underline;
-    /* display: contents; */
+    display: inline-block; /* Ensure the link is treated as a block for transformation */
+    transition: transform 0.2s ease; /* Smooth zoom effect */
 }
 
 .assistant_message a:hover {
     text-decoration: underline;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-    transform: translateY(-3px); /* Small jump up */
+    transform: scale(1.05); /* Zoom in effect */
     background-color: var(--user-input-bg); /* New color on hover */
 }
+
 
 .user_message p {
     background-color: var(--user-message-bg);
