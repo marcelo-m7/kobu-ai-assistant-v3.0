@@ -104,15 +104,15 @@ class Utils:
         """
         try:
             if self.extra_context:
-                print("extra contex a invocar: ", self.extra_context, self.vector_store)
+                print("Extra context added to the chain to be invoked: ", self.extra_context, self.vector_store)
             response = chain.invoke({
                 "input": user_input, 
                 "chat_history": self.chat_history, 
                 "subject_instructions": self.subject_instructions,
                 "basic_instructions": self.basic_instructions, 
                 "lead_string": str(self.lead).strip('{').strip('}').strip(']').strip(']'),
-                "data_required": self.data_required,
-                "context": extra_context})
+                "data_required": self.data_required})
+                # "context": self.vector_store if self.extra_context else extra_context})
             
             print("chain_invoker(): The chain has been invoked.")
 
