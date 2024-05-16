@@ -2,11 +2,6 @@
 
 The project is a conversational AI chatbot designed to handle various tasks and interactions with users. It utilizes OpenAI's GPT-3.5 model to provide natural language understanding and generation capabilities.
 
-**Documentation Update:**
-
-**Please be advised that the repository documentation is currently being updated to provide more accurate and helpful information. We apologize for any inconvenience this may cause and appreciate your patience. If you have any questions or need further assistance, please don't hesitate to reach out. Thank you for your understanding.**
-
-
 ## Getting Started
 
 To get started with the project, follow these steps:

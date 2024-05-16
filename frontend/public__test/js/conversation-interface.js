@@ -69,7 +69,7 @@ export class Interface extends InterfaceElements {
         });
     }
 
-    formatAssistantMessage_OLD(message) {
+    formatAssistantMessage(message) {
         if (message == "") {
           return false
         }
@@ -86,7 +86,7 @@ export class Interface extends InterfaceElements {
     
         return message;
     };
-    formatAssistantMessage(message) {
+    formatAssistantMessage_in_test(message) {
     // Escapar caracteres HTML fora das tags existentes para evitar vulnerabilidades XSS
     const escapeHTML = (str) => str.replace(/&(?![a-zA-Z0-9#]+;)|<|>|"|'/g, (tag) => ({
         '&': '&amp;',
