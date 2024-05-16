@@ -153,6 +153,7 @@ body {
     display: flex; /* To align suggestions side by side */
     flex: 0 0 auto; /* Prevent suggestions from resizing */
     margin-right: 10px; /* Spacing between suggestions */
+    font-size: 14px;
 }
 
 /* Chatbox footer */

@@ -11,19 +11,20 @@ export class StartConversation {
     const openChatboxContainer = document.getElementById("open_chatbox_container");
     const closeChatboxButton = document.getElementById("closeChatboxButton");
     const closeChatboxContainer = document.getElementById("close_chatbox_container");
-    
+
     chatbotToggle.addEventListener("click", async () => {
-        openChatboxContainer.style.display = "block";
-        closeChatboxContainer.style.display = "none";
-
-        await this.userChat.openChat(this.main.bind(this));
+      openChatboxContainer.style.display = "block";
+      closeChatboxContainer.style.display = "none";
+      
+      await this.userChat.openChat(this.main.bind(this));
     });
-
+    
     closeChatboxButton.addEventListener("click", async () => {
+      // closeChatboxContainer.style.display = "block"; // Missing animation to when the
+      // closeChatboxContainer.style.opacity = 0; // Missing animation to when the
+
       await this.userChat.closeChat();
       // openChatboxContainer.style.display = "none";
-      closeChatboxContainer.style.display = "block";
-      await this.userChat.animateChatItems(null, closeChatboxContainer);
     });
     
     document.getElementById("send_icon").addEventListener('click', async () => {

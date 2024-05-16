@@ -13,10 +13,7 @@ export class Interface extends InterfaceElements {
 
     userInput = () => document.getElementById('user_input').value;
 
-    // /**
-    //  * Closes the chatbox by hiding its content.
-    //  * @returns {Promise<void>} - A promise that resolves after the chatbox is closed.
-    //  */
+
     // async closeChat() {
     //     const chatContent = document.querySelector(".open_chatbox_container");
     //     if (chatContent) {
@@ -28,23 +25,31 @@ export class Interface extends InterfaceElements {
     //         console.log("Chat element has not been found.");
     //     }
     // }
+    /**
+     * Closes the chatbox by hiding its content.
+     * @returns {Promise<void>} - A promise that resolves after the chatbox is closed.
+     */
     async closeChat() {
         const chatContent = document.querySelector(".open_chatbox_container");
+        const closeChatboxContainer = document.getElementById("close_chatbox_container");
+        
         if (chatContent) {
-            // Animação de fade out
             chatContent.style.transition = 'opacity 0.5s';
             chatContent.style.opacity = '0';
+
+            closeChatboxContainer.style.display = "block";
+            closeChatboxContainer.style.opacity = 0;
+            
+            await this.fadeIn(closeChatboxContainer)
+            await new Promise(resolve => setTimeout(resolve, 200));
     
-            // Espera a animação terminar
-            await new Promise(resolve => setTimeout(resolve, 300));
-    
-            // Esconde o elemento após a animação terminar
             chatContent.style.display = 'none';
     
             console.log("Chat closed.");
         } else {
             console.log("Chat element has not been found.");
         }
+
     }
     
     /**
@@ -69,6 +74,7 @@ export class Interface extends InterfaceElements {
         for (let i = 0; i < chat.length; i++) {
             const item = chat[i];
             item.style.opacity = 0;
+            item.display = "block"
             item.style.transform = "translateY(20px)";
             item.style.transition = "opacity 0.5s ease, transform 0.5s ease";
     
