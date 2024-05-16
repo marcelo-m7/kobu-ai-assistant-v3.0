@@ -115,7 +115,6 @@ export class Interface extends InterfaceElements {
 
     return htmlMessage;
 }
-
     
     // Set user response in messages_container
     async setUserResponse(user_input = this.userInput()) {

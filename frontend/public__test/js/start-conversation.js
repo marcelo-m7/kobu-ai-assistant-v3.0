@@ -7,22 +7,16 @@ export class StartConversation {
     this.userChat = new Conversation(this.userId);
 
     // Listeners
-    const openChatboxContainer = document.getElementById("open_chatbox_container");
-    const closeChatboxContainer = document.getElementById("close_chatbox_container");
     const chatbotToggle = document.getElementById("chatbot_toggle");
-    const closeButton = document.getElementById("closeButton");
+    const openChatboxContainer = document.getElementById("open_chatbox_container");
     const closeChatboxButton = document.getElementById("closeChatboxButton");
+    const closeChatboxContainer = document.getElementById("close_chatbox_container");
 
     chatbotToggle.addEventListener("click", async () => {
         openChatboxContainer.style.display = "block";
         closeChatboxContainer.style.display = "none";
 
         await this.userChat.openChat(this.main.bind(this));
-    });
-
-    closeButton.addEventListener("click", async () => {
-        openChatboxContainer.style.display = "none";
-        closeChatboxContainer.style.display = "block";
     });
 
     closeChatboxButton.addEventListener("click", () => {

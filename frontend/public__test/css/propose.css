@@ -41,7 +41,7 @@ body {
     font-family: "Fontawesome", Helvetica, "Kobu Text Sans Serif";
     width: 400px; /* Chatbot width */
     margin: 50px auto; /* Centering on the page */
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     font-size: 14px;
     color: white;
     border-radius: 10px;
@@ -266,21 +266,6 @@ body {
     background: var(--scrollbar-thumb-hover-color);
 }
 
-/* Styles for the chatbot toggle button */
-.chatbot_toggle {
-    width: 50px;
-    height: 50px;
-    background-color: var(--assistant-message-bg);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position:absolute right; /* Adjust as necessary */
-    cursor: pointer;
-    position: relative;
-    margin: 20px auto;
-    border: none;
-}
 
 /* Spinner */
 .spinner {
@@ -333,11 +318,11 @@ body {
 
 /* Styles for the close chatbox button */
 .close_chatbox_container {
-    width: 50px;
-    height: 50px;
-    background-color: var(--assistant-message-bg);
+    width: 60px;
+    height: 60px;
+    background-color: white;
     border-radius: 50%;
-    display: flex;
+    border: none;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -345,6 +330,19 @@ body {
     bottom: 0; /* Aligned to the bottom of the page */
     right: 0; /* Aligned to the right of the page */
     margin: 20px; /* Corner spacing */
+}
+
+/* Styles for the chatbot toggle button */
+.chatbot_toggle {
+    width: 55;
+    height: 55;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
     border: none;
 }
 
