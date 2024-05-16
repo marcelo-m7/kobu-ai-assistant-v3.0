@@ -6,26 +6,15 @@ class Prompts(KnowledgeLoaders):
     """
     A class representing the knowledge base for the chat application.
     """
-    """
-    A class representing the knowledge base for the chat application.
-    """
-    def __init__(self, stage: str = None, 
-                 extra_context: bool = False, 
-                 subject_name: str = ''
-                 ) -> None:
+    def __init__(self, stage: str = None) -> None:
         """
         Initializes a Knowledge instance.
 
         Args:
             stage (str): Current stage of the conversation.
-            extra_context (bool): Whether extra context is available.
-            subject_name (str): Name of the subject being discussed.
-            consts: imported from class ConstChat.
         """
         super().__init__(stage)
-        self.extra_context = extra_context
-        self.subject_name = subject_name
-
+   
     async def prompt_chooser(self, stage: str = None) -> ChatPromptTemplate:
         """
         Chooses the appropriate prompt based on the stage of the conversation.
@@ -73,6 +62,7 @@ class Prompts(KnowledgeLoaders):
                         ("system", "{subject_instructions}"),
                         ("system", "Please, NEVER ASK more of 2 datas in the same massage. Keep the conversation smooth. Start by asking for the name and e-mail."),
                         ("system", "These are the data riquired: \n{data_required}"),
+                        ("system", "Please, NEVER ASK more of 2 datas in the same massage. Keep the conversation smooth. Start by asking for the name and e-mail."),
                         ("system", "Note: If a user provide o budget bellow 10.000 EURS, inform the user that KOBU Agency has a minimum engagement level of 10.000EUR and the average project is around 25.000EUR."),
                         ("system", "Keep answering the user based on the instructions provided by the system. Do not greeting again. Keep the tone of voice provided."),
                         ("system", """"Aproach example:\n
@@ -141,13 +131,17 @@ class Prompts(KnowledgeLoaders):
         Returns:
             tuple: Tuple containing system message and site context message.
         """
+        print("assistant_site_context (): ", self.extra_context)
         if self.extra_context:
             assistant_site_context = (
                 "system", "Regardless of the case, always prioritize the instructions above. These are additional data extracted from the KOBU Website. If not requested by the user, please ignore it: {context}")
+            print("assistant_site_context(self) 2 if")
+
         else:
             assistant_site_context = (
                 "system", "For this propose, you don not have access to the datas in the KOBU Agency website.")
-            
+            print("assistant_site_context(self) 3")
+
         return assistant_site_context
 
     @staticmethod
