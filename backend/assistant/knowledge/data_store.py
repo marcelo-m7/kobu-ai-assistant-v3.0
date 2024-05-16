@@ -106,7 +106,7 @@ class DataStore:
         splitter = RecursiveCharacterTextSplitter(chunk_size=750, chunk_overlap=30)
         splitDocs = splitter.split_documents(docs)
 
-        print("prepare_doc_to_be_pickeled() - splitDocs:\n", splitDocs[2])
+        # print("prepare_doc_to_be_pickeled() - splitDocs:\n", splitDocs[2])
         print("prepare_doc_to_be_pickeled() - splitDocs SIZE: ", len(splitDocs))
         return splitDocs
         
@@ -137,7 +137,7 @@ class DataStore:
             loaded_variable = pickle.load(f)
             print(f"Variable loaded from the pickle file: '{cls.docs_pickle_path}'")
             # print(f"Loaded variable: '{loaded_variable}'")
-            print(f"Loaded variable str: '{loaded_variable[2]}'")
+            # print(f"Loaded variable str: '{loaded_variable[2]}'")
         return loaded_variable
     
     @classmethod

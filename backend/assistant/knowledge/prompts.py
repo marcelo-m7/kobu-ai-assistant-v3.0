@@ -63,7 +63,7 @@ class Prompts(KnowledgeLoaders):
                         ("system", "Please, NEVER ASK more of 2 datas in the same massage. Keep the conversation smooth. Start by asking for the name and e-mail."),
                         ("system", "These are the data riquired: \n{data_required}"),
                         ("system", "Please, NEVER ASK more of 2 datas in the same massage. Keep the conversation smooth. Start by asking for the name and e-mail."),
-                        ("system", "Note: If a user provide o budget bellow 10.000 EURS, inform the user that KOBU Agency has a minimum engagement level of 10.000EUR and the average project is around 25.000EUR."),
+                        ("system", "IMPORTANT: If a user provide o budget bellow 10.000 EURS, inform the user that KOBU Agency has a minimum engagement level of 10.000EUR and the average project is around 25.000EUR."),
                         ("system", "Keep answering the user based on the instructions provided by the system. Do not greeting again. Keep the tone of voice provided."),
                         ("system", """"Aproach example:\n
                         Before we take flight into the digital stratosphere 🚀, may I implore thee for thy most esteemed name and electronic parchment? 📝 Your moniker and email shall be safeguarded as though they were the crown jewels, ensuring our communication is as seamless as a hot dog at a baseball game! 🌭
@@ -131,17 +131,14 @@ class Prompts(KnowledgeLoaders):
         Returns:
             tuple: Tuple containing system message and site context message.
         """
-        print("assistant_site_context (): ", self.extra_context)
         if self.extra_context:
             assistant_site_context = (
                 "system", "Regardless of the case, always prioritize the instructions above. These are additional data extracted from the KOBU Website. If not requested by the user, please ignore it: {context}")
-            print("assistant_site_context(self) 2 if")
-
         else:
             assistant_site_context = (
                 "system", "For this propose, you don not have access to the datas in the KOBU Agency website.")
-            print("assistant_site_context(self) 3")
 
+        print("assistant_site_context (): ", self.extra_context)
         return assistant_site_context
 
     @staticmethod

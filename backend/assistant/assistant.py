@@ -130,9 +130,9 @@ class Assistant(Utils, Prompts):
                         lead.pop("other_data", None)
                         lead.pop("project_description", None)
                     finally:
-                        print("other_data and project_description pop()")
+                        # print("other_data and project_description pop()")
                         lead = str(str(lead).strip('{').strip('}').strip(']').strip(']')).lower()
-                        print("strip ok")
+                        # print("strip ok")
                         # print("lead string", lead)
                         
                         if 'not provided' in lead or 'not specified' in lead:

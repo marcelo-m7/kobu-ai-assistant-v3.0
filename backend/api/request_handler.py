@@ -74,23 +74,21 @@ class RequestHandler():
             
             user = self.active_users[user_id]
             user.set_user_attributes(request)
-            user.last_interaction_time = datetime.now()  # Update last interaction time
-        
-            if 'Finalize chat.' in str(request.get("user_input")): 
-                del self.active_users[user_id]
-                print("User desconected: ", user_id)
-            # Run the function to check last interaction in parallel
-            asyncio.create_task(self.check_last_interaction())
-            
-            response = await user.main(request)
-            
-            if 'Finalize chat.' in request.get("user_input"): 
-                del self.active_users[user_id]
-                print("User desconected: ", user_id)
 
+            user.last_interaction_time = datetime.now()         # Update last interaction time
+            asyncio.create_task(self.check_last_interaction())  # Run the function to check last interaction in parallel
+            response = await user.main(request)                 # Get a response in parallel
+
+            user_input = request.get("user_input", "")          # Del the user, if asked.
+            if 'Finalize chat.' in user_input: 
+                del self.active_users[user_id]
+                print("User disconnected:", user_id)
+                print("active_users: ", self.active_users)
+                
         except Exception as e:
             response = "I'm not feeling ok... Would you mind if we talk another time?"
             print(f"Error in request_received(): {e}")
             
         finally:
+            print("RequestHandler - Response to be send:\n", response)
             return jsonify(response)

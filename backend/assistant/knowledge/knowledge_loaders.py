@@ -102,7 +102,7 @@ class KnowledgeLoaders(ChatConsts):
             self.subject_instance = self.CLASS_GENERAL_CONTACT
             self.search_kwargs = 4
 
-            print("self.assistant_instructions_path", self.assistant_instructions_path)
+        print("self.assistant_instructions_path", self.assistant_instructions_path)
 
         self.basic_instructions_path =  'assistant/knowledge/data_store_files/default/basic_instructions.json'
         self.data_required_path = f'assistant/knowledge/data_store_files/{self.subject_name}/{self.subject_name}_data_required.txt'
@@ -112,7 +112,6 @@ class KnowledgeLoaders(ChatConsts):
         self.data_required = self._data_required_loader()
 
         print("update_dependent_attributes(): The assistant instructions has been refreshed to the subject: ", self.subject_name)
-
         
     def _basic_instructions_loader(self) -> str:
         """

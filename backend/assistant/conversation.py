@@ -29,6 +29,7 @@ class Conversation(Assistant, LeadHandlers):
         self.save_chat_mode = False
         self.lead_generation = True # Default
         print("Current subject number: ", subject)
+        ManagerTools.logger_print(self)
     
     @property
     def subject(self) -> int:
@@ -53,7 +54,7 @@ class Conversation(Assistant, LeadHandlers):
         Returns:
             dict: The response to the user's request.
         """
-        print("Chat: main() Starts")
+        print("Conversation: main() Starts")
 
         try:
             user_input = user_request.get("user_input")
@@ -83,7 +84,7 @@ class Conversation(Assistant, LeadHandlers):
             dict: The response to the user's request.
         """
         try:
-            print("Current stage: ", self.current_stage)
+            print("get_assistant_response() Current stage: ", self.current_stage)
             if not self.current_stage:
                 self.current_stage = self.WELCOME_STAGE
                 print("Current stage changed from '' to: ", self.current_stage)
@@ -99,7 +100,7 @@ class Conversation(Assistant, LeadHandlers):
                     case self.WELCOME_STAGE:
                         response = await self.welcome(user_request)
                         self.set_user_attributes(response)
-                        print("Welcome Response:\n", response)
+                        # print("Welcome Response:\n", response)
 
                         if response['orientation'] == self.NEXT_STAGE:
                             self.next_stage = self.CHOOSE_SUBJECT_STAGE
@@ -114,7 +115,7 @@ class Conversation(Assistant, LeadHandlers):
                     case self.ACCEPTANCE_OF_TERMS_STAGE:
                         response = await self.acceptance_of_terms(user_request)
                         self.set_user_attributes(response)
-                        print("ACCEPTANCE_OF_TERMS Response:\n", response)
+                        # print("ACCEPTANCE_OF_TERMS Response:\n", response)
 
                         if response['orientation'] == self.VERIFY_ANSWER and response['message'] not in ['false', 'true']:
                             print("Inside of if response['orientation'] == self.VERIFY_ANSWER")
@@ -140,7 +141,7 @@ class Conversation(Assistant, LeadHandlers):
                     case self.CHOOSE_SUBJECT_STAGE:
                         response = await self.choose_subject(user_request)
                         self.set_user_attributes(response)
-                        print("Choose Subject Response:\n", response)
+                        # print("Choose Subject Response:\n", response)
 
                         if response['orientation'] == self.NEXT_STAGE:
                             self.next_stage = self.current_stage = self.DATA_COLLECTING_STAGE
@@ -159,7 +160,7 @@ class Conversation(Assistant, LeadHandlers):
                         # response = await asyncio.create_task(self.data_colecting_in_changing(user_request))
                         response = await asyncio.create_task(self.data_colecting(user_request))
                         self.set_user_attributes(response)
-                        print("Data Collecting Response:\n", response)
+                        # print("Data Collecting Response:\n", response)
 
                         if validation['orientation'] == self.PROCEED:
                             self.next_stage = self.DATA_COLLECTING_STAGE
@@ -179,7 +180,7 @@ class Conversation(Assistant, LeadHandlers):
 
                     case self.RESUME_VALIDATION_STAGE:
                         response = await self.resume_validation(user_request)
-                        print("Resume Validation Response:\n", response)
+                        # print("Resume Validation Response:\n", response)
                         self.set_user_attributes(response)
                         # self.debugger_print(response)
                         # self.debugger_sleeper(2)
@@ -207,7 +208,7 @@ class Conversation(Assistant, LeadHandlers):
                     case self.SEND_VALIDATION_STAGE:
                         response = await self.send_validation(user_request)
                         self.set_user_attributes(response)
-                        print("Send Validation Response:\n", response)
+                        # print("Send Validation Response:\n", response)
 
                         if response['orientation'] == self.VERIFY_ANSWER and response['message'] not in ['false', 'true']:
                             self.next_stage = self.SEND_VALIDATION_STAGE
@@ -232,7 +233,7 @@ class Conversation(Assistant, LeadHandlers):
 
                     case self.FREE_CONVERSATION_STAGE:   # Stop going verifications
                         response = await self.free_conversation(user_request)
-                        print("Free Conversation Response:\n", response)
+                        # print("Free Conversation Response:\n", response)
                         break
                     
                     case self.CRITICAL: # To bem implemented

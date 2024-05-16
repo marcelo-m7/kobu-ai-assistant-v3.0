@@ -38,3 +38,5 @@ class ManagerTools:
         print(message)
 
 
+    def logger_print(self):
+        print(self.__class__.__name__)
