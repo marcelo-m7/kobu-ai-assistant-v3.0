@@ -25,7 +25,6 @@ export class Conversation extends Interface{
      */
     async sendRequest(data = this.requestData()) {
         try {
-        // Specify the URL for the request (default local proxy)
         const url = 'http://localhost:3000/proxy'; // Default local proxy (no need to add any URL)
     
         // Uncomment the following lines to use a different proxy or no proxy at all
@@ -33,7 +32,7 @@ export class Conversation extends Interface{
         // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';  // Set the external proxy URL if desired
         // const response = await fetch(proxyUrl + url, { // Use an external proxy (uncomment this line if using an external proxy)
     
-        // Send the request to the specified URL
+                                            // Send the request to the specified URL
         const response = await fetch(url, { // Use the default local proxy (comment this line if using an external proxy)
             method: 'POST',
             headers: {

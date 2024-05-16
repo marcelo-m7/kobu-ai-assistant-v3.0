@@ -69,13 +69,13 @@ export class Interface extends InterfaceElements {
         });
     }
 
-    formatAssistantMessage(message) {
+    formatAssistantMessage_OLD(message) {
         if (message == "") {
           return false
         }
     
         // Replace characters with HTML format. There is an option to put the modifications on the backend side (using or not AI to format)
-        message = message.replace(/\*/g, '<strong class="assistant_message">'); // Replace * with <strong>
+        message = message.replace(/\*/g, "<strong>"); // Replace * with <strong>
         message = message.replace(/\*\//g, '</strong>'); // Add closing tag </strong> after each <strong>
         message = message.replace(/_([^_]+)_/g, '<em class="assistant_message">$1</em>'); // Replace _text_ with <em>text</em>
         message = message.replace(/~([^~]+)~/g, '<del class="assistant_message">$1</del>'); // Replace ~text~ with <del>text</del>
@@ -86,7 +86,37 @@ export class Interface extends InterfaceElements {
     
         return message;
     };
+    formatAssistantMessage(message) {
+    // Escapar caracteres HTML para evitar vulnerabilidades XSS
+    const escapeHTML = (str) => str.replace(/[&<>"']/g, (tag) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+    }[tag]));
 
+    // Separar a mensagem em parágrafos
+    const paragraphs = message.split('\n').map(para => escapeHTML(para));
+
+    // Formatar negrito e links
+    const formattedParagraphs = paragraphs.map(para => {
+        // Formatar negrito
+        para = para.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+        // Formatar links
+        para = para.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+        return para;
+    });
+
+    // Juntar os parágrafos formatados em uma string com quebras de linha
+    const htmlMessage = formattedParagraphs.join('<br>');
+
+    return htmlMessage;
+}
+
+    
     // Set user response in messages_container
     async setUserResponse(user_input = this.userInput()) {
         document.getElementById("user_input").blur();
