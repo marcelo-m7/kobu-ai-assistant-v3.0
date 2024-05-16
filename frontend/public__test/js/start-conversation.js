@@ -25,7 +25,12 @@ export class StartConversation {
     });
     
     document.getElementById("send_icon").addEventListener('click', async () => {
-      await this.userChat.openChat(this.main());
+      var optionText = this.userChat.userInput() 
+      if (!optionText) { // Verifica se a string está vazia após o trim
+          return false;
+      }
+        await this.userChat.openChat(this.main());
+
     });
     document.getElementById("user_input_container").addEventListener('keyup', async (e) => {
       await this.enterClick(e);

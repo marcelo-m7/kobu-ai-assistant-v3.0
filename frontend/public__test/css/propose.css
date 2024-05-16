@@ -37,7 +37,7 @@ body {
 }
 
 /* Chatbot container */
-.assistant_conteiner {
+.assistant_chatbox_container {
     font-family: "Fontawesome", Helvetica, "Kobu Text Sans Serif";
     width: 400px; /* Chatbot width */
     margin: 50px auto; /* Centering on the page */
@@ -247,22 +247,22 @@ body {
 }
 
 /* Scrollbar */
-.assistant_conteiner ::-webkit-scrollbar {
+.assistant_chatbox_container ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
 }
 /* Track */
-.assistant_conteiner ::-webkit-scrollbar-track {
+.assistant_chatbox_container ::-webkit-scrollbar-track {
     background: var(--scrollbar-track-color);
 }
 
 /* Handle */
-.assistant_conteiner ::-webkit-scrollbar-thumb {
+.assistant_chatbox_container ::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb-color);
 }
 
 /* Handle on hover */
-.assistant_conteiner ::-webkit-scrollbar-thumb:hover {
+.assistant_chatbox_container ::-webkit-scrollbar-thumb:hover {
     background: var(--scrollbar-thumb-hover-color);
 }
 

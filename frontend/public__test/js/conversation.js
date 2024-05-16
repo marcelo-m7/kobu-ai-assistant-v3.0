@@ -22,7 +22,7 @@ export class Conversation extends Interface {
         
             Array.from(elements).forEach(element => {
                 element.addEventListener("click", async (e) => {
-                    var optionText = e.target.textContent;
+                    var optionText = e.target.textContent.trim(); // Remove espaços em branco
                     console.log(e, optionText);
                     e.stopImmediatePropagation();
                     await this.optionListinner(optionText);

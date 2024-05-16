@@ -18,7 +18,7 @@ export class Interface extends InterfaceElements {
      * @returns {Promise<void>} - A promise that resolves after the chatbox is closed.
      */
     async closeChat() {
-        const chatContent = document.querySelector(".chatCont.open_chatbox_container");
+        const chatContent = document.querySelector(".open_chatbox_container");
         if (chatContent) {
             chatContent.style.display = 'none';
             await this.fadeIn(chatContent);
@@ -35,7 +35,7 @@ export class Interface extends InterfaceElements {
      * @returns {Promise<void>} - A promise that resolves after the chatbox is opened.
      */
     async openChat(main) {
-        const chat = document.querySelectorAll(".assistant_chatbox.open_chatbox_container");
+        const chat = document.querySelectorAll(".open_chatbox_container");
         chat.forEach(async function(element) {
             element.style.display = 'block';
         });
