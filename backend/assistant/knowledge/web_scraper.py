@@ -42,7 +42,7 @@ class WebScraper:
             print(f"Error fetching sitemap: {e}")
             return []
 
-    def extract_data(self, url: str) -> dict:
+    def extract_data_stable(self, url: str) -> dict:
         """
         Extract title, content, and metadata from a web page.
 
@@ -85,6 +85,59 @@ class WebScraper:
             print(f"Error fetching {url}: {e}")
             return None
 
+    def extract_data(self, url: str) -> dict:
+        """
+        Extract title, content, and metadata from a web page.
+
+        Parameters:
+        - url (str): The URL of the web page.
+
+        Returns:
+        - dict: A dictionary containing the extracted data.
+        """
+        try:
+            response = requests.get(url, headers=self.headers)
+            response.raise_for_status()
+
+            # Check if the response content type is HTML
+            content_type = response.headers.get('Content-Type', '').split(';')[0]
+            if content_type != 'text/html':
+                print(f"Skipping {url} - Not HTML content")
+                return None
+
+            soup = BeautifulSoup(response.content, 'html.parser')
+
+            # Remove the cookies notification div
+            cookies_notification = soup.find('div', id='cookies-notification')
+            if cookies_notification:
+                cookies_notification.decompose()
+
+            # Remove the footer
+            footer = soup.find('footer')
+            if footer:
+                footer.decompose()
+
+            # Select relevant elements: title and text content
+            title = soup.title.text if soup.title else ''
+            
+            # Extract text from all paragraphs
+            text = ' '.join([p.text for p in soup.find_all('p')])
+            
+            # Extract content from the team-container div
+            team_container = soup.find('div', class_='team-container')
+            team_content = team_container.get_text(separator=' ', strip=True) if team_container else ''
+            
+            # Combine the text and team content
+            combined_content = f"{text}\n{team_content}"
+
+            # Add metadata: URL and current date
+            metadata = {'url': url} #, 'date_posted': datetime.now().isoformat()}
+
+            return {'title': title, 'content': combined_content, 'metadata': metadata}
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching {url}: {e}")
+            return None
+
     def save_to_json(self, data: dict, url: str) -> None:
         """
         Save extracted data to a JSON file.
@@ -120,7 +173,7 @@ class WebScraper:
 
 
 if __name__ == "__main__":
-    base_url = 'https://kobu.agency'
+    base_url = 'https://kobu.agency/'
     sitemap_url = 'https://kobu.agency/sitemap.xml'
     save_folder = 'assistant/knowledge/data_store_files/web_scraper_files'
 

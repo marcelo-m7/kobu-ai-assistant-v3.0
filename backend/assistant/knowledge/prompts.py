@@ -59,7 +59,7 @@ class Prompts(KnowledgeLoaders):
                     prompt = ChatPromptTemplate.from_messages([
                         self.assistant_site_context(),
                         self.assistant_tone_of_voice(),
-                        ("system", "{subject_instructions}"),
+                        # ("system", "{subject_instructions}"),
                         ("system", "Please, NEVER ASK more of 2 datas in the same massage. Keep the conversation smooth. Start by asking for the name and e-mail."),
                         ("system", "These are the data riquired: \n{data_required}"),
                         ("system", "Please, NEVER ASK more of 2 datas in the same massage. Keep the conversation smooth. Start by asking for the name and e-mail."),
@@ -74,7 +74,7 @@ class Prompts(KnowledgeLoaders):
                 else:
                     prompt = ChatPromptTemplate.from_messages([
                         self.assistant_tone_of_voice('general_tone'),
-                        ("system", "{subject_instructions}"),
+                        # ("system", "{subject_instructions}"),
                         ("system", "If the user shows interesse in hiring or contacting Kobu Agency, ask for the follow datas to the user. Try to ask one by one:\n{data_required}"),
                         ("system", "Please, NEVER ASK more of 2 datas in the same massage. Keep the conversation smooth. Start by asking for the name and e-mail."),
                         ("system", "Keep answering the user based on the instructions provided by the system. Do not greeting again. Use tone of voice provided."),

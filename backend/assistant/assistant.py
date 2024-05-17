@@ -121,10 +121,10 @@ class Assistant(Utils):
                 if 'true' in status:
                     print("data_colecting_validation() TRUE")
                     self.lead = self.subject_instance.get_leads_info(self.chat_history)
-                    lead = json.loads(self.lead)
+                    lead = lead_json = json.loads(self.lead)
                     print("Lead sucessfull extracted") # :\n", lead)
 
-                    # 2nd: Check ff the datas has been sucessfull extracted and has no empty value
+                    # 2nd: Check if the datas has been sucessfull extracted and has no empty value
                     try:
                         lead.pop("other_data", None)
                         lead.pop("project_description", None)
@@ -138,7 +138,34 @@ class Assistant(Utils):
                             message = 'The lead are not compleated.'
                             status = 'false'
                             self.orientation = self.PROCEED
+
+                        else:
+                            # 3nd: Check if any datas is empty
+                            try:
+                                def is_lead_valid(lead: dict) -> bool:
+                                    exceptions = {"other_data", "project_description"}
+                                    
+                                    for key, value in lead.items():
+                                        if key not in exceptions and value == "":
+                                            return False
+                                    return True
+                                
+                                status = is_lead_valid(lead_json)
+
+                                if status == True:
+                                    status = 'true'
+                                else:
+                                    status = 'false'
+                                print("is_lead_valid status: ", status)
+
+                            except Exception as e:
+                                print(f"data_colecting_validation() is_lead_valid(): Error {e}")
                         
+                        if status != 'true':
+                            message = 'The lead are not compleated.'
+                            status = 'false'
+                            self.orientation = self.PROCEED
+
                         else:
                             # If necessary, second checker if there is any data that was not provided.
                             # If the leads are ok, set 'true' message to the response
@@ -146,7 +173,7 @@ class Assistant(Utils):
                             status = 'true'
                             self.orientation = self.NEXT_STAGE
 
-                else:    # if status == 'false':
+                else:
                     # If the leads are not ok, set 'false' message to the response
                     message = 'The lead are not compleated.'
                     self.orientation = self.PROCEED

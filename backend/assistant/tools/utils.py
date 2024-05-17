@@ -116,11 +116,15 @@ class Utils(Prompts):
                 # "context": self.vector_store if self.extra_context else extra_context})
             
             print("chain_invoker(): The chain has been invoked.")
+            print("Response:\n", response)
 
             if type(response) == dict:
                 message = response['answer']
             else:
-                message = response.content
+                if response.content:
+                    message = response.content
+                else:
+                    message = response
 
         except Exception as e:
             if user_input == '':
@@ -165,12 +169,12 @@ class Utils(Prompts):
                 )
 
                 retriever = self.vector_store.as_retriever(search_kwargs={"k": self.search_kwargs})
-
+                    
                 retriever_prompt = ChatPromptTemplate.from_messages([
                     # MessagesPlaceholder(variable_name="chat_history"),
+                    ("human", "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation"),
                     ("system", "Messages History: {chat_history}"),
-                    ("human", "{input}"),
-                    ("human", "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation")
+                    ("human", "{input}")
                 ])
 
                 history_aware_retriever = create_history_aware_retriever(
@@ -178,6 +182,9 @@ class Utils(Prompts):
                     retriever=retriever,
                     prompt=retriever_prompt
                 )
+
+                self.chain_invoker(history_aware_retriever) # Verify context added
+                # print("History_aware_retriever:\n", history_aware_retriever_response)
 
                 retrieval_chain = create_retrieval_chain(
                     # retriever,
