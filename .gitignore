@@ -4,3 +4,4 @@ __pycache__
 # *_test*
 .vscode
 node_modules
+*web_scraper_files*

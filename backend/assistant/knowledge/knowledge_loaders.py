@@ -2,6 +2,7 @@ from langchain_openai import ChatOpenAI
 from .data_store import DataStore
 from ..tools.manager_tools import *
 from ..consts import ChatConsts
+from .data_store_from_scraper import GetVectorStore as gvs
 
 
 class KnowledgeLoaders(ChatConsts):
@@ -27,7 +28,8 @@ class KnowledgeLoaders(ChatConsts):
     """
     
     extra_context = True
-    vector_store = DataStore.get_vector_store() if extra_context else None
+    # vector_store = DataStore.get_vector_store() if extra_context else None
+    vector_store = gvs.main() if extra_context else None
 
     llm_conversation = ChatOpenAI(temperature=1, model="gpt-3.5-turbo")
     llm_validation = ChatOpenAI(temperature=0.6, model="gpt-3.5-turbo")
