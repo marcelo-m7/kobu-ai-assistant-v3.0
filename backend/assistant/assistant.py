@@ -1,10 +1,9 @@
 import json
 from .tools.utils import Utils
 import asyncio
-from .knowledge.prompts import Prompts
 
 
-class Assistant(Utils, Prompts):
+class Assistant(Utils):
 
     async def welcome(self, user_request: dict) -> dict: 
         """Sends a welcome message to the user."""

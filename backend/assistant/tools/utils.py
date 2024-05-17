@@ -7,9 +7,10 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain.chains.history_aware_retriever import create_history_aware_retriever
 from .manager_tools import *
+from ..knowledge.prompts import Prompts
 
 
-class Utils:
+class Utils(Prompts):
     """
     Utility functions for handling chat history, saving lead data, and invoking chat chains.
     """
@@ -157,6 +158,7 @@ class Utils:
         
             elif self.extra_context == True:          # Add a retriever to the chain with the extra context obtained
                 print("self.extra_context == True")
+                
                 chain = create_stuff_documents_chain(
                 llm=self.llm_retriver,
                 prompt=prompt
@@ -187,12 +189,7 @@ class Utils:
 
         except Exception as e:
             print(f"chain_builder Error {e}")
-            self.extra_context = False
-            prompt = self.prompt_chooser(stage=stage)
-            self.update_dependent_attributes(self.CRITICAL)
-
-            chain = prompt | self.llm_conversation
-            return chain
+            return False
    
     @ManagerTools.debugger_exception_decorator
     def debugger_print(*args):

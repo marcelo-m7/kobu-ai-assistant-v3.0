@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 from urllib.parse import urlparse
+from datetime import datetime
 
 class WebScraper:
     def __init__(self, base_url, sitemap_url, save_folder):
@@ -40,7 +41,10 @@ class WebScraper:
             title = soup.title.text if soup.title else ''
             text = ' '.join([p.text for p in soup.find_all('p')])
 
-            return {'title': title, 'content': text}
+            # Add metadata: URL and current date
+            metadata = {'url': url, 'date_posted': datetime.now().isoformat()}
+
+            return {'title': title, 'content': text, 'metadata': metadata}
         except requests.exceptions.RequestException as e:
             print(f"Error fetching {url}: {e}")
             return None
@@ -64,13 +68,9 @@ class WebScraper:
         for url in urls:
             self.process_url(url)
 
-
-
-if __name__ == "__main__":
-    base_url = 'https://kobu.agency'
-    sitemap_url = 'https://kobu.agency/sitemap.xml'
-    save_folder = 'assistant/knowledge/data_store_files/web_scraper_files'
-
-    # Initialize and run the web scraper
-    scraper = WebScraper(base_url, sitemap_url, save_folder)
-    scraper.process_site()
+# Usage
+base_url = 'https://kobu.agency'
+sitemap_url = 'https://kobu.agency/sitemap.xml'
+save_folder = 'backend/assistant/tools/web_scraper_files__test'
+scraper = WebScraper(base_url, sitemap_url, save_folder)
+scraper.process_site()

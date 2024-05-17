@@ -26,7 +26,7 @@ class VectorStoreBuilder:
         self.json_folder = json_folder
         self.embedding = embedding
 
-    def load_documents(self) -> List[Document]:
+    def load_documents_with_no_metadatas(self) -> List[Document]:
         """
         Load documents from JSON files in the specified folder.
 
@@ -53,7 +53,36 @@ class VectorStoreBuilder:
         except Exception as e:
             print(f"Error loading documents: {e}")
             return []
+    
+    def load_documents(self) -> List[Document]:
+        """
+        Load documents from JSON files in the specified folder.
 
+        Returns:
+        - List[Document]: A list of Document objects representing the loaded documents.
+        """
+        try:
+            documents = []
+            for filename in os.listdir(self.json_folder):
+                if filename.endswith('.json'):
+                    filepath = os.path.join(self.json_folder, filename)
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        title = data.get('title', '')
+                        content = data.get('content', '')
+                        metadata = data.get('metadata', {})
+                        # Add metadata to the content
+                        content_with_metadata = f"Title: {title}\nMetadata: {metadata}\n Page Content: {content}"
+                        documents.append(Document(title=title, page_content=content_with_metadata, metadata=metadata))
+            
+            # Print examples of loaded documents for verification
+            print("Loaded documents[0]:\n", documents[0], documents[8], documents[15])
+            print("\nLoaded documents[15]:\n", documents[15])
+            return documents
+        
+        except Exception as e:
+            print(f"Error loading documents: {e}")
+            return []
     def build_vector_store(self) -> VectorStore:
         """
         Build a vector store from loaded documents using FAISS.
@@ -63,7 +92,9 @@ class VectorStoreBuilder:
         """
         try:
             documents = self.load_documents()
-            vector_store = FAISS.from_documents(documents, embedding=self.embedding)
+            metadatas = [d.metadata for d in documents]
+            vector_store = FAISS.from_documents(documents, self.embedding)
+            # vector_store = FAISS.from_documents(documents, embedding=self.embedding, metadatas)
             return vector_store
         except Exception as e:
             print(f"Error building vector store: {e}")

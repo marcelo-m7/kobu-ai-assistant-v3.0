@@ -64,12 +64,21 @@ class WebScraper:
 
             soup = BeautifulSoup(response.content, 'html.parser')
 
+            # Remove the cookies notification div
+            cookies_notification = soup.find('div', id='cookies-notification')
+            if cookies_notification:
+                cookies_notification.decompose()
+            # Remove the footer
+            footer = soup.find('footer')
+            if footer:
+                footer.decompose()
+                
             # Select relevant elements: title and text content
             title = soup.title.text if soup.title else ''
             text = ' '.join([p.text for p in soup.find_all('p')])
 
             # Add metadata: URL and current date
-            metadata = {'url': url, 'date_posted': datetime.now().isoformat()}
+            metadata = {'url': url} #, 'date_posted': datetime.now().isoformat()}
 
             return {'title': title, 'content': text, 'metadata': metadata}
         except requests.exceptions.RequestException as e:
