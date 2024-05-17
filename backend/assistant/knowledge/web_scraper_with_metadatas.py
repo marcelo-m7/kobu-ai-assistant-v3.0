@@ -6,7 +6,19 @@ from urllib.parse import urlparse
 from datetime import datetime
 
 class WebScraper:
-    def __init__(self, base_url, sitemap_url, save_folder):
+    """
+    A class to scrape data from web pages and save it to JSON files.
+    """
+
+    def __init__(self, base_url: str, sitemap_url: str, save_folder: str) -> None:
+        """
+        Initialize the WebScraper.
+
+        Parameters:
+        - base_url (str): The base URL of the website.
+        - sitemap_url (str): The URL of the sitemap.
+        - save_folder (str): The folder to save scraped data.
+        """
         self.base_url = base_url
         self.sitemap_url = sitemap_url
         self.save_folder = save_folder
@@ -14,7 +26,13 @@ class WebScraper:
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
         }
 
-    def fetch_sitemap(self):
+    def fetch_sitemap(self) -> list:
+        """
+        Fetch URLs from the sitemap.
+
+        Returns:
+        - list: A list of URLs from the sitemap.
+        """
         try:
             response = requests.get(self.sitemap_url, headers=self.headers)
             response.raise_for_status()
@@ -24,7 +42,16 @@ class WebScraper:
             print(f"Error fetching sitemap: {e}")
             return []
 
-    def extract_data(self, url):
+    def extract_data(self, url: str) -> dict:
+        """
+        Extract title, content, and metadata from a web page.
+
+        Parameters:
+        - url (str): The URL of the web page.
+
+        Returns:
+        - dict: A dictionary containing the extracted data.
+        """
         try:
             response = requests.get(url, headers=self.headers)
             response.raise_for_status()
@@ -49,7 +76,14 @@ class WebScraper:
             print(f"Error fetching {url}: {e}")
             return None
 
-    def save_to_json(self, data, url):
+    def save_to_json(self, data: dict, url: str) -> None:
+        """
+        Save extracted data to a JSON file.
+
+        Parameters:
+        - data (dict): The data to save.
+        - url (str): The URL of the web page.
+        """
         parsed_url = urlparse(url)
         file_name = f"{parsed_url.netloc.replace('.', '_')}_{parsed_url.path.replace('/', '_')}.json"
         file_name = file_name.strip('_')  # Clean up leading/trailing underscores
@@ -58,19 +92,29 @@ class WebScraper:
             json.dump(data, f, ensure_ascii=False, indent=4, separators=(',', ': '))
         print(f"Data saved to {file_path}")
 
-    def process_url(self, url):
+    def process_url(self, url: str) -> None:
+        """
+        Process a single URL: extract data and save to JSON.
+
+        Parameters:
+        - url (str): The URL to process.
+        """
         data = self.extract_data(url)
         if data:
             self.save_to_json(data, url)
 
-    def process_site(self):
+    def process_site(self) -> None:
+        """Process all URLs from the sitemap."""
         urls = self.fetch_sitemap()
         for url in urls:
             self.process_url(url)
 
-# Usage
-base_url = 'https://kobu.agency'
-sitemap_url = 'https://kobu.agency/sitemap.xml'
-save_folder = 'backend/assistant/tools/web_scraper_files__test'
-scraper = WebScraper(base_url, sitemap_url, save_folder)
-scraper.process_site()
+
+if __name__ == "__main__":
+    base_url = 'https://kobu.agency'
+    sitemap_url = 'https://kobu.agency/sitemap.xml'
+    save_folder = 'assistant/knowledge/data_store_files/web_scraper_files'
+
+    # Initialize and run the web scraper
+    scraper = WebScraper(base_url, sitemap_url, save_folder)
+    scraper.process_site()

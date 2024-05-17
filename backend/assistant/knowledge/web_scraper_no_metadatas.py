@@ -64,9 +64,13 @@ class WebScraper:
         for url in urls:
             self.process_url(url)
 
-# Usage
-base_url = 'https://kobu.agency'
-sitemap_url = 'https://kobu.agency/sitemap.xml'
-save_folder = 'backend/assistant/tools/web_scraper_files__test'
-scraper = WebScraper(base_url, sitemap_url, save_folder)
-scraper.process_site()
+
+
+if __name__ == "__main__":
+    base_url = 'https://kobu.agency'
+    sitemap_url = 'https://kobu.agency/sitemap.xml'
+    save_folder = 'assistant/knowledge/data_store_files/web_scraper_files'
+
+    # Initialize and run the web scraper
+    scraper = WebScraper(base_url, sitemap_url, save_folder)
+    scraper.process_site()
