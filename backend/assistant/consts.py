@@ -1,4 +1,4 @@
-from .subjects_lead_extractor import HireUs, GeneralContact, JoinTheTeam
+from .tools.subjects_lead_extractor import HireUs, GeneralContact, JoinTheTeam
 
 
 class ChatConsts:

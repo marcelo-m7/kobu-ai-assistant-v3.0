@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from dotenv import load_dotenv
 from openai import OpenAI
 from datetime import datetime
-from .tools.manager_tools import *
+from .manager_tools import *
 import json
 import os
 

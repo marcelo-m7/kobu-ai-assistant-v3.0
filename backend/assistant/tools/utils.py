@@ -116,15 +116,20 @@ class Utils(Prompts):
                 # "context": self.vector_store if self.extra_context else extra_context})
             
             print("chain_invoker(): The chain has been invoked.")
-            print("Response:\n", response)
+            # print("Response:\n", response)
 
             if type(response) == dict:
                 message = response['answer']
             else:
-                if response.content:
-                    message = response.content
-                else:
-                    message = response
+                message = response.content
+
+        except AttributeError as e:
+            if "'list' object has no attribute 'content'" in str(e):
+                print(f"chain_invoker Error: {e}")
+                message = response
+
+            else:
+                raise
 
         except Exception as e:
             if user_input == '':
@@ -183,7 +188,7 @@ class Utils(Prompts):
                     prompt=retriever_prompt
                 )
 
-                self.chain_invoker(history_aware_retriever) # Verify context added
+                # history_aware_retriever_response = self.chain_invoker(history_aware_retriever) # Verify context added
                 # print("History_aware_retriever:\n", history_aware_retriever_response)
 
                 retrieval_chain = create_retrieval_chain(
@@ -208,70 +213,4 @@ class Utils(Prompts):
         """
         message = ' '.join(map(str, args))
         print(message)
-
-
-    """ The bellow methods are experimental"""
-    @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-    def retriever_chain_invoker(self, chain, data_dict: dict = {}) -> str:
-        """
-        Invoke the a chain and return the assistant response.
-        
-        Args:
-            chain: retriever chain to be invoked.
-            data_dict: dict with the args variables to be insered in the chain prompt.
-        
-        Returns:
-            str: Assistant response.
-        """
-        try:
-            response = chain.invoke(data_dict)
-
-            print("chain_invoker(): The chain has been invoked.")
-
-            if type(response) == dict:
-                message = response['answer']
-            else:
-                message = response.content
-
-        except Exception as e:
-            print(f"retriever_chain_invoker() Error {e}")
-                
-        finally:
-            return message
-     
-    async def retriver_chain_extra_context(self) -> object:
-        """
-        [To be tested] Build the main chain that will answer the user_input.
-        
-        Args:
-            stage (str): Stage of the conversation.
-        
-        Returns:
-            object: Main chat chain.
-        """
-        print("retriver_chain() starts")
-
-        try:
-            retriever = self.vector_store.as_retriever(search_kwargs={"k": self.search_kwargs})
-
-            # return retriever
-            retriever_prompt = ChatPromptTemplate.from_messages([
-                # MessagesPlaceholder(variable_name="chat_history"),
-                ("system", "Messages History: {chat_history}"),
-                ("human", "{input}"),
-                ("human", "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation")
-            ])
-
-            retrieval_chain = create_history_aware_retriever(
-                llm=self.llm_retriver,
-                retriever=retriever,
-                prompt=retriever_prompt
-            )
-
-            return retrieval_chain
-
-        except Exception as e:
-            print(f"retriver_chain_extra_context Error {e}")
-            self.extra_context = False
-            return None
 
