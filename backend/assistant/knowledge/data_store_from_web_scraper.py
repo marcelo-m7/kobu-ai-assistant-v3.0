@@ -83,6 +83,7 @@ class VectorStoreBuilder:
         except Exception as e:
             print(f"Error loading documents: {e}")
             return []
+    
     def build_vector_store(self) -> VectorStore:
         """
         Build a vector store from loaded documents using FAISS.
@@ -101,14 +102,19 @@ class VectorStoreBuilder:
             return None
 
 
-def get_vector_store():
+def get_vector_store(
+        json_folder='assistant/knowledge/data_store_files/web_scraper_files'):
     """
     Main function to get the vector store.
+
+    Parameters:
+    - json_folder (str, optional): The folder containing JSON files to be used for building the vector store.
+      Defaults to 'assistant/knowledge/data_store_files/web_scraper_files'.
+
+    Returns:
+    - vector_store: The constructed vector store object or None if an error occurred.
     """
     try:
-        # Define the folder containing JSON files
-        json_folder = 'assistant/knowledge/data_store_files/web_scraper_files'
-
         # Initialize the embedding model
         embedding = OpenAIEmbeddings()
 
