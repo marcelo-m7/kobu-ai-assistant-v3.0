@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 // Define the directory where static files (CSS, JS, etc.) are located.
 // app.use(express.static(path.join(__dirname, '/../public')));
-app.use(express.static(path.join(__dirname, '/../public__test')));
+app.use(express.static(path.join(__dirname, '/../public_propose2')));
 
 // Route to serve the index.html file
 app.get('/', function(req, res) {
