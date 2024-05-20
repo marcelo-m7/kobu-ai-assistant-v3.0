@@ -103,7 +103,7 @@ class VectorStoreBuilder:
 
 
 def get_vector_store(
-        json_folder='assistant/knowledge/data_store_files/web_scraper_files'):
+        json_folder='assistant/knowledge/web_scraper_files'):
     """
     Main function to get the vector store.
 

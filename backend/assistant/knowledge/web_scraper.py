@@ -174,7 +174,7 @@ class WebScraper:
 
 def web_scraper_start(base_url='https://kobu.agency/', 
                       sitemap_url='https://kobu.agency/sitemap.xml', 
-                      save_folder='assistant/knowledge/data_store_files/web_scraper_files') -> None:
+                      save_folder='assistant/knowledge/web_scraper_files') -> None:
     """
     Initialize and run the web scraper with the given optional parameters.
 
@@ -185,7 +185,7 @@ def web_scraper_start(base_url='https://kobu.agency/',
     """
     try:
         scraper = WebScraper(base_url, sitemap_url, save_folder)
-        scraper.process_site(e)
+        scraper.process_site()
         print("Web scraping completed successfully.")
     except Exception as e:
         print(f"An error occurred: {e}")
