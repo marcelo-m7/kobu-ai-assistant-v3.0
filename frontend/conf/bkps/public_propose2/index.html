@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Kobu AI Assistant</title>
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <link rel="icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="css/propose.css">
+    <script type="module" src="js/scripts.js"></script>
+</head>
+<body>
+    <div class="assistant_chatbox_container">
+        <!-- Chatbox_container -->
+        <div class="open_chatbox_container" id="open_chatbox_container" style="display: none;">
+            <!-- Chatbox head -->
+            <div class="assistant_profile">
+                <button id="closeChatboxButton">Close</button>
+            </div>
+            <!-- Messages container-->
+            <div class="assistant_chatbox" id="assistant_chatbox">
+
+                <div class="messages_container" id="messages_container">
+                    <!--The messages will be inserted here-->
+                    <div class="spinner" id="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Chatbox footer container -->
+            <div class="assistant_chatbox_footer_container">
+                <div class="assistant_suggestions_mandatory_false assistant_suggestions_mandatory_true_container">
+                    <div class="assistant_suggestion_mandatory_false">
+                        <p id="assistant_suggestion_mandatory_false">
+                            What are you and what can you do?
+                        </p>
+                    </div>
+                    <div class="assistant_suggestion_mandatory_false">
+                        <p id="assistant_suggestion_mandatory_false">
+                            What type of services Kobu does? 
+                        </p>
+                    </div>
+
+                    <div class="assistant_suggestion_mandatory_false">
+                        <p id="assistant_suggestion_mandatory_false">
+                            Tell me about the cases studies.
+                        </p>
+                    </div>
+
+                    <div class="assistant_suggestion_mandatory_false">
+                        <p id="assistant_suggestion_mandatory_false">
+                            Finalize chat.
+                        </p>
+                    </div>
+                </div>
+                <!-- Input container -->
+                <div class="user_input_container" id="user_input_container">
+                    <input type="text" placeholder="Please, choose an option." id="user_input">
+
+                    <svg class="send_icon" id="send_icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="m21.426 11.095-17-8A1 1 0 0 0 3.03 4.242l1.212 4.849L12 12l-7.758 2.909-1.212 4.849a.998.998 0 0 0 1.396 1.147l17-8a1 1 0 0 0 0-1.81z"></path>
+                    </svg>
+                </div>
+            </div> <!--End of chatbox footer container -->
+
+        </div> <!-- End of open_chatbox_container -->
+
+        <div class="close_chatbox_container assistant_conteiner" id="close_chatbox_container">
+
+            <div class="chatbot_toggle" id="chatbot_toggle">
+                <img src="img/kobu-chatbox-icon.svg" class="img-circle img-profile">
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

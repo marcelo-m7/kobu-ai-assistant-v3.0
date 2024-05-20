@@ -2,11 +2,12 @@
   "name": "web-server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "src/server/app.js",
   "scripts": {
-    "start": "node src/app.js",
+    "start": "node src/server/app.js",
     "dev": "nodemon --ext js,html,css app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scss": "sass --watch src/scss:dist/css"
   },
   "author": "Marcelo Santos",
   "license": "ISC",

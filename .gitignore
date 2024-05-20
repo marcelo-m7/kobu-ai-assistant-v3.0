@@ -4,4 +4,5 @@ __pycache__
 *_test*
 .vscode
 node_modules
-*web_scraper_files*
+# *web_scraper_files*
+*kobu_agency__*
