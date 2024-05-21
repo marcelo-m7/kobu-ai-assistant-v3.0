@@ -67,3 +67,16 @@ This will start the server on port 3000 by default.
 - [Express](https://www.npmjs.com/package/express): Fast, unopinionated, minimalist web framework for Node.js.
 - [Axios](https://www.npmjs.com/package/axios): Promise-based HTTP client for the browser and Node.js.
 - [Body-Parser](https://www.npmjs.com/package/body-parser): Node.js body parsing middleware.
+
+## Additional Scripts
+
+- **Browsersync**: Use the following command to start BrowserSync, which will launch the live server:
+  ```bash
+  npm run browsersync
+  ```
+
+- **SCSS Watcher**: Use the following command to compile SCSS files to CSS and watch for changes:
+  ```bash
+  npm run scss
+  ```
+```

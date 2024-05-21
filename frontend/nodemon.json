@@ -1,0 +1,6 @@
+{
+    "watch": ["src/server/app.js", "dist/**/*"],
+    "ext": "js,html,css",
+    "exec": "node src/server/app.js"
+  }
+  
