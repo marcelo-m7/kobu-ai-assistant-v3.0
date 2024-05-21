@@ -1,3 +1,345 @@
-body {
+/* RESET
+================================================== */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   margin: 0;
-}/*# sourceMappingURL=styles.css.map */
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+  font-style: italic;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+img {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+}
+
+mark {
+  background: none;
+}
+
+select {
+  max-width: 100%;
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+p {
+  margin: 0px 0px 20px 0px;
+}
+
+button {
+  border-radius: 0;
+  text-align: inherit;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  color: inherit;
+  font: inherit;
+}
+
+/* VARIABLES
+================================================== */
+/* Font imports */
+@font-face {
+  font-family: "Kobu Text Sans Serif";
+  src: url(../fonts/kobutextsansserif.woff2) format("woff2"), url(../fonts/kobutextsansserif.woff) format("woff"), url(../fonts/kobutextsansserif.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Fontawesome";
+  src: url(../fonts/fontawesome-webfont.woff2) format("woff2"), url(../fonts/fontawesome-webfont.woff) format("woff"), url(../fonts/fontawesome-webfont.ttf) format("truetype");
+}
+/* Color definitions */
+:root {
+  --background-color: #DE3A40; /* Chatbox background color */
+  --assistant-message-bg: #a70606; /* Background color for assistant messages */
+  --user-message-bg: #AA4850; /* Background color for user messages */
+  --suggestion-bg: #a74b06; /* Background color for suggestions */
+  --chat-footer-bg: #8f0c0c; /* Background color for footer */
+  --suggestion-mandatory-false-bg: #aa4850; /* Background color for non-mandatory suggestions */
+  --user-input-bg: #AA4850; /* Background color for user input */
+  --scrollbar-track-color: #efe1e2; /* Scrollbar track background color */
+  --scrollbar-thumb-color: #232223; /* Scrollbar thumb button color */
+  --scrollbar-thumb-hover-color: #555; /* Scrollbar thumb button color on hover */
+  --spinner-background-color: darkgray;
+  --user-input-placeholder-color: color-mix(in srgb, var(--assistant-message-bg) 80%, black 50%); /* Placeholder color 20% darker */
+}
+
+.visually-hidden {
+  display: none;
+}
+
+.chatbox-wrapper {
+  background-color: var(--background-color);
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.chatbox-wrapper button {
+  border-radius: 5px;
+  padding: 3px;
+  margin: 3px;
+  border-style: none;
+}
+
+.chatbox-container {
+  font-family: "Kobu Text Sans Serif", "Fontawesome", Helvetica;
+  font-size: 12px;
+  color: white;
+  background-color: inherit;
+  flex: 5;
+}
+
+.messages-container {
+  background-color: var(--background-color);
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 10px;
+  margin: 10px;
+}
+
+.message {
+  font-size: inherit;
+  max-width: 90%;
+  padding: 25px;
+  align-content: center;
+  align-items: center;
+  margin: 5px;
+  border-radius: 50px;
+  border-style: none;
+}
+
+.assistant-message {
+  background-color: var(--assistant-message-bg);
+  align-self: flex-start;
+}
+.assistant-message .conversation-option {
+  background-color: var(--user-input-bg);
+  padding: 15px;
+  border-radius: 30px;
+}
+
+.user-message {
+  background-color: var(--user-message-bg);
+  align-self: flex-end;
+  margin-right: 0;
+  align-content: center;
+}
+
+.user-input-form {
+  margin: 10px;
+  padding: 10px;
+}
+.user-input-form .input-suggestion {
+  background-color: var(--suggestion-bg);
+  padding: 15px;
+  border-radius: 50px;
+  border-style: none;
+}
+.user-input-form .user-input-container {
+  background-color: var(--user-input-bg);
+  display: flex;
+  padding: 10px;
+  border-radius: 50px;
+  border-style: none;
+}
+.user-input-form .user-input-container input[type=text] {
+  background: var(--user-input-bg);
+  color: white;
+}
+.user-input-form .user-input-container input::placeholder {
+  color: white;
+  font-style: italic;
+  font-size: inherit;
+}
+.user-input-form .user-input-container .user-input, .user-input-form .user-input-container #user-input {
+  background-color: inherit;
+  flex: 1;
+  border-radius: 50px;
+  border-style: none;
+  padding: 10px;
+}
+.user-input-form .user-input-container [type=submit] {
+  background-color: inherit;
+  justify-self: flex-end;
+  fill: white;
+}
+
+.chatbox-close-button {
+  background-color: var(--background-color);
+  width: 50px;
+  height: 50px;
+  flex: 1;
+}
+
+.chatbox-open-button {
+  background-color: var(--background-color);
+  width: 100px;
+  height: 100px;
+  flex: 1;
+}
+.chatbox-open-button img {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.chatbox-close-button {
+  background-color: var(--background-color);
+  width: 50px;
+  height: 50px;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+.chatbox-close-button .x-symbol {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  margin: 20px;
+}
+.chatbox-close-button .x-symbol::before, .chatbox-close-button .x-symbol::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 5px;
+  background-color: white;
+}
+.chatbox-close-button .x-symbol::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.chatbox-close-button .x-symbol::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/*# sourceMappingURL=styles.css.map */

@@ -1,0 +1,230 @@
+@import '_reset.scss';
+/* VARIABLES
+================================================== */
+/* Font imports */
+@font-face {
+    font-family: "Kobu Text Sans Serif";
+    src: url(../fonts/kobutextsansserif.woff2) format('woff2'),
+         url(../fonts/kobutextsansserif.woff) format('woff'),
+         url(../fonts/kobutextsansserif.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: "Fontawesome";
+    src: url(../fonts/fontawesome-webfont.woff2) format('woff2'),
+         url(../fonts/fontawesome-webfont.woff) format('woff'),
+         url(../fonts/fontawesome-webfont.ttf) format('truetype');
+}
+/* Color definitions */
+:root {
+    --background-color: #DE3A40; /* Chatbox background color */
+    --assistant-message-bg: #a70606; /* Background color for assistant messages */
+    // --assistant-message-bg: #f15156; /* Background color for assistant messages */
+    --user-message-bg: #AA4850; /* Background color for user messages */
+    --suggestion-bg: #a74b06; /* Background color for suggestions */
+    --chat-footer-bg: #8f0c0c; /* Background color for footer */
+    --suggestion-mandatory-false-bg: #aa4850; /* Background color for non-mandatory suggestions */
+    --user-input-bg: #AA4850; /* Background color for user input */
+    --scrollbar-track-color: #efe1e2; /* Scrollbar track background color */
+    --scrollbar-thumb-color: #232223; /* Scrollbar thumb button color */
+    --scrollbar-thumb-hover-color: #555; /* Scrollbar thumb button color on hover */
+    --spinner-background-color: darkgray;
+    --user-input-placeholder-color: color-mix(in srgb, var(--assistant-message-bg) 80%, black 50%); /* Placeholder color 20% darker */
+}
+
+$chatbox-wrapper: ".chatbox-wrapper";
+
+    $chatbox-open-button: ".chatbox-open-button";
+    
+    $chatbox-container: ".chatbox-container";
+
+        $messages-container: ".messages-container";
+            $message: ".message"; // Shared class
+            $assistant-message: ".assistant-message";
+            $user-message: ".user-message";
+
+        $user-input-form: ".user-input-form";
+            $input-suggestions-container: ".input-suggestions-container";
+                $input-suggestion: ".input-suggestion";
+
+            $user-input-container: ".user-input-container";
+                $user-input: "#user-input";
+                $send-button: "[type='submit']";
+
+    $chatbox-close-button: ".chatbox-close-button";
+
+.visually-hidden { display: none };
+
+#{$chatbox-wrapper} {
+    background-color: var(--background-color);
+    display: flex;
+    height: 100%;
+    width: 100%;
+};
+
+.chatbox-wrapper button {
+    border-radius: 5px;
+    padding: 3px;
+    margin: 3px;
+    border-style: none
+
+};
+
+#{$chatbox-container} {
+    font-family: "Kobu Text Sans Serif", "Fontawesome", Helvetica;
+    // width: 0vw; /* Chatbot width */
+    // height: 60vw;
+    font-size: 12px;
+    color: white;
+    // max-width:  70vw;
+    // max-height: 70vw;
+    background-color: inherit;
+    flex: 5;
+    
+};
+
+#{$messages-container} {
+    background-color: var(--background-color);
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px;
+    
+    // height: 80vw;
+};
+
+#{$message} {
+    font-size: inherit;
+    max-width: 90%;
+    padding: 25px;
+    align-content: center;
+    align-items: center;
+    margin: 5px;
+    border-radius: 50px;
+    border-style: none;
+};
+
+// #{$message} > p {
+//     background-color: yellowgreen;
+// }
+
+
+#{$assistant-message} {
+    background-color: var(--assistant-message-bg);
+    align-self: flex-start;
+
+    .conversation-option {
+        background-color: var(--user-input-bg);
+        padding: 15px;
+        border-radius: 30px
+    }
+};
+
+#{$user-message} {
+    background-color: var(--user-message-bg);
+    align-self: flex-end;
+    margin-right: 0;
+    align-content: center;
+};
+
+#{$user-input-form} {
+    // background-color: inherit;
+    margin: 10px;
+    padding: 10px;
+    
+    .input-suggestion {
+        // border-radius: 5px;
+        background-color: var(--suggestion-bg);
+        padding: 15px;
+        border-radius: 50px;
+        border-style: none;
+    }
+
+    .user-input-container {
+        background-color: var(--user-input-bg);
+        display: flex;
+        padding: 10px;
+        border-radius: 50px;
+        border-style: none;
+
+        input[type="text"] {
+            background: var(--user-input-bg);
+            color: white;
+        }
+        
+        input::placeholder {
+            color: white;
+            font-style: italic;
+            font-size: inherit;
+        }
+        .user-input, #{$user-input} {
+            background-color: inherit;
+            flex: 1;
+            border-radius: 50px;
+            border-style: none;
+            padding: 10px;
+        };
+
+        #{$send-button} {
+            background-color: inherit;
+            justify-self: flex-end;
+            fill: white
+            
+        };
+    };
+}
+
+#{$chatbox-close-button} {
+    background-color: var(--background-color);
+    width: 50px;
+    height: 50px;
+    flex: 1;
+}
+#{$chatbox-open-button} {
+    background-color: var(--background-color);
+    width: 100px;
+    height: 100px;
+    flex: 1;
+
+    img {
+        max-width: 100px;
+        max-height: 100px;
+    }
+}
+
+#{$chatbox-close-button} {
+    background-color: var(--background-color);
+    width: 50px;
+    height: 50px;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+
+    .x-symbol {
+        position: relative;
+        width: 25px;
+        height: 25px;
+        margin: 20px;
+    }
+
+    .x-symbol::before, .x-symbol::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 5px;
+        background-color: white;
+    }
+
+    .x-symbol::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .x-symbol::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+}

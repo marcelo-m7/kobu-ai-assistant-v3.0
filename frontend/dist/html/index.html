@@ -10,11 +10,9 @@
 </head>
 <body>
     <section class="chatbox-wrapper" aria-labelledby="chatbox-heading">
-        <button class="chatbox-toggle-button" id="chatbox-close-button" aria-label="Close Chat">Clowsew</button>
-        
-        <button class="chatbox-toggle-button" id="chatbox-open-button" aria-label="Open Chat">
-            Open
-            <img src="img/kobu-chatbox-icon.svg" class="chatbox-icon" alt="Chat Icon">
+
+        <button class="chatbox-open-button" id="chatbox-open-button" aria-label="Open Chat">
+            <img src="../img/kobu-chatbox-icon.svg" class="chatbox-icon" alt="Chat Icon">
         </button>
 
         <div class="chatbox-container" role="dialog" aria-modal="true" aria-labelledby="chatbox-heading">
@@ -48,8 +46,9 @@
                 <div class="user-input-container">
                     <label for="user-input" class="visually-hidden">User Input</label>
                     <input type="text" placeholder="Please, choose an option." id="user-input" aria-label="User Input">
-                    <button type="submit" aria-label="Send Message">
-                        Send
+
+                    <label for="send-icon" class="visually-hidden">Send</label>
+                    <button type="submit" id="send-icon" aria-label="Send Message">
                         <svg class="send-icon" id="send-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="m21.426 11.095-17-8A1 1 0 0 0 3.03 4.242l1.212 4.849L12 12l-7.758 2.909-1.212 4.849a.998.998 0 0 0 1.396 1.147l17-8a1 1 0 0 0 0-1.81z"></path>
                         </svg>
@@ -57,6 +56,10 @@
                 </div>
             </form>
         </div>
+
+        <button class="chatbox-close-button" id="chatbox-close-button" aria-label="Close Chat"><div class="x-symbol"></div>
+        </button>
+        
     </section>
 </body>
 </html>
