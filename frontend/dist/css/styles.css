@@ -267,17 +267,30 @@ button {
 .user-input-form {
   margin: 10px;
   padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.user-input-form .input-suggestions-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-flow: row;
+  justify-content: center;
+  display: none;
 }
 .user-input-form .input-suggestion {
   background-color: var(--suggestion-bg);
   padding: 15px;
-  border-radius: 50px;
+  border-radius: 30px;
   border-style: none;
 }
 .user-input-form .user-input-container {
   background-color: var(--user-input-bg);
+  flex-direction: row;
   display: flex;
   padding: 10px;
+  width: 100%;
   border-radius: 50px;
   border-style: none;
 }
