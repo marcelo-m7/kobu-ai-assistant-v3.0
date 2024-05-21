@@ -188,6 +188,7 @@ button {
   --scrollbar-thumb-hover-color: #555; /* Scrollbar thumb button color on hover */
   --spinner-background-color: darkgray;
   --user-input-placeholder-color: color-mix(in srgb, var(--assistant-message-bg) 80%, black 50%); /* Placeholder color 20% darker */
+  --text-color: rgb(235, 235, 235);
 }
 
 .visually-hidden {
@@ -208,10 +209,14 @@ button {
   border-style: none;
 }
 
+.chatbox-wrapper > * {
+  border: none;
+}
+
 .chatbox-container {
   font-family: "Kobu Text Sans Serif", "Fontawesome", Helvetica;
   font-size: 12px;
-  color: white;
+  color: var(--text-color);
   background-color: inherit;
   flex: 5;
 }
@@ -220,7 +225,6 @@ button {
   background-color: var(--background-color);
   display: flex;
   align-items: flex-start;
-  flex-wrap: wrap;
   flex-direction: column;
   padding: 10px;
   margin: 10px;
@@ -229,12 +233,19 @@ button {
 .message {
   font-size: inherit;
   max-width: 90%;
-  padding: 25px;
+  padding-top: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 25px;
   align-content: center;
   align-items: center;
   margin: 5px;
   border-radius: 50px;
-  border-style: none;
+}
+
+.message > p {
+  padding: 0;
+  margin: 0;
 }
 
 .assistant-message {
@@ -250,7 +261,6 @@ button {
 .user-message {
   background-color: var(--user-message-bg);
   align-self: flex-end;
-  margin-right: 0;
   align-content: center;
 }
 
@@ -273,7 +283,7 @@ button {
 }
 .user-input-form .user-input-container input[type=text] {
   background: var(--user-input-bg);
-  color: white;
+  color: var(--text-color);
 }
 .user-input-form .user-input-container input::placeholder {
   color: white;
@@ -305,6 +315,7 @@ button {
   width: 100px;
   height: 100px;
   flex: 1;
+  justify-self: center;
 }
 .chatbox-open-button img {
   max-width: 100px;
