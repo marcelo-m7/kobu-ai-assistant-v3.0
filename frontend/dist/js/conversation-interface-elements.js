@@ -37,7 +37,6 @@ export class InterfaceElements {
 
       div.classList.add("assistant-message");
       div.classList.add("conversation-option");
-      p.classList.add("option");
       p.innerHTML = content;
       div.appendChild(p);
 

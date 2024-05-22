@@ -126,7 +126,7 @@ export class Conversation extends Interface {
 
         return new Promise((resolve, reject) => {
             document.addEventListener("click", async (e) => {
-            if (e.target.classList.contains("option")) {
+            if (e.target.classList.contains("conversation-option")) {
                 this.scrollToBottomOfResults();
 
                 inputElement.placeholder = '';

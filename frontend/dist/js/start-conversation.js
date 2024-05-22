@@ -42,10 +42,6 @@ export class StartConversation {
     document.getElementById("user-input-container").addEventListener('keypress', async (e) => {
       await this.enterClick(e);
     });
-
-
-
-    
   }
 
   /**
