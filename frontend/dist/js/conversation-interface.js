@@ -13,32 +13,6 @@ export class Interface extends InterfaceElements {
 
     userInput = () => document.getElementById('user-input').value;
 
-    /**
-     * Closes the chatbox by hiding its content.
-     * @returns {Promise<void>} - A promise that resolves after the chatbox is closed.
-     */
-    async closeChat() {
-        const chatContent = document.querySelector(".chatbox-container");
-        const closeChatboxContainer = document.getElementById("close_chatbox_container");
-        
-        if (chatContent) {
-            chatContent.style.transition = 'opacity 0.5s';
-            chatContent.style.opacity = '0';
-
-            closeChatboxContainer.style.display = "block";
-            closeChatboxContainer.style.opacity = 0;
-            
-            await this.fadeIn(closeChatboxContainer)
-            await new Promise(resolve => setTimeout(resolve, 200));
-    
-            chatContent.style.display = 'none';
-    
-            console.log("Chat closed.");
-        } else {
-            console.log("Chat element has not been found.");
-        }
-
-    }
     
     /**
      * Opens the chatbox by displaying its content and optionally executing a main function.
@@ -48,7 +22,9 @@ export class Interface extends InterfaceElements {
     async openChat(main) {
         const chat = document.querySelectorAll(".chatbox-container");
         chat.forEach(element => {
+            element.style.opacity = 0
             element.style.display = 'block';
+            element.style.opacity = 1
         });
         console.log("Chat opened.");
     
@@ -82,10 +58,11 @@ export class Interface extends InterfaceElements {
             await main();
         }
     }
+    async animateChat(chat) {
+        // const chat = document.querySelectorAll(".chatbox-container");
 
-    async exibItensAnimation(elements) {
-        for (let i = 0; i < elements.length; i++) {
-            const item = elements[i];
+        for (let i = 0; i < chat.length; i++) {
+            const item = chat[i];
             item.style.opacity = 0;
             item.display = "block"
             item.style.transform = "translateY(20px)";
@@ -98,8 +75,10 @@ export class Interface extends InterfaceElements {
             item.style.transform = "translateY(0)";
         }
     
-        console.log("animateElements completed.");
+        console.log("Chat animation completed.");
+    
     }
+
 
     async openChat_old(main) {
         const chat = document.querySelectorAll(".chatbox-container");
@@ -126,6 +105,7 @@ export class Interface extends InterfaceElements {
             var interval = setInterval(function() {
                 if (opacity < 1) {
                     opacity += 0.2;
+                    element.style.display = 'block';
                     element.style.opacity = opacity;
 
                 } else {
@@ -140,17 +120,14 @@ export class Interface extends InterfaceElements {
         if (message == "") {
           return false
         }
-    
-        // Replace characters with HTML format. There is an option to put the modifications on the backend side (using or not AI to format)
-        message = message.replace(/\*/g, "<strong>"); // Replace * with <strong>
-        message = message.replace(/\*\//g, '</strong>'); // Add closing tag </strong> after each <strong>
-        message = message.replace(/_([^_]+)_/g, '<em class="assistant_message">$1</em>'); // Replace _text_ with <em>text</em>
-        message = message.replace(/~([^~]+)~/g, '<del class="assistant_message">$1</del>'); // Replace ~text~ with <del>text</del>
-        message = message.replace(/\[([^[]+)\]\(([^)]+)\)/g, '<a class="assistant_message" href="$2">$1</a>'); // Replace [link](URL) with <a href="URL">link</a>
-        message = message.replace(/#([^#\s]+)/g, '<span class="hashtag">#$1</span>'); // Replace #hashtag with <span class="hashtag">hashtag</span>
-        message = message.replace(/@([^@\s]+)/g, '<span class="mention">@$1</span>'); // Replace @mention with <span class="mention">@mention</span>
+        message = message.replace(/\*/g, "<strong>");
+        message = message.replace(/\*\//g, '</strong>');
+        message = message.replace(/_([^_]+)_/g, '<em class="assistant_message">$1</em>');
+        message = message.replace(/~([^~]+)~/g, '<del class="assistant_message">$1</del>');
+        message = message.replace(/\[([^[]+)\]\(([^)]+)\)/g, '<a class="assistant_message" href="$2">$1</a>');
+        message = message.replace(/#([^#\s]+)/g, '<span class="hashtag">#$1</span>');
+        message = message.replace(/@([^@\s]+)/g, '<span class="mention">@$1</span>');
         message = message.replace(new RegExp("\r?\n", "g"), "<br />");
-    
         return message;
     };
      
@@ -164,11 +141,9 @@ export class Interface extends InterfaceElements {
         userResponseElement.style.display = "block";
         // Append the element to the messages-container
         document.getElementById("messages-container").appendChild(userResponseElement);
-        // Apply fadeIn effect
 
         this.scrollToBottomOfResults();
         await this.fadeIn(userResponseElement);
-
         this.showSpinner();
     };
 
@@ -221,7 +196,6 @@ export class Interface extends InterfaceElements {
 
             assistantResponseElement.style.display = "block";
         }
-
         this.scrollToBottomOfResults();
         this.hideSpinner();
         document.getElementById("user-input").disabled = true;
