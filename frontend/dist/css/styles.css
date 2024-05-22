@@ -177,9 +177,9 @@ button {
 /* Color definitions */
 :root {
   --background-color: #DE3A40; /* Chatbox background color */
-  --assistant-message-bg: #a70606; /* Background color for assistant messages */
+  --assistant-message-bg: #D8373D; /* Background color for assistant messages */
   --user-message-bg: #AA4850; /* Background color for user messages */
-  --suggestion-bg: #a74b06; /* Background color for suggestions */
+  --suggestion-bg: #b5622f; /* Background color for suggestions */
   --chat-footer-bg: #8f0c0c; /* Background color for footer */
   --suggestion-mandatory-false-bg: #aa4850; /* Background color for non-mandatory suggestions */
   --user-input-bg: #AA4850; /* Background color for user input */
@@ -195,132 +195,8 @@ button {
   display: none;
 }
 
-.chatbox-wrapper {
-  background-color: var(--background-color);
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-
-.chatbox-wrapper button {
-  border-radius: 5px;
-  padding: 3px;
-  margin: 3px;
-  border-style: none;
-}
-
 .chatbox-wrapper > * {
   border: none;
-}
-
-.chatbox-container {
-  font-family: "Kobu Text Sans Serif", "Fontawesome", Helvetica;
-  font-size: 12px;
-  color: var(--text-color);
-  background-color: inherit;
-  flex: 5;
-}
-
-.messages-container {
-  background-color: var(--background-color);
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  padding: 10px;
-  margin: 10px;
-}
-
-.message {
-  font-size: inherit;
-  max-width: 90%;
-  padding-top: 25px;
-  padding-left: 25px;
-  padding-right: 25px;
-  padding-bottom: 25px;
-  align-content: center;
-  align-items: center;
-  margin: 5px;
-  border-radius: 50px;
-}
-
-.message > p {
-  padding: 0;
-  margin: 0;
-}
-
-.assistant-message {
-  background-color: var(--assistant-message-bg);
-  align-self: flex-start;
-}
-.assistant-message .conversation-option {
-  background-color: var(--user-input-bg);
-  padding: 15px;
-  border-radius: 30px;
-}
-
-.user-message {
-  background-color: var(--user-message-bg);
-  align-self: flex-end;
-  align-content: center;
-}
-
-.user-input-form {
-  margin: 10px;
-  padding: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-}
-.user-input-form .input-suggestions-container {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  flex-flow: row;
-  justify-content: center;
-  display: none;
-}
-.user-input-form .input-suggestion {
-  background-color: var(--suggestion-bg);
-  padding: 15px;
-  border-radius: 30px;
-  border-style: none;
-}
-.user-input-form .user-input-container {
-  background-color: var(--user-input-bg);
-  flex-direction: row;
-  display: flex;
-  padding: 10px;
-  width: 100%;
-  border-radius: 50px;
-  border-style: none;
-}
-.user-input-form .user-input-container input[type=text] {
-  background: var(--user-input-bg);
-  color: var(--text-color);
-}
-.user-input-form .user-input-container input::placeholder {
-  color: white;
-  font-style: italic;
-  font-size: inherit;
-}
-.user-input-form .user-input-container .user-input, .user-input-form .user-input-container #user-input {
-  background-color: inherit;
-  flex: 1;
-  border-radius: 50px;
-  border-style: none;
-  padding: 10px;
-}
-.user-input-form .user-input-container [type=submit] {
-  background-color: inherit;
-  justify-self: flex-end;
-  fill: white;
-}
-
-.chatbox-close-button {
-  background-color: var(--background-color);
-  width: 50px;
-  height: 50px;
-  flex: 1;
 }
 
 .chatbox-open-button {
@@ -364,6 +240,152 @@ button {
 }
 .chatbox-close-button .x-symbol::after {
   transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.chatbox-wrapper {
+  background-color: var(--background-color);
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.chatbox-container {
+  font-family: "Kobu Text Sans Serif", "Fontawesome", Helvetica;
+  font-size: 12px;
+  color: var(--text-color);
+  background-color: inherit;
+  flex: 5;
+}
+
+.messages-container {
+  background-color: var(--background-color);
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 10px;
+  margin: 10px;
+}
+
+.message {
+  font-size: inherit;
+  max-width: 90%;
+  padding-top: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 25px;
+  align-content: center;
+  align-items: center;
+  margin: 5px;
+  border-radius: 50px;
+  border-style: none;
+}
+
+.message > p {
+  padding: 0;
+  margin: 0;
+}
+
+.assistant-message {
+  background-color: var(--assistant-message-bg);
+  align-self: flex-start;
+}
+.assistant-message .conversation-option {
+  background-color: transparent;
+  padding: 15px;
+  border-radius: 30px;
+  border: 1px solid white;
+  margin: 3px;
+}
+
+.user-message {
+  background-color: var(--user-message-bg);
+  align-self: flex-end;
+  align-content: center;
+}
+
+.user-input-form {
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.user-input-form .input-suggestions-container {
+  display: flex;
+  width: 100%;
+  flex-flow: row;
+  justify-content: center;
+  flex: 1;
+  max-width: 100%;
+}
+.user-input-form .input-suggestion {
+  background-color: transparent;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 30px;
+  border: 1px dashed white;
+  margin: 2px;
+}
+.user-input-form .user-input-container {
+  background-color: var(--user-input-bg);
+  flex-direction: row;
+  display: flex;
+  padding: 10px;
+  width: 100%;
+  border-radius: 50px;
+  border-style: none;
+  margin: 5px;
+}
+.user-input-form .user-input-container input[type=text] {
+  background: var(--user-input-bg);
+  color: var(--text-color);
+}
+.user-input-form .user-input-container input::placeholder {
+  color: white;
+  font-style: italic;
+  font-size: inherit;
+}
+.user-input-form .user-input-container .user-input, .user-input-form .user-input-container #user-input {
+  background-color: inherit;
+  flex: 1;
+  border-radius: 50px;
+  border-style: none;
+  padding: 10px;
+}
+.user-input-form .user-input-container [type=submit] {
+  background-color: inherit;
+  justify-self: flex-end;
+  fill: white;
+}
+
+/* Animations
+================================================== */
+.input-suggestion, .conversation-option {
+  transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition */
+}
+
+.input-suggestion:hover, .conversation-option:hover {
+  transform: translateY(-3px); /* Small jump up */
+  background-color: var(--user-input-bg); /* New color on hover */
+}
+
+/* Define keyframes for the bounce animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0) rotate(-90deg);
+    fill: transparent;
+  }
+  50% {
+    transform: translateY(-5px) rotate(-90deg);
+    fill: white;
+  }
+}
+[type=submit] {
+  fill: var(--scrollbar-track-color); /* Default color */
+}
+
+/* CSS when mouse hovers over svg tag */
+[type=submit]:hover {
+  animation: bounce 0.5s infinite; /* Apply the bounce animation */
 }
 
 /*# sourceMappingURL=styles.css.map */
