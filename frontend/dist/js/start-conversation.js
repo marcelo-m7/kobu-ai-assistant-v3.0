@@ -7,27 +7,28 @@ export class StartConversation {
     this.userChat = new Conversation(this.userId);
 
     // Listeners
-    const chatbotToggle = document.getElementById("chatbot_toggle");
-    const openChatboxContainer = document.getElementById("open_chatbox_container");
-    const closeChatboxButton = document.getElementById("closeChatboxButton");
-    const closeChatboxContainer = document.getElementById("close_chatbox_container");
+    const chatboxOpenButton = document.getElementById("chatbox-open-button");
+    const chatboxCloseButton = document.getElementById("chatbox-close-button");
+    const chatboxContainer = document.getElementById("chatbox-container");
 
-    chatbotToggle.addEventListener("click", async () => {
-      openChatboxContainer.style.display = "block";
-      closeChatboxContainer.style.display = "none";
+
+    chatboxOpenButton.addEventListener("click", async () => {
+      chatboxContainer.style.display = "block";
+      chatboxCloseButton.style.display = "block";
+      chatboxOpenButton.style.display = "block";
       
       await this.userChat.openChat(this.main.bind(this));
     });
     
-    closeChatboxButton.addEventListener("click", async () => {
-      // closeChatboxContainer.style.display = "block"; // Missing animation to when the
-      // closeChatboxContainer.style.opacity = 0; // Missing animation to when the
-
-      await this.userChat.closeChat();
-      // openChatboxContainer.style.display = "none";
+    chatboxCloseButton.addEventListener("click", async () => {
+      chatboxContainer.style.display = "none";
+      chatboxCloseButton.style.display = "none";
+      chatboxOpenButton.style.display = "block";
+      
     });
     
-    document.getElementById("send_icon").addEventListener('click', async () => {
+    document.getElementById("send-icon").addEventListener('click', async (e) => {
+      e.preventDefault();
       var optionText = this.userChat.userInput() 
       if (!optionText) { // Verifica se a string está vazia após o trim
           return false;
@@ -35,12 +36,16 @@ export class StartConversation {
         await this.userChat.openChat(this.main());
 
     });
-    document.getElementById("user_input_container").addEventListener('keyup', async (e) => {
+    document.getElementById("user-input-container").addEventListener('keyup', async (e) => {
       await this.enterClick(e);
     });
-    document.getElementById("user_input_container").addEventListener('keypress', async (e) => {
+    document.getElementById("user-input-container").addEventListener('keypress', async (e) => {
       await this.enterClick(e);
     });
+
+
+
+    
   }
 
   /**
@@ -49,7 +54,7 @@ export class StartConversation {
    * @returns {Promise<void>} - A promise that resolves once the main function completes.
    */
   async main() {
-    const inputElement = document.getElementById('user_input');
+    const inputElement = document.getElementById('user-input');
     const userChatActive = this.userChat; // Fixing the scope issue
 
     switch (userChatActive.currentStage) {
@@ -65,8 +70,6 @@ export class StartConversation {
 
         var request = userChatActive.requestData("Hi, there!");
         var response = await userChatActive.sendRequest(request);
-        
-        console.log(response)
         
         await userChatActive.assistantResponseHandler(response);
         if (response.current_stage === 'error') {
@@ -134,7 +137,7 @@ export class StartConversation {
    */
   async enterClick(e) {
     var keyCode = e.keyCode || e.which;
-    var text = document.getElementById("user_input").value;
+    var text = document.getElementById("user-input").value;
 
     if (keyCode === 13) {
       if (text == "" || text.trim() == "") {
@@ -142,7 +145,7 @@ export class StartConversation {
         return false;
       } else {
         e.preventDefault();
-        document.getElementById("user_input").blur();
+        document.getElementById("user-input").blur();
         await this.main();
       }
     }

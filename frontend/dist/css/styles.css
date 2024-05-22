@@ -195,10 +195,6 @@ button {
   display: none;
 }
 
-.chatbox-wrapper > * {
-  border: none;
-}
-
 .chatbox-open-button {
   background-color: var(--background-color);
   width: 100px;
@@ -266,7 +262,7 @@ button {
   margin: 10px;
 }
 
-.message {
+.assistant-message, .user-message {
   font-size: inherit;
   max-width: 90%;
   padding-top: 25px;
@@ -280,7 +276,7 @@ button {
   border-style: none;
 }
 
-.message > p {
+.assistant-message > p, .user-message > p {
   padding: 0;
   margin: 0;
 }
@@ -289,12 +285,14 @@ button {
   background-color: var(--assistant-message-bg);
   align-self: flex-start;
 }
-.assistant-message .conversation-option {
+
+.conversation-option {
   background-color: transparent;
   padding: 15px;
   border-radius: 30px;
-  border: 1px solid white;
+  border: 1px solid white !important;
   margin: 3px;
+  cursor: pointer;
 }
 
 .user-message {
@@ -368,7 +366,6 @@ button {
   background-color: var(--user-input-bg); /* New color on hover */
 }
 
-/* Define keyframes for the bounce animation */
 @keyframes bounce {
   0%, 100% {
     transform: translateY(0) rotate(-90deg);
@@ -380,12 +377,11 @@ button {
   }
 }
 [type=submit] {
-  fill: var(--scrollbar-track-color); /* Default color */
+  fill: var(--scrollbar-track-color);
 }
 
-/* CSS when mouse hovers over svg tag */
 [type=submit]:hover {
-  animation: bounce 0.5s infinite; /* Apply the bounce animation */
+  animation: bounce 0.5s infinite;
 }
 
 /*# sourceMappingURL=styles.css.map */

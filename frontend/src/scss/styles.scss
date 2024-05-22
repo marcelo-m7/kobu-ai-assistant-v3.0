@@ -58,9 +58,9 @@ $chatbox-wrapper: ".chatbox-wrapper";
 
 .visually-hidden { display: none };
 
-.chatbox-wrapper > * {
-    border: none;
-};
+// .chatbox-wrapper > * {
+//     border: none;
+// };
 
 #{$chatbox-open-button} {
     background-color: var(--background-color);
@@ -136,7 +136,8 @@ $chatbox-wrapper: ".chatbox-wrapper";
     margin: 10px;
 };
 
-#{$message} {
+// #{$message} {
+#{$assistant-message}, #{$user-message} {
     font-size: inherit;
     max-width: 90%;
     padding-top: 25px;
@@ -144,6 +145,7 @@ $chatbox-wrapper: ".chatbox-wrapper";
     padding-right: 25px;
     padding-bottom: 25px;
     align-content: center;
+    // padding: 15px;
     align-items: center;
     margin: 5px;
     border-radius: 50px;
@@ -151,25 +153,25 @@ $chatbox-wrapper: ".chatbox-wrapper";
     
 };
 
-#{$message} > p {
+#{$assistant-message}  > p, #{$user-message} > p {
     padding: 0;
     margin: 0;
 }
-
 
 #{$assistant-message} {
     background-color: var(--assistant-message-bg);
     align-self: flex-start;
 
-    .conversation-option {
-        // background-color: var(--user-input-bg);
-        background-color: transparent;
-        padding: 15px;
-        border-radius: 30px;
-        border: 1px solid white;
-        margin: 3px;
+};
 
-    }
+.conversation-option {
+    // background-color: var(--user-input-bg);
+    background-color: transparent;
+    padding: 15px;
+    border-radius: 30px;
+    border: 1px solid white !important;
+    margin: 3px;
+    cursor: pointer;
 };
 
 #{$user-message} {
@@ -252,7 +254,6 @@ $chatbox-wrapper: ".chatbox-wrapper";
     background-color: var(--user-input-bg); /* New color on hover */
 };
 
-/* Define keyframes for the bounce animation */
 @keyframes bounce {
     0%, 100% {
         transform: translateY(0) rotate(-90deg);
@@ -262,11 +263,11 @@ $chatbox-wrapper: ".chatbox-wrapper";
         transform: translateY(-5px) rotate(-90deg);
         fill: white;
     }
-}
+};
 #{$send-button} {
-    fill: var(--scrollbar-track-color); /* Default color */
+    fill: var(--scrollbar-track-color);
 }
-/* CSS when mouse hovers over svg tag */
 #{$send-button}:hover {
-    animation: bounce 0.5s infinite; /* Apply the bounce animation */
-}
+    animation: bounce 0.5s infinite;
+};
+

@@ -11,11 +11,11 @@ export class Interface extends InterfaceElements {
         this.count = 0;
     }
 
-    userInput = () => document.getElementById('user_input').value;
+    userInput = () => document.getElementById('user-input').value;
 
 
     // async closeChat() {
-    //     const chatContent = document.querySelector(".open_chatbox_container");
+    //     const chatContent = document.querySelector(".chatbox-container");
     //     if (chatContent) {
     //         chatContent.style.display = 'none';
     //         await this.fadeIn(chatContent);
@@ -30,7 +30,7 @@ export class Interface extends InterfaceElements {
      * @returns {Promise<void>} - A promise that resolves after the chatbox is closed.
      */
     async closeChat() {
-        const chatContent = document.querySelector(".open_chatbox_container");
+        const chatContent = document.querySelector(".chatbox-container");
         const closeChatboxContainer = document.getElementById("close_chatbox_container");
         
         if (chatContent) {
@@ -58,7 +58,7 @@ export class Interface extends InterfaceElements {
      * @returns {Promise<void>} - A promise that resolves after the chatbox is opened.
      */
     async openChat(main) {
-        const chat = document.querySelectorAll(".open_chatbox_container");
+        const chat = document.querySelectorAll(".chatbox-container");
         chat.forEach(element => {
             element.style.display = 'block';
         });
@@ -69,7 +69,7 @@ export class Interface extends InterfaceElements {
     }
 
     async animateChatItems(main, chat) {
-        // const chat = document.querySelectorAll(".open_chatbox_container");
+        // const chat = document.querySelectorAll(".chatbox-container");
 
         for (let i = 0; i < chat.length; i++) {
             const item = chat[i];
@@ -95,7 +95,7 @@ export class Interface extends InterfaceElements {
         }
     }
     async openChat_old(main) {
-        const chat = document.querySelectorAll(".open_chatbox_container");
+        const chat = document.querySelectorAll(".chatbox-container");
         chat.forEach(async function(element) {
             element.style.display = 'block';
         });
@@ -179,16 +179,16 @@ export class Interface extends InterfaceElements {
     return processedMessage;
 }
  
-    // Set user response in messages_container
+    // Set user response in messages-container
     async setUserResponse(user_input = this.userInput()) {
-        document.getElementById("user_input").blur();
+        document.getElementById("user-input").blur();
         const userResponseElement = this.createMessageUserElement(user_input);
 
         // Hide the element initially
         userResponseElement.style.opacity = 0;
         userResponseElement.style.display = "block";
-        // Append the element to the messages_container
-        document.getElementById("messages_container").appendChild(userResponseElement);
+        // Append the element to the messages-container
+        document.getElementById("messages-container").appendChild(userResponseElement);
         // Apply fadeIn effect
 
         this.scrollToBottomOfResults();
@@ -197,22 +197,22 @@ export class Interface extends InterfaceElements {
         this.showSpinner();
     };
 
-    // Set assistant response in messages_container
+    // Set assistant response in messages-container
     async setAssistantResponse(message) {
         var text = this.formatAssistantMessage(message);
 
         const assistantResponseElement = this.createMessageAssistantElement(text);
         assistantResponseElement.style.opacity = 0; 
-        document.getElementById("messages_container").appendChild(assistantResponseElement);
+        document.getElementById("messages-container").appendChild(assistantResponseElement);
 
         this.scrollToBottomOfResults();
         await this.fadeIn(assistantResponseElement);
 
         this.hideSpinner();
-        document.getElementById("user_input_container").focus();
+        document.getElementById("user-input-container").focus();
     };
 
-    // Set assistant response in messages_container
+    // Set assistant response in messages-container
     async setVideo() {
         var text = "[THE VIDEO WILL BE EXIB HERE]";
 
@@ -223,23 +223,23 @@ export class Interface extends InterfaceElements {
         </div>`
         );
         assistantResponseElement.style.opacity = 0;
-        document.getElementById("messages_container").appendChild(assistantResponseElement);
+        document.getElementById("messages-container").appendChild(assistantResponseElement);
 
         this.scrollToBottomOfResults();
         await this.fadeIn(assistantResponseElement);
 
         this.hideSpinner();
-        document.getElementById("user_input").focus();
+        document.getElementById("user-input").focus();
     };
 
     async setAssistantSuggestion(options) {
-        document.getElementById("user_input").blur();
+        document.getElementById("user-input").blur();
 
         for (let i = 0; i < options.length; i++) {
             let option = this.formatAssistantMessage(options[i]);
             const assistantResponseElement = this.createSuggestionAssistantElement(option);
             assistantResponseElement.style.opacity = 0; 
-            document.getElementById("messages_container").appendChild(assistantResponseElement);
+            document.getElementById("messages-container").appendChild(assistantResponseElement);
 
             this.scrollToBottomOfResults();
             await this.fadeIn(assistantResponseElement);
@@ -249,7 +249,7 @@ export class Interface extends InterfaceElements {
 
         this.scrollToBottomOfResults();
         this.hideSpinner();
-        document.getElementById("user_input").disabled = true;
+        document.getElementById("user-input").disabled = true;
     };
 
 };

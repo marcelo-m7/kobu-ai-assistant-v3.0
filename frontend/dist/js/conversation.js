@@ -18,11 +18,11 @@ export class Conversation extends Interface {
         this.message = null
 
         document.addEventListener("DOMContentLoaded", () => {
-            const elements = document.getElementsByClassName('assistant_suggestion_mandatory_false');
+            const elements = document.getElementsByClassName('input-suggestion');
         
             Array.from(elements).forEach(element => {
                 element.addEventListener("click", async (e) => {
-                    var optionText = e.target.textContent.trim(); // Remove espaços em branco
+                    var optionText = e.target.textContent.trim();
                     console.log(e, optionText);
                     e.stopImmediatePropagation();
                     await this.optionListinner(optionText);
@@ -61,7 +61,6 @@ export class Conversation extends Interface {
         } else {
             // Parse the response data and return it
             const responseData = await response.json();
-            console.log(responseData);
             return responseData;
         }
         } catch (error) {
@@ -93,19 +92,20 @@ export class Conversation extends Interface {
         this.options = response.options;
         this.choosedSubject = response.choosed_subject;
         this.currentStage = response.current_stage;
-        this.nextStage = response.next_stage
-        this.subject = response.subject
-        this.orientation = response.orientation
-
+        this.nextStage = response.next_stage;
+        this.subject = response.subject;
+        this.orientation = response.orientation;
+        
+        this.scrollToBottomOfResults();
         await this.setAssistantResponse(this.message);
         this.scrollToBottomOfResults();
 
-        var inputElement = document.getElementById('user_input');
+        var inputElement = document.getElementById('user-input');
         if (this.options ) {
             inputElement.blur();
             inputElement.placeholder = '';
-            await this.setAssistantSuggestion(this.options);
             this.scrollToBottomOfResults();
+            await this.setAssistantSuggestion(this.options);
             inputElement.blur();
             await this.addOptionListinner();
         }
@@ -118,16 +118,21 @@ export class Conversation extends Interface {
 
     async addOptionListinner() {
         // Seleciona o elemento de entrada pelo ID
-        var inputElement = document.getElementById('user_input');
+        this.scrollToBottomOfResults();
+
+        var inputElement = document.getElementById('user-input');
         inputElement.blur()
         inputElement.placeholder = 'Please, select an option';
 
         return new Promise((resolve, reject) => {
             document.addEventListener("click", async (e) => {
-            if (e.target.classList.contains("assistant_suggestion_mandatory_true")) {
+            if (e.target.classList.contains("option")) {
+                this.scrollToBottomOfResults();
+
                 inputElement.placeholder = '';
                 var optionText = e.target.textContent;
                 e.stopImmediatePropagation();
+            
                 await this.optionListinner(optionText);
                 inputElement.placeholder = 'Type a message';
                 resolve();
@@ -137,11 +142,12 @@ export class Conversation extends Interface {
         }
 
     async optionListinner(optionText) {
+        this.scrollToBottomOfResults();
         await this.setUserResponse(optionText);
-        var request = this.requestData(optionText);
+        this.scrollToBottomOfResults();
 
+        var request = this.requestData(optionText);
         var response = await this.sendRequest(request);
-        console.log(response);
         await this.assistantResponseHandler(response);
     };
 

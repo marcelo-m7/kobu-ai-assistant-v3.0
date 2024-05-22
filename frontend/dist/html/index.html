@@ -6,7 +6,7 @@
     <title>Kobu AI Assistant</title>
     <link rel="icon" href="../img/favicon.ico">
     <link rel="stylesheet" href="../css/styles.css">
-    <!-- <script type="module" src="js/scripts.js" defer></script> -->
+    <script type="module" src="../js/scripts.js" defer></script>
 </head>
 <body>
     <section class="chatbox-wrapper" aria-labelledby="chatbox-heading">
@@ -15,9 +15,9 @@
             <img src="../img/kobu-chatbox-icon.svg" class="chatbox-icon" alt="Chat Icon">
         </button>
 
-        <div class="chatbox-container" role="dialog" aria-modal="true" aria-labelledby="chatbox-heading">
-            <div class="messages-container" aria-live="polite">
-                <div class="message assistant-message">
+        <div class="chatbox-container" id="chatbox-container" role="dialog" aria-modal="true" aria-labelledby="chatbox-heading">
+            <div class="messages-container" id="messages-container" aria-live="polite">
+                <!-- <div class="message assistant-message">
                     <p>Greetings, dear visitor! Thank you for stopping by and showing interest in contacting KOBU Agency. Nuno has something quite intriguing to share with you. Let's see what he's got up his sleeve! 🎥</p>
                 </div>
                 <div class="message assistant-message">
@@ -33,9 +33,15 @@
                 </div>
                 <div class="message user-message">
                     <p>I'd like to know more about KOBU Agency.</p>
+                </div> -->
+                
+                <div class="spinner" id="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
                 </div>
             </div>
-
+            
             <form class="user-input-form" aria-label="User Input Form">
                 <div class="input-suggestions-container">
                     <button class="input-suggestion" type="button">What are you and what can you do?</button>
@@ -43,7 +49,7 @@
                     <button class="input-suggestion" type="button">Tell me about the case studies.</button>
                     <button class="input-suggestion" type="button">Finalize chat.</button>
                 </div>
-                <div class="user-input-container">
+                <div class="user-input-container" id="user-input-container">
                     <label for="user-input" class="visually-hidden">User Input</label>
                     <input type="text" placeholder="Please, choose an option." id="user-input" aria-label="User Input">
 

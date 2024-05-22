@@ -22,8 +22,8 @@ export class InterfaceElements {
       const div = document.createElement("div");
       const p = document.createElement("p");
 
-      div.classList.add("assistant_message");
-      p.classList.add("assistant_message");
+      div.classList.add("assistant-message");
+    //   p.classList.add("message assistant-message");
       p.innerHTML = content;
       div.appendChild(p);
 
@@ -35,8 +35,9 @@ export class InterfaceElements {
       const div = document.createElement("div");
       const p = document.createElement("p");
 
-      div.classList.add("assistant_suggestions_mandatory_true_container", "assistant_suggestion_mandatory_true");
-      p.classList.add("assistant_suggestion_mandatory_true");
+      div.classList.add("assistant-message");
+      div.classList.add("conversation-option");
+      p.classList.add("option");
       p.innerHTML = content;
       div.appendChild(p);
 
@@ -48,8 +49,8 @@ export class InterfaceElements {
       const div = document.createElement("div");
       const p = document.createElement("p");
 
-      div.classList.add("user_message");
-      p.classList.add("user_message");
+      div.classList.add("user-message");
+    //   p.classList.add("message user-message");
       p.innerHTML = content;
       div.appendChild(p);
 
@@ -58,7 +59,7 @@ export class InterfaceElements {
 
   // Scroll to the bottom of the results div
   scrollToBottomOfResults() {
-      var terminalResultsDiv = document.getElementById("assistant_chatbox");
+      var terminalResultsDiv = document.getElementById("chatbox-container");
       terminalResultsDiv.scrollTo({
           top: terminalResultsDiv.scrollHeight,
           behavior: 'smooth'
@@ -70,12 +71,12 @@ export class InterfaceElements {
     this.scrollToBottomOfResults();
     document.querySelector(".spinner").style.display = "block";
     this.scrollToBottomOfResults();
-    document.getElementById("user_input").disabled = true;
-    document.getElementById("user_input").blur();
+    document.getElementById("user-input").disabled = true;
+    document.getElementById("user-input").blur();
   };
   hideSpinner() {
       document.querySelector(".spinner").style.display = "none";
-      document.getElementById("user_input").disabled = false;
-      document.getElementById("user_input").focus();
+      document.getElementById("user-input").disabled = false;
+      document.getElementById("user-input").focus();
   };
 }
