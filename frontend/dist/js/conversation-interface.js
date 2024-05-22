@@ -13,18 +13,6 @@ export class Interface extends InterfaceElements {
 
     userInput = () => document.getElementById('user-input').value;
 
-
-    // async closeChat() {
-    //     const chatContent = document.querySelector(".chatbox-container");
-    //     if (chatContent) {
-    //         chatContent.style.display = 'none';
-    //         await this.fadeIn(chatContent);
-    //         console.log("Chat closed.");
-
-    //     } else {
-    //         console.log("Chat element has not been found.");
-    //     }
-    // }
     /**
      * Closes the chatbox by hiding its content.
      * @returns {Promise<void>} - A promise that resolves after the chatbox is closed.
@@ -94,6 +82,25 @@ export class Interface extends InterfaceElements {
             await main();
         }
     }
+
+    async exibItensAnimation(elements) {
+        for (let i = 0; i < elements.length; i++) {
+            const item = elements[i];
+            item.style.opacity = 0;
+            item.display = "block"
+            item.style.transform = "translateY(20px)";
+            item.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+    
+            // Delay each item by 500 milliseconds
+            await new Promise(resolve => setTimeout(resolve, 1));
+    
+            item.style.opacity = 1;
+            item.style.transform = "translateY(0)";
+        }
+    
+        console.log("animateElements completed.");
+    }
+
     async openChat_old(main) {
         const chat = document.querySelectorAll(".chatbox-container");
         chat.forEach(async function(element) {
@@ -146,39 +153,7 @@ export class Interface extends InterfaceElements {
     
         return message;
     };
-    formatAssistantMessage_in_test(message) {
-    // Escapar caracteres HTML fora das tags existentes para evitar vulnerabilidades XSS
-    const escapeHTML = (str) => str.replace(/&(?![a-zA-Z0-9#]+;)|<|>|"|'/g, (tag) => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;',
-    }[tag]));
-
-    // Função para identificar e proteger tags HTML existentes
-    const protectHTMLTags = (str) => {
-        return str.replace(/(<\/?[^>]+>)/g, '\0$1\0');
-    };
-
-    // Processar a mensagem, protegendo tags HTML existentes
-    const protectedMessage = protectHTMLTags(message);
-
-    // Dividir a mensagem em partes protegidas e não protegidas
-    const parts = protectedMessage.split('\0').map(part => {
-        return part.startsWith('<') ? part : escapeHTML(part);
-    });
-
-    // Juntar as partes novamente
-    let processedMessage = parts.join('');
-
-    // Formatar negrito e links em partes não protegidas
-    processedMessage = processedMessage.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                                       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-
-    return processedMessage;
-}
- 
+     
     // Set user response in messages-container
     async setUserResponse(user_input = this.userInput()) {
         document.getElementById("user-input").blur();
@@ -217,10 +192,10 @@ export class Interface extends InterfaceElements {
         var text = "[THE VIDEO WILL BE EXIB HERE]";
 
         const assistantResponseElement = this.createMessageAssistantElement(
-        `<div class="assistant_message">
-            <video src="/js/video/hire_us_1920x1080.webm" id="assistant_welcome_video">
-            </video>
-        </div>`
+        `
+        <video src="../video/hire_us_1920x1080.webm" controls aria-label="Assistant Welcome Video" id="assistant-welcome-video">
+        </video>
+        `
         );
         assistantResponseElement.style.opacity = 0;
         document.getElementById("messages-container").appendChild(assistantResponseElement);

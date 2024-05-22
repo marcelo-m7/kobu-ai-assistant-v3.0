@@ -13,6 +13,10 @@ export class StartConversation {
 
 
     chatboxOpenButton.addEventListener("click", async () => {
+      // await this.userChat.exibItensAnimation(chatboxContainer);
+      // await this.userChat.exibItensAnimation(chatboxCloseButton);
+      // await this.userChat.exibItensAnimation(chatboxOpenButton);
+
       chatboxContainer.style.display = "block";
       chatboxCloseButton.style.display = "block";
       chatboxOpenButton.style.display = "block";
@@ -23,7 +27,8 @@ export class StartConversation {
     chatboxCloseButton.addEventListener("click", async () => {
       chatboxContainer.style.display = "none";
       chatboxCloseButton.style.display = "none";
-      chatboxOpenButton.style.display = "block";
+      // chatboxOpenButton.style.display = "block";
+      await this.userChat.exibItensAnimation(chatboxOpenButton);
       
     });
     

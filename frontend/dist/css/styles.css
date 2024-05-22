@@ -201,6 +201,10 @@ button {
   height: 100px;
   flex: 1;
   justify-self: center;
+  flex-direction: column;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
 }
 .chatbox-open-button img {
   max-width: 100px;
@@ -213,8 +217,9 @@ button {
   height: 50px;
   flex: 1;
   flex-direction: column;
-  align-items: center;
+  align-self: baseline;
   justify-items: center;
+  align-items: end;
 }
 .chatbox-close-button .x-symbol {
   position: relative;
@@ -285,6 +290,10 @@ button {
   background-color: var(--assistant-message-bg);
   align-self: flex-start;
 }
+.assistant-message video {
+  max-width: 300px;
+  max-height: 300px;
+}
 
 .conversation-option {
   background-color: transparent;
@@ -353,11 +362,12 @@ button {
   background-color: inherit;
   justify-self: flex-end;
   fill: white;
+  margin: 5px;
 }
 
 /* Animations
 ================================================== */
-.input-suggestion, .conversation-option {
+.input-suggestion, .conversation-option, .user-message, .assistant-message {
   transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition */
 }
 
@@ -377,11 +387,20 @@ button {
   }
 }
 [type=submit] {
-  fill: var(--scrollbar-track-color);
+  fill: var(--user-input-bg);
 }
 
 [type=submit]:hover {
   animation: bounce 0.5s infinite;
+}
+
+.chatbox-container, .chatbox-close-button {
+  display: none;
+}
+
+.chatbox-wrapper {
+  position: absolute;
+  align-items: last baseline;
 }
 
 /*# sourceMappingURL=styles.css.map */
