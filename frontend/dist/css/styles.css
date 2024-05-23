@@ -238,7 +238,7 @@ button {
   height: 25px;
   margin: 20px;
 }
-.chatbox-wrapper .chatbox-close-button .x-symbol ::before, .chatbox-wrapper .chatbox-close-button .x-symbol ::after {
+.chatbox-wrapper .chatbox-close-button .x-symbol::before, .chatbox-wrapper .chatbox-close-button .x-symbol::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -248,10 +248,10 @@ button {
   height: 5px;
   background-color: white;
 }
-.chatbox-wrapper .chatbox-close-button .x-symbol ::before {
+.chatbox-wrapper .chatbox-close-button .x-symbol::before {
   transform: translate(-50%, -50%) rotate(45deg);
 }
-.chatbox-wrapper .chatbox-close-button .x-symbol ::after {
+.chatbox-wrapper .chatbox-close-button .x-symbol::after {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
