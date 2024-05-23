@@ -195,7 +195,19 @@ button {
   display: none;
 }
 
-.chatbox-open-button {
+.chatbox-wrapper {
+  background-color: var(--background-color);
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: absolute;
+  align-items: last baseline;
+}
+.chatbox-wrapper .chatbox-container, .chatbox-wrapper .chatbox-close-button {
+  display: none;
+}
+.chatbox-wrapper .chatbox-open-button {
   background-color: var(--background-color);
   width: 100px;
   height: 100px;
@@ -208,12 +220,11 @@ button {
   padding: 0;
   margin: 0;
 }
-.chatbox-open-button img {
+.chatbox-wrapper .chatbox-open-button img {
   max-width: 100px;
   max-height: 100px;
 }
-
-.chatbox-close-button {
+.chatbox-wrapper .chatbox-close-button {
   background-color: var(--background-color);
   flex-direction: column;
   align-self: baseline;
@@ -221,13 +232,13 @@ button {
   align-items: end;
   flex: 1;
 }
-.chatbox-close-button .x-symbol {
+.chatbox-wrapper .chatbox-close-button .x-symbol {
   position: relative;
   width: 25px;
   height: 25px;
   margin: 20px;
 }
-.chatbox-close-button .x-symbol::before, .chatbox-close-button .x-symbol::after {
+.chatbox-wrapper .chatbox-close-button .x-symbol ::before, .chatbox-wrapper .chatbox-close-button .x-symbol ::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -237,18 +248,11 @@ button {
   height: 5px;
   background-color: white;
 }
-.chatbox-close-button .x-symbol::before {
+.chatbox-wrapper .chatbox-close-button .x-symbol ::before {
   transform: translate(-50%, -50%) rotate(45deg);
 }
-.chatbox-close-button .x-symbol::after {
+.chatbox-wrapper .chatbox-close-button .x-symbol ::after {
   transform: translate(-50%, -50%) rotate(-45deg);
-}
-
-.chatbox-wrapper {
-  background-color: var(--background-color);
-  display: flex;
-  height: 100vh;
-  width: 100vw;
 }
 
 .chatbox-container {
@@ -258,8 +262,7 @@ button {
   background-color: inherit;
   flex: 5;
 }
-
-.messages-container {
+.chatbox-container .messages-container {
   background-color: var(--background-color);
   display: flex;
   align-items: flex-start;
@@ -269,13 +272,13 @@ button {
   position: relative;
   /* Spinner */
 }
-.messages-container .spinner {
+.chatbox-container .messages-container .spinner {
   position: absolute;
   align-self: flex-start;
   bottom: -20px; /* Adjust as necessary */
   left: 10px; /* Adjust as necessary */
 }
-.messages-container .spinner > div {
+.chatbox-container .messages-container .spinner > div {
   width: 10px;
   height: 10px;
   background-color: var(--chat-footer-bg);
@@ -286,11 +289,11 @@ button {
   margin-right: 5px;
   margin-bottom: 7px;
 }
-.messages-container .spinner .bounce1 {
+.chatbox-container .messages-container .spinner .bounce1 {
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
-.messages-container .spinner .bounce2 {
+.chatbox-container .messages-container .spinner .bounce2 {
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
@@ -302,8 +305,7 @@ button {
     transform: scale(1);
   }
 }
-
-.assistant-message, .user-message {
+.chatbox-container .assistant-message, .chatbox-container .user-message {
   font-size: inherit;
   max-width: 800px;
   padding-top: 25px;
@@ -316,22 +318,19 @@ button {
   border-radius: 50px;
   border-style: none;
 }
-
-.assistant-message > p, .user-message > p {
+.chatbox-container .assistant-message > p, .chatbox-container .user-message > p {
   padding: 0;
   margin: 0;
 }
-
-.assistant-message {
+.chatbox-container .assistant-message {
   background-color: var(--assistant-message-bg);
   align-self: flex-start;
 }
-.assistant-message video {
+.chatbox-container .assistant-message video {
   max-width: 300px;
   max-height: 300px;
 }
-
-.conversation-option {
+.chatbox-container .conversation-option {
   background-color: transparent;
   padding: 15px;
   border-radius: 30px;
@@ -339,20 +338,18 @@ button {
   margin: 3px;
   cursor: pointer;
 }
-
-.user-message {
+.chatbox-container .user-message {
   background-color: var(--user-message-bg);
   align-self: flex-end;
   align-content: center;
 }
-
-.user-input-form {
+.chatbox-container .user-input-form {
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
   flex: 1;
 }
-.user-input-form .input-suggestions-container {
+.chatbox-container .user-input-form .input-suggestions-container {
   display: flex;
   width: 100%;
   flex-flow: row;
@@ -360,7 +357,7 @@ button {
   flex: 1;
   max-width: 100%;
 }
-.user-input-form .input-suggestion {
+.chatbox-container .user-input-form .input-suggestion {
   background-color: transparent;
   justify-content: space-between;
   padding: 15px;
@@ -368,7 +365,7 @@ button {
   border: 1px dashed white;
   margin: 2px;
 }
-.user-input-form .user-input-container {
+.chatbox-container .user-input-form .user-input-container {
   background-color: var(--user-input-bg);
   flex-direction: row;
   display: flex;
@@ -378,36 +375,36 @@ button {
   border-style: none;
   margin: 5px;
 }
-.user-input-form .user-input-container input[type=text] {
+.chatbox-container .user-input-form .user-input-container input[type=text] {
   background: var(--user-input-bg);
   color: var(--text-color);
 }
-.user-input-form .user-input-container input::placeholder {
+.chatbox-container .user-input-form .user-input-container input::placeholder {
   color: white;
   font-style: italic;
   font-size: inherit;
 }
-.user-input-form .user-input-container .user-input, .user-input-form .user-input-container #user-input {
+.chatbox-container .user-input-form .user-input-container .user-input, .chatbox-container .user-input-form .user-input-container #user-input {
   background-color: inherit;
   flex: 1;
   border-radius: 50px;
   border-style: none;
   padding: 10px;
 }
-.user-input-form .user-input-container [type=submit] {
+.chatbox-container .user-input-form .user-input-container [type=submit] {
   background-color: inherit;
   justify-self: flex-end;
   fill: white;
   margin: 5px;
 }
-
-/* Animations
-================================================== */
-.input-suggestion, .conversation-option, .user-message, .assistant-message {
+.chatbox-container .user-input-form .user-input-container [type=submit]:hover {
+  animation: bounce 0.5s infinite;
+  fill: var(--user-input-bg);
+}
+.chatbox-container .user-input-form .input-suggestion, .chatbox-container .user-input-form .conversation-option, .chatbox-container .user-input-form .user-message, .chatbox-container .user-input-form .assistant-message {
   transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition */
 }
-
-.input-suggestion:hover, .conversation-option:hover {
+.chatbox-container .user-input-form .input-suggestion:hover, .chatbox-container .user-input-form .conversation-option:hover {
   transform: translateY(-3px); /* Small jump up */
   background-color: var(--user-input-bg); /* New color on hover */
 }
@@ -421,22 +418,6 @@ button {
     transform: translateY(-5px) rotate(-90deg);
     fill: white;
   }
-}
-[type=submit] {
-  fill: var(--user-input-bg);
-}
-
-[type=submit]:hover {
-  animation: bounce 0.5s infinite;
-}
-
-.chatbox-container, .chatbox-close-button {
-  display: none;
-}
-
-.chatbox-wrapper {
-  position: absolute;
-  align-items: last baseline;
 }
 
 /*# sourceMappingURL=styles.css.map */
