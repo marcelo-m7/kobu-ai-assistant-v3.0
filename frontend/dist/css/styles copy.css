@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* RESET
 ================================================== */
 * {
@@ -197,80 +196,89 @@ button {
 }
 
 .chatbox-wrapper {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 10% 80% 10%;
-  grid-template-rows: 100%;
   background-color: var(--background-color);
+  display: grid;
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
   border: none;
-  font-family: "Kobu Text Sans Serif", "Fontawesome", Helvetica;
-  font-size: 17px;
-  color: white;
+  grid-auto-flow: column;
 }
-.chatbox-wrapper > * {
-  color: inherit;
-  border: none;
+.chatbox-wrapper .chatbox-container, .chatbox-wrapper .chatbox-close-button {
+  display: none;
 }
-.chatbox-wrapper .chatbox-close-button, .chatbox-wrapper .chatbox-open-button {
+.chatbox-wrapper .chatbox-open-button {
   background-color: var(--background-color);
-  position: relative;
-  align-items: baseline;
-  align-content: start;
+  width: 100px;
+  height: 100px;
+  flex: 1;
+  justify-self: center;
+  flex-direction: column;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
 }
-.chatbox-wrapper .chatbox-close-button img, .chatbox-wrapper .chatbox-open-button img {
+.chatbox-wrapper .chatbox-open-button img {
   max-width: 100px;
   max-height: 100px;
 }
-.chatbox-wrapper .chatbox-close-button .x-symbol, .chatbox-wrapper .chatbox-open-button .x-symbol {
-  position: relative;
+.chatbox-wrapper .chatbox-close-button {
+  background-color: var(--background-color);
+  flex-direction: column;
+  align-self: baseline;
+  justify-items: center;
+  align-items: end;
+  flex: 1;
 }
-.chatbox-wrapper .chatbox-close-button .x-symbol::before, .chatbox-wrapper .chatbox-close-button .x-symbol::after, .chatbox-wrapper .chatbox-open-button .x-symbol::before, .chatbox-wrapper .chatbox-open-button .x-symbol::after {
+.chatbox-wrapper .chatbox-close-button .x-symbol {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  margin: 20px;
+}
+.chatbox-wrapper .chatbox-close-button .x-symbol::before, .chatbox-wrapper .chatbox-close-button .x-symbol::after {
   content: "";
   position: absolute;
-  width: 20px;
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  width: 100%;
   height: 5px;
   background-color: white;
 }
-.chatbox-wrapper .chatbox-close-button .x-symbol::before, .chatbox-wrapper .chatbox-open-button .x-symbol::before {
+.chatbox-wrapper .chatbox-close-button .x-symbol::before {
   transform: translate(-50%, -50%) rotate(45deg);
 }
-.chatbox-wrapper .chatbox-close-button .x-symbol::after, .chatbox-wrapper .chatbox-open-button .x-symbol::after {
+.chatbox-wrapper .chatbox-close-button .x-symbol::after {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
-.chatbox-wrapper .chatbox-close-button {
-  display: none;
-}
-.chatbox-wrapper .chatbox-container {
-  position: relative;
-  align-content: end;
-  color: inherit;
+
+.chatbox-container {
   font-family: "Kobu Text Sans Serif", "Fontawesome", Helvetica;
-  font-size: inherit;
-  display: none;
+  font-size: 12px;
+  color: var(--text-color);
+  background-color: inherit;
+  flex: 5;
+  align-self: last baseline;
 }
-.chatbox-wrapper .chatbox-container .messages-container {
+.chatbox-container .messages-container {
   background-color: var(--background-color);
   display: flex;
+  align-items: flex-start;
+  flex-direction: column;
   padding: 10px;
   margin: 10px;
-  /* Altura específica para o container de mensagens */
-  overflow-y: auto; /* Ativa a barra de rolagem vertical */
-  display: grid;
-  grid-template-rows: auto;
-  height: 80vh;
-  align-items: last baseline;
+  position: relative;
   /* Spinner */
 }
-.chatbox-wrapper .chatbox-container .messages-container .spinner {
+.chatbox-container .messages-container .spinner {
   position: absolute;
-  align-self: last baseline;
+  align-self: flex-start;
   bottom: -20px; /* Adjust as necessary */
   left: 10px; /* Adjust as necessary */
 }
-.chatbox-wrapper .chatbox-container .messages-container .spinner > div {
+.chatbox-container .messages-container .spinner > div {
   width: 10px;
   height: 10px;
   background-color: var(--chat-footer-bg);
@@ -281,11 +289,11 @@ button {
   margin-right: 5px;
   margin-bottom: 7px;
 }
-.chatbox-wrapper .chatbox-container .messages-container .spinner .bounce1 {
+.chatbox-container .messages-container .spinner .bounce1 {
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
-.chatbox-wrapper .chatbox-container .messages-container .spinner .bounce2 {
+.chatbox-container .messages-container .spinner .bounce2 {
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
@@ -297,7 +305,7 @@ button {
     transform: scale(1);
   }
 }
-.chatbox-wrapper .chatbox-container .assistant-message, .chatbox-wrapper .chatbox-container .user-message {
+.chatbox-container .assistant-message, .chatbox-container .user-message {
   font-size: inherit;
   max-width: 800px;
   padding-top: 25px;
@@ -309,21 +317,20 @@ button {
   margin: 5px;
   border-radius: 50px;
   border-style: none;
-  max-width: 700px;
 }
-.chatbox-wrapper .chatbox-container .assistant-message > p, .chatbox-wrapper .chatbox-container .user-message > p {
+.chatbox-container .assistant-message > p, .chatbox-container .user-message > p {
   padding: 0;
   margin: 0;
 }
-.chatbox-wrapper .chatbox-container .assistant-message {
+.chatbox-container .assistant-message {
   background-color: var(--assistant-message-bg);
-  margin-right: 5%;
+  align-self: flex-start;
 }
-.chatbox-wrapper .chatbox-container .assistant-message video {
+.chatbox-container .assistant-message video {
   max-width: 300px;
   max-height: 300px;
 }
-.chatbox-wrapper .chatbox-container .conversation-option {
+.chatbox-container .conversation-option {
   background-color: transparent;
   padding: 15px;
   border-radius: 30px;
@@ -331,37 +338,34 @@ button {
   margin: 3px;
   cursor: pointer;
 }
-.chatbox-wrapper .chatbox-container .user-message {
+.chatbox-container .user-message {
   background-color: var(--user-message-bg);
-  position: relative;
-  margin-left: 5%;
+  align-self: flex-end;
+  align-content: center;
 }
-.chatbox-wrapper .chatbox-container .user-input-form {
+.chatbox-container .user-input-form {
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
+  flex: 1;
 }
-.chatbox-wrapper .chatbox-container .user-input-form .input-suggestions-container {
+.chatbox-container .user-input-form .input-suggestions-container {
   display: flex;
   width: 100%;
   flex-flow: row;
   justify-content: center;
   flex: 1;
   max-width: 100%;
-  font-size: inherit;
 }
-.chatbox-wrapper .chatbox-container .user-input-form .input-suggestion {
+.chatbox-container .user-input-form .input-suggestion {
   background-color: transparent;
   justify-content: space-between;
   padding: 15px;
   border-radius: 30px;
   border: 1px dashed white;
   margin: 2px;
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
 }
-.chatbox-wrapper .chatbox-container .user-input-form .user-input-container {
+.chatbox-container .user-input-form .user-input-container {
   background-color: var(--user-input-bg);
   flex-direction: row;
   display: flex;
@@ -370,43 +374,41 @@ button {
   border-radius: 50px;
   border-style: none;
   margin: 5px;
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  border: none;
 }
-.chatbox-wrapper .chatbox-container .user-input-form .user-input-container input[type=text] {
+.chatbox-container .user-input-form .user-input-container input[type=text] {
   background: var(--user-input-bg);
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
+  color: var(--text-color);
 }
-.chatbox-wrapper .chatbox-container .user-input-form .user-input-container input::placeholder {
-  color: inherit;
+.chatbox-container .user-input-form .user-input-container input::placeholder {
+  color: white;
   font-style: italic;
   font-size: inherit;
-  font-size: inherit;
 }
-.chatbox-wrapper .chatbox-container .user-input-form .user-input-container .user-input, .chatbox-wrapper .chatbox-container .user-input-form .user-input-container #user-input {
+.chatbox-container .user-input-form .user-input-container .user-input, .chatbox-container .user-input-form .user-input-container #user-input {
   background-color: inherit;
   flex: 1;
   border-radius: 50px;
   border-style: none;
   padding: 10px;
-  font-size: inherit;
-  height: 50px;
 }
-.chatbox-wrapper .chatbox-container .user-input-form .user-input-container [type=submit] {
+.chatbox-container .user-input-form .user-input-container [type=submit] {
   background-color: inherit;
   justify-self: flex-end;
   fill: white;
   margin: 5px;
-  border: none;
 }
-.chatbox-wrapper .chatbox-container .user-input-form .user-input-container [type=submit]:hover {
+.chatbox-container .user-input-form .user-input-container [type=submit]:hover {
   animation: bounce 0.5s infinite;
   fill: var(--user-input-bg);
 }
+.chatbox-container .user-input-form .input-suggestion, .chatbox-container .user-input-form .conversation-option, .chatbox-container .user-input-form .user-message, .chatbox-container .user-input-form .assistant-message {
+  transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition */
+}
+.chatbox-container .user-input-form .input-suggestion:hover, .chatbox-container .user-input-form .conversation-option:hover {
+  transform: translateY(-3px); /* Small jump up */
+  background-color: var(--user-input-bg); /* New color on hover */
+}
+
 @keyframes bounce {
   0%, 100% {
     transform: translateY(0) rotate(-90deg);
@@ -417,12 +419,5 @@ button {
     fill: white;
   }
 }
-.chatbox-wrapper .chatbox-container .user-input-form .input-suggestion, .chatbox-wrapper .chatbox-container .user-input-form .conversation-option, .chatbox-wrapper .chatbox-container .user-input-form .user-message, .chatbox-wrapper .chatbox-container .user-input-form .assistant-message {
-  transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition */
-}
-.chatbox-wrapper .chatbox-container .user-input-form .input-suggestion:hover, .chatbox-wrapper .chatbox-container .user-input-form .conversation-option:hover {
-  transform: translateY(-3px); /* Small jump up */
-  background-color: var(--user-input-bg); /* New color on hover */
-}
 
-/*# sourceMappingURL=styles.css.map */
+/*# sourceMappingURL=styles%20copy.css.map */
