@@ -58,7 +58,7 @@ export class InterfaceElements {
 
   // Scroll to the bottom of the results div
   scrollToBottomOfResults() {
-      var terminalResultsDiv = document.getElementById("chatbox-container");
+      var terminalResultsDiv = document.getElementById("messages-container");
       terminalResultsDiv.scrollTo({
           top: terminalResultsDiv.scrollHeight,
           behavior: 'smooth'

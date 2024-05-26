@@ -250,14 +250,17 @@ button {
   font-family: "Kobu Text Sans Serif", "Fontawesome", Helvetica;
   font-size: inherit;
   display: none;
+  margin: 30px;
+  height: 99%; /* Ajusta a altura para ocupar todo o espaço disponível */
+  overflow: visible;
 }
 .chatbox-wrapper .chatbox-container .messages-container {
   background-color: var(--background-color);
   display: flex;
+  position: relative;
   padding: 10px;
   margin: 10px;
-  /* Altura específica para o container de mensagens */
-  overflow-y: auto; /* Ativa a barra de rolagem vertical */
+  overflow-y: scroll;
   display: grid;
   grid-template-rows: auto;
   height: 80vh;
@@ -309,6 +312,9 @@ button {
   margin: 5px;
   border-radius: 50px;
   border-style: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
   max-width: 700px;
 }
 .chatbox-wrapper .chatbox-container .assistant-message > p, .chatbox-wrapper .chatbox-container .user-message > p {
@@ -317,11 +323,15 @@ button {
 }
 .chatbox-wrapper .chatbox-container .assistant-message {
   background-color: var(--assistant-message-bg);
-  margin-right: 5%;
+  justify-self: flex-start;
 }
 .chatbox-wrapper .chatbox-container .assistant-message video {
   max-width: 300px;
   max-height: 300px;
+}
+.chatbox-wrapper .chatbox-container .user-message {
+  background-color: var(--user-message-bg);
+  justify-self: flex-end;
 }
 .chatbox-wrapper .chatbox-container .conversation-option {
   background-color: transparent;
@@ -330,11 +340,6 @@ button {
   border: 1px solid white !important;
   margin: 3px;
   cursor: pointer;
-}
-.chatbox-wrapper .chatbox-container .user-message {
-  background-color: var(--user-message-bg);
-  position: relative;
-  margin-left: 5%;
 }
 .chatbox-wrapper .chatbox-container .user-input-form {
   padding: 10px;
