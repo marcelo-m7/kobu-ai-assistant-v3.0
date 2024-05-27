@@ -200,7 +200,6 @@ button {
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: 10% 80% 10%;
-  grid-template-rows: 100%;
   background-color: var(--background-color);
   height: 100vh;
   width: 100vw;
@@ -209,6 +208,7 @@ button {
   font-family: "Kobu Text Sans Serif", "Fontawesome", Helvetica;
   font-size: 17px;
   color: white;
+  align-items: end;
 }
 .chatbox-wrapper > * {
   color: inherit;
@@ -216,9 +216,9 @@ button {
 }
 .chatbox-wrapper .chatbox-close-button, .chatbox-wrapper .chatbox-open-button {
   background-color: var(--background-color);
-  position: relative;
-  align-items: baseline;
-  align-content: start;
+  position: sticky;
+  margin: 30%;
+  justify-self: center;
 }
 .chatbox-wrapper .chatbox-close-button img, .chatbox-wrapper .chatbox-open-button img {
   max-width: 100px;
@@ -242,6 +242,8 @@ button {
 }
 .chatbox-wrapper .chatbox-close-button {
   display: none;
+  align-self: baseline;
+  justify-self: end;
 }
 .chatbox-wrapper .chatbox-container {
   position: relative;
@@ -251,20 +253,20 @@ button {
   font-size: inherit;
   display: none;
   margin: 30px;
-  height: 99%; /* Ajusta a altura para ocupar todo o espaço disponível */
-  overflow: visible;
+  height: 100vh; /* Ajusta a altura para ocupar todo o espaço disponível */
+  overflow: hidden;
 }
 .chatbox-wrapper .chatbox-container .messages-container {
   background-color: var(--background-color);
-  display: flex;
   position: relative;
   padding: 10px;
-  margin: 10px;
   overflow-y: scroll;
+  height: calc(100vh - 100px);
   display: grid;
   grid-template-rows: auto;
   height: 80vh;
-  align-items: last baseline;
+  gap: 1em;
+  align-content: end;
   /* Spinner */
 }
 .chatbox-wrapper .chatbox-container .messages-container .spinner {
@@ -309,11 +311,9 @@ button {
   padding-bottom: 25px;
   align-content: center;
   align-items: center;
-  margin: 5px;
   border-radius: 50px;
   border-style: none;
   position: relative;
-  display: flex;
   flex-direction: column;
   max-width: 700px;
 }
@@ -323,7 +323,7 @@ button {
 }
 .chatbox-wrapper .chatbox-container .assistant-message {
   background-color: var(--assistant-message-bg);
-  justify-self: flex-start;
+  justify-self: start;
 }
 .chatbox-wrapper .chatbox-container .assistant-message video {
   max-width: 300px;
@@ -331,7 +331,7 @@ button {
 }
 .chatbox-wrapper .chatbox-container .user-message {
   background-color: var(--user-message-bg);
-  justify-self: flex-end;
+  justify-self: end;
 }
 .chatbox-wrapper .chatbox-container .conversation-option {
   background-color: transparent;
@@ -342,9 +342,9 @@ button {
   cursor: pointer;
 }
 .chatbox-wrapper .chatbox-container .user-input-form {
-  padding: 10px;
-  display: flex;
-  flex-wrap: wrap;
+  padding: 40px;
+  margin-bottom: 40px;
+  position: relative;
 }
 .chatbox-wrapper .chatbox-container .user-input-form .input-suggestions-container {
   display: flex;
@@ -389,7 +389,6 @@ button {
 .chatbox-wrapper .chatbox-container .user-input-form .user-input-container input::placeholder {
   color: inherit;
   font-style: italic;
-  font-size: inherit;
   font-size: inherit;
 }
 .chatbox-wrapper .chatbox-container .user-input-form .user-input-container .user-input, .chatbox-wrapper .chatbox-container .user-input-form .user-input-container #user-input {
