@@ -33,12 +33,12 @@ export class InterfaceElements {
   // User Options element creation
   createSuggestionAssistantElement(content) {
       const div = document.createElement("div");
-      const p = document.createElement("p");
 
       div.classList.add("assistant-message");
       div.classList.add("conversation-option");
-      p.innerHTML = content;
-      div.appendChild(p);
+      // p.classList.add("conversation-option");
+      div.innerHTML = content;
+      // div.appendChild(p);
 
       return div;
   };
@@ -68,14 +68,18 @@ export class InterfaceElements {
   // Ascii Spinner
   showSpinner() {
     this.scrollToBottomOfResults();
-    document.querySelector(".spinner").style.display = "block";
+    document.querySelector(".spinner").style.opacity = 1;
     this.scrollToBottomOfResults();
     document.getElementById("user-input").disabled = true;
     document.getElementById("user-input").blur();
+    document.getElementById("input-suggestions-container").disabled = true;
+    document.getElementById("input-suggestions-container").blur();
   };
   hideSpinner() {
-      document.querySelector(".spinner").style.display = "none";
+      document.querySelector(".spinner").style.opacity = 0;
       document.getElementById("user-input").disabled = false;
       document.getElementById("user-input").focus();
+      document.getElementById("input-suggestions-container").disabled = false;
+      // document.getElementById("input-suggestions-container").focus();
   };
 }

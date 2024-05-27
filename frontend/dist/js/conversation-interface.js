@@ -17,13 +17,12 @@ export class Interface extends InterfaceElements {
     /**
      * Opens the chatbox by displaying its content and optionally executing a main function.
      * @param {Function} main - The main function to execute after opening the chatbox.
-     * @returns {Promise<void>} - A promise that resolves after the chatbox is opened.
      */
     async openChat(main) {
         const chat = document.querySelectorAll(".chatbox-container");
         chat.forEach(element => {
             element.style.opacity = 0
-            element.style.display = 'block';
+            // element.style.display = 'inline';
             element.style.opacity = 1
         });
         console.log("Chat opened.");
@@ -33,12 +32,9 @@ export class Interface extends InterfaceElements {
     }
 
     async animateChatItems(main, chat) {
-        // const chat = document.querySelectorAll(".chatbox-container");
-
         for (let i = 0; i < chat.length; i++) {
             const item = chat[i];
             item.style.opacity = 0;
-            item.display = "block"
             item.style.transform = "translateY(20px)";
             item.style.transition = "opacity 0.5s ease, transform 0.5s ease";
     
@@ -64,11 +60,10 @@ export class Interface extends InterfaceElements {
         for (let i = 0; i < chat.length; i++) {
             const item = chat[i];
             item.style.opacity = 0;
-            item.display = "block"
+            item.display = "inline"
             item.style.transform = "translateY(20px)";
             item.style.transition = "opacity 0.5s ease, transform 0.5s ease";
     
-            // Delay each item by 500 milliseconds
             await new Promise(resolve => setTimeout(resolve, 1));
     
             item.style.opacity = 1;
@@ -83,7 +78,7 @@ export class Interface extends InterfaceElements {
     async openChat_old(main) {
         const chat = document.querySelectorAll(".chatbox-container");
         chat.forEach(async function(element) {
-            element.style.display = 'block';
+            element.style.display = 'inline';
         });
         console.log("Chat opened.");
 
@@ -97,7 +92,6 @@ export class Interface extends InterfaceElements {
     /**
      * Animates the fadeIn effect for an HTML element by gradually increasing its opacity.
      * @param {HTMLElement} element - The HTML element to apply the fadeIn effect to.
-     * @returns {Promise<void>} - A promise that resolves after the fadeIn effect is complete.
      */
     async fadeIn(element) {
         return new Promise((resolve) => {
@@ -105,7 +99,7 @@ export class Interface extends InterfaceElements {
             var interval = setInterval(function() {
                 if (opacity < 1) {
                     opacity += 0.2;
-                    element.style.display = 'block';
+                    // element.style.display = 'inline';
                     element.style.opacity = opacity;
 
                 } else {
@@ -138,7 +132,7 @@ export class Interface extends InterfaceElements {
 
         // Hide the element initially
         userResponseElement.style.opacity = 0;
-        userResponseElement.style.display = "block";
+        userResponseElement.style.display = "inline";
         // Append the element to the messages-container
         document.getElementById("messages-container").appendChild(userResponseElement);
 
@@ -194,7 +188,7 @@ export class Interface extends InterfaceElements {
             this.scrollToBottomOfResults();
             await this.fadeIn(assistantResponseElement);
 
-            assistantResponseElement.style.display = "block";
+            // assistantResponseElement.style.display = "inline";
         }
         this.scrollToBottomOfResults();
         this.hideSpinner();

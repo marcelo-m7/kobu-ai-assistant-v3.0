@@ -14,17 +14,17 @@ export class StartConversation {
 
     chatboxOpenButton.addEventListener("click", async () => {
       
-      chatboxContainer.style.display = "block";
-      chatboxCloseButton.style.display = "block";
-      chatboxOpenButton.style.display = "block";
+      chatboxContainer.style.opacity = 1;
+      chatboxCloseButton.style.opacity = 1;
+      chatboxOpenButton.style.opacity = 1;
       
       await this.userChat.openChat(this.main.bind(this));
     });
     
     chatboxCloseButton.addEventListener("click", async () => {
-      chatboxContainer.style.display = "none";
-      chatboxCloseButton.style.display = "none";
-      chatboxOpenButton.style.display = "block";
+      chatboxContainer.style.opacity = 0;
+      chatboxCloseButton.style.opacity = 0;
+      chatboxOpenButton.style.opacity = 1;
     });
     
     document.getElementById("send-icon").addEventListener('click', async (e) => {
