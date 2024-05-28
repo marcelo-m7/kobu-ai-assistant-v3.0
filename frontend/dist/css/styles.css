@@ -163,9 +163,6 @@ button {
   font: inherit;
 }
 
-/* VARIABLES
-================================================== */
-/* Font imports */
 @font-face {
   font-family: "Kobu Text Sans Serif";
   src: url(../fonts/kobutextsansserif.woff2) format("woff2"), url(../fonts/kobutextsansserif.woff) format("woff"), url(../fonts/kobutextsansserif.ttf) format("truetype");
@@ -176,22 +173,21 @@ button {
 }
 /* Color definitions */
 :root {
-  --background-color: #DE3A40; /* Chatbox background color */
-  --assistant-message-bg: #D8373D; /* Background color for assistant messages */
-  --user-message-bg: #AA4850; /* Background color for user messages */
-  --suggestion-bg: #b5622f; /* Background color for suggestions */
-  --chat-footer-bg: #8f0c0c; /* Background color for footer */
-  --suggestion-mandatory-false-bg: #aa4850; /* Background color for non-mandatory suggestions */
-  --user-input-bg: #AA4850; /* Background color for user input */
-  --scrollbar-track-color: var(--background-color); /* Scrollbar track background color */
-  --scrollbar-thumb-color: var(--chat-footer-bg); /* Scrollbar thumb button color */
-  --scrollbar-thumb-hover-color: #555; /* Scrollbar thumb button color on hover */
+  --background-color: #DE3A40;
+  --assistant-message-bg: #D8373D;
+  --user-message-bg: #AA4850;
+  --suggestion-bg: #b5622f;
+  --chat-footer-bg: #8f0c0c;
+  --suggestion-mandatory-false-bg: #aa4850;
+  --user-input-bg: #AA4850;
+  --scrollbar-track-color: var(--background-color);
+  --scrollbar-thumb-color: var(--chat-footer-bg);
+  --scrollbar-thumb-hover-color: #555;
   --spinner-background-color: darkgray;
-  --user-input-placeholder-color: color-mix(in srgb, var(--assistant-message-bg) 80%, black 50%); /* Placeholder color 20% darker */
+  --user-input-placeholder-color: color-mix(in srgb, var(--assistant-message-bg) 80%, black 50%);
   --text-color: rgb(235, 235, 235);
 }
-
-.visually-hidden {
+:root .visually-hidden {
   display: none;
 }
 
@@ -473,9 +469,6 @@ button {
     grid-column: 1/2;
     grid-row: 1;
     padding: 5px;
-  }
-  .chatbox-wrapper > .chatbox-open-button > * {
-    background-color: transparent;
   }
   .chatbox-wrapper > .chatbox-close-button {
     position: relative;

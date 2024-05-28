@@ -1,14 +1,10 @@
 @import '_reset.scss';
-/* VARIABLES
-================================================== */
-/* Font imports */
 @font-face {
     font-family: "Kobu Text Sans Serif";
     src: url(../fonts/kobutextsansserif.woff2) format('woff2'),
          url(../fonts/kobutextsansserif.woff) format('woff'),
          url(../fonts/kobutextsansserif.ttf) format('truetype');
 }
-
 @font-face {
     font-family: "Fontawesome";
     src: url(../fonts/fontawesome-webfont.woff2) format('woff2'),
@@ -17,48 +13,37 @@
 }
 /* Color definitions */
 :root {
-    --background-color: #DE3A40; /* Chatbox background color */
-    --assistant-message-bg: #D8373D; /* Background color for assistant messages */
-    // --assistant-message-bg: #f15156; /* Background color for assistant messages */
-    --user-message-bg: #AA4850; /* Background color for user messages */
-    --suggestion-bg: #b5622f; /* Background color for suggestions */
-    --chat-footer-bg: #8f0c0c; /* Background color for footer */
-    --suggestion-mandatory-false-bg: #aa4850; /* Background color for non-mandatory suggestions */
-    --user-input-bg: #AA4850; /* Background color for user input */
-    --scrollbar-track-color: var(--background-color); /* Scrollbar track background color */
-    --scrollbar-thumb-color: var(--chat-footer-bg); /* Scrollbar thumb button color */
-    --scrollbar-thumb-hover-color: #555; /* Scrollbar thumb button color on hover */
+    --background-color: #DE3A40;
+    --assistant-message-bg: #D8373D;
+    --user-message-bg: #AA4850;
+    --suggestion-bg: #b5622f;
+    --chat-footer-bg: #8f0c0c;
+    --suggestion-mandatory-false-bg: #aa4850;
+    --user-input-bg: #AA4850;
+    --scrollbar-track-color: var(--background-color);
+    --scrollbar-thumb-color: var(--chat-footer-bg);
+    --scrollbar-thumb-hover-color: #555;
     --spinner-background-color: darkgray;
-    --user-input-placeholder-color: color-mix(in srgb, var(--assistant-message-bg) 80%, black 50%); /* Placeholder color 20% darker */
-
+    --user-input-placeholder-color: color-mix(in srgb, var(--assistant-message-bg) 80%, black 50%);
     --text-color:  rgb(235, 235, 235);
+    .visually-hidden { display: none };
 }
-
+// Page Struture
 $chatbox-wrapper: ".chatbox-wrapper";
-
     $chatbox-open-button: ".chatbox-open-button";
-    
     $chatbox-container: ".chatbox-container";
-
         $messages-container: ".messages-container";
-            // $message: ".message"; // Shared class
             $user-message: ".user-message";
             $assistant-message: ".assistant-message";
                 $conversation-option: ".conversation-option";
-
         $spinner: ".spinner";
-
         $user-input-form: ".user-input-form";
             $input-suggestions-container: ".input-suggestions-container";
                 $input-suggestion: ".input-suggestion";
-
             $user-input-container: ".user-input-container";
                 $user-input: "#user-input";
                 $send-button: "[type='submit']";
-
     $chatbox-close-button: ".chatbox-close-button";
-
-.visually-hidden { display: none };
 
 #{$chatbox-wrapper} {
     display: grid;
@@ -131,30 +116,13 @@ $chatbox-wrapper: ".chatbox-wrapper";
         align-self: center;
         align-items: center;
 
-
-        // align-content: end;
-        // color: inherit;
-        // font-family: "Kobu Text Sans Serif", "Fontawesome", Helvetica;
-        // font-size: inherit;
-        // display: none; // Before opening
-        // margin: 30px;
-        // height: 100vh; /* Ajusta a altura para ocupar todo o espaço disponível */
-        // overflow: hidden;
-        // overflow-y: scroll;
-    
         #{$messages-container} {
-        //     background-color: var(--background-color);
             display: flex;
             flex-direction: column;
             position: relative;
-            // top: 0;
             height: 100%;
             width: 100%;
-            // min-height: 100vh;
-            // max-width: 80vw;
-            // padding: 10px;
             align-content: center;
-            // margin: 10px;
             overflow-y: scroll;
             scroll-behavior: smooth;
             box-sizing: border-box;
@@ -183,9 +151,7 @@ $chatbox-wrapper: ".chatbox-wrapper";
                 border-radius: 50px;
                 border-style: none;
                 position: relative;
-                // display: flex;
                 width: auto;
-                // flex-direction: column;
                 max-width: 700px;
             };
             #{$assistant-message}  > p, #{$user-message} > p {
@@ -202,8 +168,7 @@ $chatbox-wrapper: ".chatbox-wrapper";
             };
             #{$user-message} {
                 background-color: var(--user-message-bg);
-                // position: relative;
-                // justify-self: flex-end;
+
                 align-self: end;
             };
         
@@ -394,15 +359,14 @@ $chatbox-wrapper: ".chatbox-wrapper";
         > #{$chatbox-close-button}, >#{$chatbox-open-button} {
             margin: 0;
             padding: 0;
-            // align-self: start;
-        }
+        };
         > #{$chatbox-open-button} {
             grid-column: 1 / 2;         
             grid-row: 1;      
             // opacity: 1;
             padding: 5px;   
             // margin: 5px;     
-            > * {background-color: transparent;}
+            // > * {background-color: transparent;}
             // align-self: auto;
             // justify-self: auto;
   
@@ -412,17 +376,9 @@ $chatbox-wrapper: ".chatbox-wrapper";
             position: relative;
             grid-column: 2 / 2;
             grid-row: 1;
-            // padding: auto;
-            // margin: auto;
             align-self: center;
             justify-self: end;
-            // margin: 0;
-            // position: relative;
-            // // padding: 0;
             left: 30px;
-            // right: -1;
-            // justify-self: start;
-            // margin-top: 0px;
         };
         
         > #{$chatbox-container} {

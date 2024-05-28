@@ -90,7 +90,8 @@ export class StartConversation {
         inputElement.placeholder = 'Type a message'
 
         break;
-        
+      
+      // It is missing to add a case to send the history or div state to the API, to send the conversation settings and history by client side
       default:
         userChatActive.showSpinner();
         userChatActive.setUserResponse()
