@@ -163,15 +163,6 @@ button {
   font: inherit;
 }
 
-@font-face {
-  font-family: "Kobu Text Sans Serif";
-  src: url(../fonts/kobutextsansserif.woff2) format("woff2"), url(../fonts/kobutextsansserif.woff) format("woff"), url(../fonts/kobutextsansserif.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Fontawesome";
-  src: url(../fonts/fontawesome-webfont.woff2) format("woff2"), url(../fonts/fontawesome-webfont.woff) format("woff"), url(../fonts/fontawesome-webfont.ttf) format("truetype");
-}
-/* Color definitions */
 :root {
   --background-color: #DE3A40;
   --assistant-message-bg: #D8373D;
@@ -189,6 +180,14 @@ button {
 }
 :root .visually-hidden {
   display: none;
+}
+@font-face {
+  font-family: "Kobu Text Sans Serif";
+  src: url(../fonts/kobutextsansserif.woff2) format("woff2"), url(../fonts/kobutextsansserif.woff) format("woff"), url(../fonts/kobutextsansserif.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Fontawesome";
+  src: url(../fonts/fontawesome-webfont.woff2) format("woff2"), url(../fonts/fontawesome-webfont.woff) format("woff"), url(../fonts/fontawesome-webfont.ttf) format("truetype");
 }
 
 .chatbox-wrapper {
@@ -230,6 +229,9 @@ button {
   width: 20px;
   height: 5px;
   background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .chatbox-wrapper .chatbox-close-button .x-symbol::before {
   transform: translate(-50%, -50%) rotate(45deg);
@@ -248,10 +250,6 @@ button {
   align-content: end;
   align-self: center;
   align-items: center;
-  /* Scrollbar */
-  /* Handle */
-  /* Handle on hover */
-  /* Spinner */
 }
 .chatbox-wrapper .chatbox-container .messages-container {
   display: flex;
@@ -263,9 +261,10 @@ button {
   overflow-y: scroll;
   scroll-behavior: smooth;
   box-sizing: border-box;
+  /* Scrollbar */
 }
 .chatbox-wrapper .chatbox-container .messages-container a, .chatbox-wrapper .chatbox-container .messages-container strong, .chatbox-wrapper .chatbox-container .messages-container span, .chatbox-wrapper .chatbox-container .messages-container em, .chatbox-wrapper .chatbox-container .messages-container del {
-  font-weight: bold; /* Example font weight */
+  font-weight: bold;
   color: inherit;
   background-color: var(--assistant-message-bg);
   transition: transform 0.2s ease, background-color 0.2s ease;
@@ -273,6 +272,23 @@ button {
 .chatbox-wrapper .chatbox-container .messages-container a {
   text-decoration: underline;
   display: inline-block; /* Ensure the link is treated as a block for transformation */
+}
+.chatbox-wrapper .chatbox-container .messages-container::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  cursor: pointer;
+}
+.chatbox-wrapper .chatbox-container .messages-container::-webkit-scrollbar-track {
+  background: var(--scrollbar-track-color);
+  cursor: pointer;
+}
+.chatbox-wrapper .chatbox-container .messages-container::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  cursor: pointer;
+}
+.chatbox-wrapper .chatbox-container .messages-container::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover-color);
+  cursor: pointer;
 }
 .chatbox-wrapper .chatbox-container .messages-container .assistant-message, .chatbox-wrapper .chatbox-container .messages-container .user-message {
   font-size: inherit;
@@ -293,6 +309,10 @@ button {
   padding: 0;
   margin: 0;
 }
+.chatbox-wrapper .chatbox-container .messages-container .user-message {
+  background-color: var(--user-message-bg);
+  align-self: end;
+}
 .chatbox-wrapper .chatbox-container .messages-container .assistant-message {
   background-color: var(--assistant-message-bg);
   align-self: start;
@@ -301,39 +321,18 @@ button {
   max-width: 300px;
   max-height: 300px;
 }
-.chatbox-wrapper .chatbox-container .messages-container .user-message {
-  background-color: var(--user-message-bg);
-  align-self: end;
-}
-.chatbox-wrapper .chatbox-container .messages-container::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-  cursor: pointer;
-}
-.chatbox-wrapper .chatbox-container .messages-container::-webkit-scrollbar-track {
-  background: var(--scrollbar-track-color);
-  cursor: pointer;
-}
-.chatbox-wrapper .chatbox-container .messages-container::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb-color);
-  cursor: pointer;
-}
-.chatbox-wrapper .chatbox-container .messages-container::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover-color);
+.chatbox-wrapper .chatbox-container .messages-container .conversation-option {
+  background-color: transparent;
+  padding: 15px;
+  border-radius: 30px;
+  border: 1px solid white !important;
+  margin: 3px;
   cursor: pointer;
 }
 .chatbox-wrapper .chatbox-container .spinner {
   position: relative;
   opacity: 0;
   justify-self: start;
-}
-@keyframes sk-bouncedelay {
-  0%, 80%, 100% {
-    transform: scale(0);
-  }
-  40% {
-    transform: scale(1);
-  }
 }
 .chatbox-wrapper .chatbox-container .spinner > div {
   width: 10px;
@@ -354,13 +353,13 @@ button {
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
-.chatbox-wrapper .chatbox-container .conversation-option {
-  background-color: transparent;
-  padding: 15px;
-  border-radius: 30px;
-  border: 1px solid white !important;
-  margin: 3px;
-  cursor: pointer;
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
 }
 .chatbox-wrapper .chatbox-container .user-input-form {
   position: relative;
@@ -379,7 +378,7 @@ button {
   font-size: inherit;
   align-content: start;
 }
-.chatbox-wrapper .chatbox-container .user-input-form .input-suggestion {
+.chatbox-wrapper .chatbox-container .user-input-form .input-suggestions-container .input-suggestion {
   background-color: transparent;
   justify-content: space-between;
   padding: 15px;
@@ -447,11 +446,11 @@ button {
   }
 }
 .chatbox-wrapper .chatbox-container .input-suggestion, .chatbox-wrapper .chatbox-container .conversation-option, .chatbox-wrapper .chatbox-container .user-message, .chatbox-wrapper .chatbox-container .assistant-message {
-  transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition */
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 .chatbox-wrapper .chatbox-container .input-suggestion:hover, .chatbox-wrapper .chatbox-container .conversation-option:hover {
-  transform: translateY(-3px); /* Small jump up */
-  background-color: var(--user-input-bg); /* New color on hover */
+  transform: translateY(-3px);
+  background-color: var(--user-input-bg);
 }
 
 @media (max-width: 768px) {
