@@ -14,14 +14,10 @@ npm install
 
 If your web server has an HTTPS certificate, you may remove the proxy configuration. Review the comments within the `Conversation.sendRequest()` method in `js/conversation.js` to enable/disable the proxy to deal with cross-origin security issues. By default, the client requests are sent to the localhost proxy (`const url = 'http://localhost:3000/proxy'`).
 
-**Choose the interface model in `frontend\public__test\js\conversation.js`**
+**Choose the interface model in `frontend\dist__test\js\conversation.js`**
 ```js
     const url = 'http://localhost:3000/proxy'; // Default local proxy (no need to add any URL)
     // const url = 'https://assistant.kobudev.com/kobu-assistant'; // Use this URL if you don't want to use any proxy
-
-// Other options:
-    // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';  // Set the external proxy URL if desired
-    // const response = await fetch(proxyUrl + url, { // Use an external proxy (uncomment this line if using an external proxy)
 ```
 
 Note that the localhost proxy is what actually sends the request to the URL defined in `frontend/src/app.js`, in the default configuration.
@@ -31,8 +27,8 @@ If you are using the provided node-server proxy, you may also need to adjust the
 **Choose the interface model in `frontend\src\app.js`**
 ```js
 // Define the directory where static files (CSS, JS, etc.) are located.
-// app.use(express.static(path.join(__dirname, '/../public')));
-app.use(express.static(path.join(__dirname, '/../public__test'))); Recommended (default)
+// app.use(express.static(path.join(__dirname, '/../dist')));
+app.use(express.static(path.join(__dirname, '/../dist__test'))); Recommended (default)
 ```
 **Choose the Assistant API in `frontend\src\app.js`**
 ```js
@@ -79,4 +75,3 @@ This will start the server on port 3000 by default.
   ```bash
   npm run scss
   ```
-```

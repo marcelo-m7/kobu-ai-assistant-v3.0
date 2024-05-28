@@ -30,7 +30,7 @@ This project incorporates a frontend interface for engaging with the chatbot, ho
    - If you opt to utilize the provided node-server as the frontend web server, simply follow the instructions provided in the README.md file from the `frontend/conf/` directory.
 
 2. **Manual Integration:**
-   - You can manually integrate the frontend into your existing server by copying the files from the `frontend/public` directory to your frontend server. *(Check out the section **Cross-Origin Deal** in the README.md frontend file in `/frontend/conf/README.md` to adjust the default request URL according to your needs.)*
+   - You can manually integrate the frontend into your existing server by copying the files from the `frontend/dist` directory to your frontend server. *(Check out the section **Cross-Origin Deal** in the README.md frontend file in `/frontend/conf/README.md` to adjust the default request URL according to your needs.)*
 
 3. **Modifications Required:**
    - No changes are necessary within the API application, as the server is already configured to accommodate external traffic.
