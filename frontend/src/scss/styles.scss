@@ -65,9 +65,6 @@ $chatbox-wrapper: ".chatbox-wrapper";
     color: white;
     // align-items: end;
     // justify-content: space-between;
-    > button {
-        background-color: transparent
-    };
     
     #{$chatbox-open-button} {
         position: relative;
@@ -254,8 +251,6 @@ $chatbox-wrapper: ".chatbox-wrapper";
                 align-content: start;
 
                 #{$input-suggestion} {
-                    background-color: transparent;
-                    justify-content: space-between;
                     padding: 15px;
                     border-radius: 30px;
                     border: 1px dashed white;
@@ -301,6 +296,12 @@ $chatbox-wrapper: ".chatbox-wrapper";
                     font-size: inherit;
                     height: 50px;
                 };
+                #{$user-input}:focus {
+                    border-color: #b5622f !important; /* Altera a cor da borda quando em foco */
+                    box-shadow: 0 0 5px rgba(0, 191, 255, 0.5); /* Adiciona uma             sombra quando em foco */
+                    /* Outros estilos que você deseja aplicar quando em foco */
+                }
+                
                 #{$send-button} {
                     background-color: inherit;
                     justify-self: flex-end;
@@ -331,14 +332,15 @@ $chatbox-wrapper: ".chatbox-wrapper";
         #{$input-suggestion}, #{$conversation-option}, #{$user-message}, #{$assistant-message} {
             transition: transform 0.2s ease, background-color 0.2s ease;
         };
-        #{$input-suggestion}:hover, #{$conversation-option}:hover  {
+        #{$input-suggestion}:hover, #{$conversation-option}:hover {
             transform: translateY(-3px);
-            background-color: var(--user-input-bg);
+            background-color: var(--user-input-bg) ;
         };
     };
 }
 
 @media (max-width: 768px) {
+
     #{$chatbox-wrapper} {
         display: grid;
         grid-auto-flow: row;
@@ -348,11 +350,13 @@ $chatbox-wrapper: ".chatbox-wrapper";
         > #{$chatbox-close-button}, >#{$chatbox-open-button} {
             margin: 0;
             padding: 0;
+
         };
         > #{$chatbox-open-button} {
             grid-column: 1 / 2;         
             grid-row: 1;      
-            padding: 5px;     
+            margin-top: 15px;     
+            margin-left: 20px;     
             // > * {background-color: transparent;}
         };
         
@@ -371,5 +375,27 @@ $chatbox-wrapper: ".chatbox-wrapper";
             height: 100%;
             width: 100%;
         };
+    };
+};
+
+@media (max-height: 700px) {
+    #{$input-suggestions-container} {
+        max-width: 100%;
+        display: grid;
+        overflow-y: auto;
+
+        #{$input-suggestion} {
+            max-width: 20vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            transition: max-width 0.5s ease, overflow 0.5s ease, white-space 0.5s ease;
+        }
+
+        #{$input-suggestion}:hover {
+            max-width: unset;
+            overflow: visible;
+            white-space: normal;
+        }
     }
 }

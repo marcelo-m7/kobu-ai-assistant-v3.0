@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* RESET
 ================================================== */
 * {
@@ -204,9 +205,6 @@ button {
   font-size: 17px;
   color: white;
 }
-.chatbox-wrapper > button {
-  background-color: transparent;
-}
 .chatbox-wrapper .chatbox-open-button {
   position: relative;
   align-self: baseline;
@@ -379,8 +377,6 @@ button {
   align-content: start;
 }
 .chatbox-wrapper .chatbox-container .user-input-form .input-suggestions-container .input-suggestion {
-  background-color: transparent;
-  justify-content: space-between;
   padding: 15px;
   border-radius: 30px;
   border: 1px dashed white;
@@ -422,6 +418,11 @@ button {
   padding: 10px;
   font-size: inherit;
   height: 50px;
+}
+.chatbox-wrapper .chatbox-container .user-input-form .user-input-container #user-input:focus {
+  border-color: #b5622f !important; /* Altera a cor da borda quando em foco */
+  box-shadow: 0 0 5px rgba(0, 191, 255, 0.5); /* Adiciona uma             sombra quando em foco */
+  /* Outros estilos que você deseja aplicar quando em foco */
 }
 .chatbox-wrapper .chatbox-container .user-input-form .user-input-container [type=submit] {
   background-color: inherit;
@@ -467,7 +468,8 @@ button {
   .chatbox-wrapper > .chatbox-open-button {
     grid-column: 1/2;
     grid-row: 1;
-    padding: 5px;
+    margin-top: 15px;
+    margin-left: 20px;
   }
   .chatbox-wrapper > .chatbox-close-button {
     position: relative;
@@ -482,6 +484,25 @@ button {
     grid-row: 2;
     height: 100%;
     width: 100%;
+  }
+}
+@media (max-height: 700px) {
+  .input-suggestions-container {
+    max-width: 100%;
+    display: grid;
+    overflow-y: auto;
+  }
+  .input-suggestions-container .input-suggestion {
+    max-width: 20vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: max-width 0.5s ease, overflow 0.5s ease, white-space 0.5s ease;
+  }
+  .input-suggestions-container .input-suggestion:hover {
+    max-width: unset;
+    overflow: visible;
+    white-space: normal;
   }
 }
 
