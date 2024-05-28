@@ -5,28 +5,22 @@ export class StartConversation {
     // Constants
     this.userId = Conversation.generateUserId();
     this.userChat = new Conversation(this.userId);
-
-    // Listeners
     const chatboxOpenButton = document.getElementById("chatbox-open-button");
     const chatboxCloseButton = document.getElementById("chatbox-close-button");
     const chatboxContainer = document.getElementById("chatbox-container");
 
-
+    // Listeners
     chatboxOpenButton.addEventListener("click", async () => {
-      
       chatboxContainer.style.opacity = 1;
       chatboxCloseButton.style.opacity = 1;
       chatboxOpenButton.style.opacity = 1;
-      
       await this.userChat.openChat(this.main.bind(this));
     });
-    
     chatboxCloseButton.addEventListener("click", async () => {
       chatboxContainer.style.opacity = 0;
       chatboxCloseButton.style.opacity = 0;
       chatboxOpenButton.style.opacity = 1;
     });
-    
     document.getElementById("send-icon").addEventListener('click', async (e) => {
       e.preventDefault();
       var optionText = this.userChat.userInput() 
@@ -34,7 +28,6 @@ export class StartConversation {
           return false;
       }
         await this.userChat.openChat(this.main());
-
     });
     document.getElementById("user-input-container").addEventListener('keyup', async (e) => {
       await this.enterClick(e);
@@ -54,6 +47,7 @@ export class StartConversation {
     const userChatActive = this.userChat; // Fixing the scope issue
 
     switch (userChatActive.currentStage) {
+
       case undefined:
       case '':
       case null:
@@ -61,22 +55,17 @@ export class StartConversation {
         console.log("Main: starts welcomeMessage()");
         userChatActive.showSpinner();
         inputElement.placeholder = '';
-
         userChatActive.currentStage = userChatActive.WELCOME_STAGE; // First interaction with the API
 
         var request = userChatActive.requestData("Hi, there!");
         var response = await userChatActive.sendRequest(request);
-        
         await userChatActive.assistantResponseHandler(response);
         if (response.current_stage === 'error') {
           break;
         }
-        
         await userChatActive.setVideo();
-
         userChatActive.currentStage = userChatActive.CHOOSE_SUBJECT_STAGE;
         console.log("Main: finish welcomeMessage() ", userChatActive.currentStage);
-
         if (response.orientation === false) {
           break;
         }
@@ -88,16 +77,15 @@ export class StartConversation {
         userChatActive.currentStage = userChatActive.CHOOSE_SUBJECT_STAGE; // Ask for the subejects list
         
         var request = userChatActive.requestData() // input="Choose subject stage")
-
         inputElement.value = '';
         inputElement.placeholder = '';
-
         var response = await userChatActive.sendRequest(request);
 
         if (response.message === false) {
+          inputElement.placeholder = 'Please, choose a option.'
+          
           break;
         }
-        
         await userChatActive.assistantResponseHandler(response); 
         inputElement.placeholder = 'Type a message'
 

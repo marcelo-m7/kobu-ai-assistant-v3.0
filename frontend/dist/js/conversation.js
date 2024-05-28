@@ -22,9 +22,9 @@ export class Conversation extends Interface {
         
             Array.from(elements).forEach(element => {
                 element.addEventListener("click", async (e) => {
+                    e.stopImmediatePropagation();
                     var optionText = e.target.textContent.trim();
                     console.log(e, optionText);
-                    e.stopImmediatePropagation();
                     await this.optionListinner(optionText);
                 });
             });
@@ -39,14 +39,8 @@ export class Conversation extends Interface {
     async sendRequest(data = this.requestData()) {
         try {
         const url = 'http://localhost:3000/proxy'; // Default local proxy (no need to add any URL)
-    
-        // Uncomment the following lines to use a different proxy or no proxy at all
         // const url = 'https://assistant.kobudev.com/kobu-assistant'; // Use this URL if you don't want to use any proxy
-        // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';  // Set the external proxy URL if desired
-        // const response = await fetch(proxyUrl + url, { // Use an external proxy (uncomment this line if using an external proxy)
-    
-                                            // Send the request to the specified URL
-        const response = await fetch(url, { // Use the default local proxy (comment this line if using an external proxy)
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -54,7 +48,6 @@ export class Conversation extends Interface {
             },
             body: JSON.stringify(data)
         });
-    
         // Check if the response is successful
         if (!response.ok) {
             throw new Error('Network Error');
@@ -85,7 +78,6 @@ export class Conversation extends Interface {
         }
         return localStorage.getItem('userId');
     };
-
     // Set the assistant answer, save the assistant messagem, refresh haldle variables and display the user inputs options (if any)
     async assistantResponseHandler(response) {
         this.message = response.message;
@@ -109,37 +101,32 @@ export class Conversation extends Interface {
             inputElement.blur();
             await this.addOptionListinner();
         }
-
         inputElement.value = '';
         console.log("assistantResponseHandler after await");
         this.chatHistoryBuffer(null, this.message);
-        
     };
 
     async addOptionListinner() {
         // Seleciona o elemento de entrada pelo ID
         this.scrollToBottomOfResults();
-
         var inputElement = document.getElementById('user-input');
         inputElement.blur()
         inputElement.placeholder = 'Please, select an option';
 
         return new Promise((resolve, reject) => {
             document.addEventListener("click", async (e) => {
-            if (e.target.classList.contains("conversation-option")) {
-                this.scrollToBottomOfResults();
-
-                inputElement.placeholder = '';
-                var optionText = e.target.textContent;
-                e.stopImmediatePropagation();
-            
-                await this.optionListinner(optionText);
-                inputElement.placeholder = 'Type a message';
-                resolve();
-            }
+                if (e.target.classList.contains("conversation-option")) {
+                    var optionText = e.target.textContent;
+                    e.stopImmediatePropagation();
+                    inputElement.placeholder = '';
+                    this.scrollToBottomOfResults();
+                    await this.optionListinner(optionText);
+                    inputElement.placeholder = 'Type a message';
+                    resolve();
+                }
             });
         });
-        }
+    }
 
     async optionListinner(optionText) {
         this.scrollToBottomOfResults();
@@ -158,16 +145,15 @@ export class Conversation extends Interface {
         choosedSubject = this.choosedSubject,
         subject = this.subject,
         orientation = this.orientation,
-        ) { 
-            return {
-                "user_id": this.userId,
-                "user_input": input,
-                "current_stage": currentStage,
-                "next_Stage": nextStage,
-                "choosed_subject": choosedSubject,
-                "subject": subject,
-                "orientation": orientation
-            }
+        ) { return {
+            "user_id": this.userId,
+            "user_input": input,
+            "current_stage": currentStage,
+            "next_Stage": nextStage,
+            "choosed_subject": choosedSubject,
+            "subject": subject,
+            "orientation": orientation
+        }
     };
 
     // Saves chatHistory array in LocalStorage

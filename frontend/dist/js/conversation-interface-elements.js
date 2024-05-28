@@ -7,7 +7,6 @@ export class InterfaceElements {
       this.NEXT_STAGE = 'next_stage';
       this.VERIFY_ANSWER = 'verify_answer';
       this.PROCEED = 'proceed';
-
       // Possible stages values
       this.WELCOME_STAGE = 'welcome';
       this.CHOOSE_SUBJECT_STAGE = 'choose_subject';
@@ -21,24 +20,20 @@ export class InterfaceElements {
   createMessageAssistantElement(content) {
       const div = document.createElement("div");
       const p = document.createElement("p");
-
       div.classList.add("assistant-message");
     //   p.classList.add("message assistant-message");
       p.innerHTML = content;
       div.appendChild(p);
-
       return div;
   };
 
   // User Options element creation
   createSuggestionAssistantElement(content) {
       const div = document.createElement("div");
-
       div.classList.add("assistant-message");
       div.classList.add("conversation-option");
       // p.classList.add("conversation-option");
       div.innerHTML = content;
-      // div.appendChild(p);
 
       return div;
   };
@@ -47,12 +42,10 @@ export class InterfaceElements {
   createMessageUserElement(content) {
       const div = document.createElement("div");
       const p = document.createElement("p");
-
       div.classList.add("user-message");
     //   p.classList.add("message user-message");
       p.innerHTML = content;
       div.appendChild(p);
-
       return div;
   };
 
