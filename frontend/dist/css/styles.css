@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* RESET
 ================================================== */
 * {
@@ -209,31 +210,33 @@ button {
   font-size: 17px;
   color: white;
 }
-.chatbox-wrapper .chatbox-close-button, .chatbox-wrapper .chatbox-open-button {
-  background-color: var(--background-color);
-  position: sticky;
-  margin: 30%;
+.chatbox-wrapper .chatbox-open-button {
+  position: relative;
+  align-self: baseline;
   justify-self: center;
+  margin-top: 50px;
 }
-.chatbox-wrapper .chatbox-close-button .x-symbol, .chatbox-wrapper .chatbox-open-button .x-symbol {
+.chatbox-wrapper .chatbox-close-button {
+  position: relative;
+  justify-self: end;
+  align-self: start;
+  margin: 25px;
+}
+.chatbox-wrapper .chatbox-close-button .x-symbol {
   position: relative;
 }
-.chatbox-wrapper .chatbox-close-button .x-symbol::before, .chatbox-wrapper .chatbox-close-button .x-symbol::after, .chatbox-wrapper .chatbox-open-button .x-symbol::before, .chatbox-wrapper .chatbox-open-button .x-symbol::after {
+.chatbox-wrapper .chatbox-close-button .x-symbol::before, .chatbox-wrapper .chatbox-close-button .x-symbol::after {
   content: "";
   position: absolute;
   width: 20px;
   height: 5px;
   background-color: white;
 }
-.chatbox-wrapper .chatbox-close-button .x-symbol::before, .chatbox-wrapper .chatbox-open-button .x-symbol::before {
+.chatbox-wrapper .chatbox-close-button .x-symbol::before {
   transform: translate(-50%, -50%) rotate(45deg);
 }
-.chatbox-wrapper .chatbox-close-button .x-symbol::after, .chatbox-wrapper .chatbox-open-button .x-symbol::after {
+.chatbox-wrapper .chatbox-close-button .x-symbol::after {
   transform: translate(-50%, -50%) rotate(-45deg);
-}
-.chatbox-wrapper .chatbox-close-button {
-  align-self: baseline;
-  justify-self: end;
 }
 .chatbox-wrapper .chatbox-container {
   position: relative;
@@ -247,7 +250,6 @@ button {
   align-self: center;
   align-items: center;
   /* Scrollbar */
-  /* Track */
   /* Handle */
   /* Handle on hover */
   /* Spinner */
@@ -257,6 +259,7 @@ button {
   flex-direction: column;
   position: relative;
   height: 100%;
+  width: 100%;
   align-content: center;
   overflow-y: scroll;
   scroll-behavior: smooth;
@@ -362,21 +365,20 @@ button {
 }
 .chatbox-wrapper .chatbox-container .user-input-form {
   position: relative;
-  bottom: 0;
   height: auto;
   display: flex;
   flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
 }
 .chatbox-wrapper .chatbox-container .user-input-form .input-suggestions-container {
   display: flex;
   width: 100%;
   flex-flow: row;
   justify-content: center;
-  flex: 1;
   max-width: 100%;
   font-size: inherit;
   align-content: start;
-  margin-top: 10px;
 }
 .chatbox-wrapper .chatbox-container .user-input-form .input-suggestion {
   background-color: transparent;
@@ -455,36 +457,90 @@ button {
 
 @media (max-width: 768px) {
   .chatbox-wrapper {
-    width: 100vw;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 0.1 10fr;
+    position: absolute;
+    align-items: center;
     height: 100vh;
-    overflow: hidden;
+    width: 100vw;
   }
-  .chatbox-container {
-    width: 100%;
-    height: 100%;
+  .chatbox-wrapper > .chatbox-close-button, .chatbox-wrapper > .chatbox-open-button {
     margin: 0;
     padding: 0;
   }
-  .chatbox-open-button {
-    position: absolute;
+  .chatbox-wrapper > .chatbox-open-button {
+    grid-column: 1/2;
+    grid-row: 1;
+    padding: 5px;
   }
-  .chatbox-close-button {
-    position: absolute;
-    display: block;
-    right: 10px;
-    margin: 10px;
+  .chatbox-wrapper > .chatbox-open-button > * {
+    background-color: transparent;
   }
-  .messages-container {
-    width: 100vw;
-    padding: 10px;
+  .chatbox-wrapper > .chatbox-close-button {
+    position: relative;
+    grid-column: 3/2; /* Terceiro elemento ocupa a segunda coluna */
+    grid-row: 1; /* Terceiro elemento na primeira linha */
+    align-self: end;
+    justify-self: end;
   }
-  .user-input-form {
-    position: absolute;
-    bottom: 0;
+  .chatbox-wrapper > .chatbox-container {
+    grid-column: 1/3; /* Segundo elemento ocupa ambas as colunas */
+    grid-row: 2; /* Segundo elemento na segunda linha */
+    height: 100%; /* Ocupa 80% da altura disponível */
     width: 100%;
-    padding: 10px;
-    background-color: var(--user-input-bg);
   }
 }
+/* 
+@media (max-width: 768px) {
+    .chatbox-wrapper {
+        // display: flex;
+        // flex-direction: row;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .chatbox-container {
+        // flex: 1;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        // display: flex;
+        // flex-direction: column;
+        // overflow-y: auto;
+    }
+
+    .chatbox-open-button {
+        // display: none;
+        position: absolute;
+
+    }
+
+    .chatbox-close-button {
+        position: absolute;
+        display: block;
+        // opacity: 1;
+        // top: 10px;
+        right: 10px;
+        margin: 10px;
+    }
+
+    .messages-container {
+        // max-width: 100%;
+        width: 100vw;
+        padding: 10px;
+    }
+
+    .user-input-form {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 10px;
+        background-color: var(--user-input-bg);
+    }
+}
+ */
 
 /*# sourceMappingURL=styles.css.map */

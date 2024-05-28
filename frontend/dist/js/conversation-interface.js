@@ -1,6 +1,5 @@
 import { InterfaceElements } from './conversation-interface-elements.js';
 
-
 /**
  * Represents an interface for managing conversation between the user and the AI assistant.
  * This class inherits elements from the InterfaceElements class and provides methods for interface manipulation.
@@ -20,7 +19,6 @@ export class Interface extends InterfaceElements {
         const chat = document.querySelectorAll(".chatbox-container");
         chat.forEach(element => {
             element.style.opacity = 0
-            // element.style.display = 'inline';
             element.style.opacity = 1
         });
         console.log("Chat opened.");
@@ -58,7 +56,6 @@ export class Interface extends InterfaceElements {
             var interval = setInterval(function() {
                 if (opacity < 1) {
                     opacity += 0.2;
-                    // element.style.display = 'inline';
                     element.style.opacity = opacity;
                 } else {
                     clearInterval(interval);
@@ -72,6 +69,7 @@ export class Interface extends InterfaceElements {
         if (message == "") {
           return false
         }
+        console.log("formatAssistantMessage(message: ", message)
         message = message.replace(/\*/g, "<strong>");
         message = message.replace(/\*\//g, '</strong>');
         message = message.replace(/_([^_]+)_/g, '<em class="assistant_message">$1</em>');

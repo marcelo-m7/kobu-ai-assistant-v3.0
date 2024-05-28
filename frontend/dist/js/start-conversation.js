@@ -94,7 +94,6 @@ export class StartConversation {
       default:
         userChatActive.showSpinner();
         userChatActive.setUserResponse()
-
         var request = userChatActive.requestData()
         inputElement.value = '';
         inputElement.placeholder = '';
@@ -104,7 +103,6 @@ export class StartConversation {
         if (response.message === false) {
           break;
         }
-        
         await userChatActive.assistantResponseHandler(response);
         inputElement.placeholder = 'Type a message';
         console.log("Main: finish default() ", userChatActive.currentStage); 
