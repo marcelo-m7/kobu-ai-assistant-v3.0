@@ -6,7 +6,7 @@ from langchain_community.vectorstores.faiss import VectorStore, Document, Embedd
 from dotenv import load_dotenv
 
 # Set OpenAI API Key
-os.environ["OPENAI_API_KEY"] = "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"
+# os.environ["OPENAI_API_KEY"] = "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"
 load_dotenv()
 
 

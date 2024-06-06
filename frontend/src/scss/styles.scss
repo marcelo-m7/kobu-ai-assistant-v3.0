@@ -1,5 +1,16 @@
 @import '_reset.scss';
-
+@font-face {
+    font-family: "Kobu Text Sans Serif";
+    src: url(../fonts/kobutextsansserif.woff2) format('woff2'),
+         url(../fonts/kobutextsansserif.woff) format('woff'),
+         url(../fonts/kobutextsansserif.ttf) format('truetype');
+};
+@font-face {
+    font-family: "Fontawesome";
+    src: url(../fonts/fontawesome-webfont.woff2) format('woff2'),
+         url(../fonts/fontawesome-webfont.woff) format('woff'),
+         url(../fonts/fontawesome-webfont.ttf) format('truetype');
+};
 // Font and Color definitions
 :root {
     --background-color: #DE3A40;
@@ -17,20 +28,7 @@
     --text-color:  rgb(235, 235, 235);
     .visually-hidden { display: none };
 
-    @font-face {
-        font-family: "Kobu Text Sans Serif";
-        src: url(../fonts/kobutextsansserif.woff2) format('woff2'),
-             url(../fonts/kobutextsansserif.woff) format('woff'),
-             url(../fonts/kobutextsansserif.ttf) format('truetype');
-    };
-    @font-face {
-        font-family: "Fontawesome";
-        src: url(../fonts/fontawesome-webfont.woff2) format('woff2'),
-             url(../fonts/fontawesome-webfont.woff) format('woff'),
-             url(../fonts/fontawesome-webfont.ttf) format('truetype');
-    };
 };
-
 // Page Struture
 $chatbox-wrapper: ".chatbox-wrapper";
     $chatbox-open-button: ".chatbox-open-button";
@@ -296,12 +294,7 @@ $chatbox-wrapper: ".chatbox-wrapper";
                     font-size: inherit;
                     height: 50px;
                 };
-                #{$user-input}:focus {
-                    border-color: #b5622f !important; /* Altera a cor da borda quando em foco */
-                    box-shadow: 0 0 5px rgba(0, 191, 255, 0.5); /* Adiciona uma             sombra quando em foco */
-                    /* Outros estilos que você deseja aplicar quando em foco */
-                }
-                
+
                 #{$send-button} {
                     background-color: inherit;
                     justify-self: flex-end;
@@ -339,6 +332,13 @@ $chatbox-wrapper: ".chatbox-wrapper";
     };
 }
 
+// Missing to fix: focus style is not beeing applied
+.chatbox-wrapper:focus * {
+    border-color: #00bfff;
+    box-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
+}
+
+// Screen size responsivity
 @media (max-width: 768px) {
 
     #{$chatbox-wrapper} {
@@ -397,5 +397,26 @@ $chatbox-wrapper: ".chatbox-wrapper";
             overflow: visible;
             white-space: normal;
         }
+    }
+}
+
+// Interface before clicking on .chatbox-open-button
+.status-closed {
+    #{$chatbox-open-button} {
+        display: block !important;
+        position: fixed !important;
+        // bottom: 20px;
+        // right: 20px;
+        // margin: 0;
+        // align-self: auto !important;
+        // justify-self: auto !important;
+        align-self: flex-end !important;
+        justify-self: flex-end !important;
+        margin: 15px;
+        z-index: 1000;
+    }
+
+    #{$chatbox-container}, #{$chatbox-close-button} {
+        display: none !important;
     }
 }

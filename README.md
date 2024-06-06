@@ -16,11 +16,27 @@ To get started with the project, follow these steps:
 3. Set up the frontend files `frontend` on your preferred frontend server *(Check out point 8 of this section)*. Verify if the chat interface is being displayed on your frontend web server.
 
 4. If your web server is in a local environment (localhost), you may need to use a proxy or ensure that your server will not block the API request. *(Check out the section **Frontend Integration: Modifications Required** below for a better understanding of how to deal with cross-origin security issues.)*.
-6. Start the chatbot by running the `run.py` file inside the `/backend` folder. *(You can find more backend documentation in the README.md file in `/backend/conf/README.md` for better understanding.)*
+5. Create a `.env` file in the root directory of the project and add the following content:
 
-7. If the API log shows the Flask server active, you may refresh the frontend chat interface and start the interaction with the AI Assistant through the frontend interface server.
+    ```
+    OPENAI_API_KEY=api_key_here
+    ```
 
-8. To use the local node web-server for the frontend interface, run `npm run start` inside the `/frontend` folder. *(Check out the README.md frontend file in `/frontend/conf/README.md` for better understanding.)*
+    Replace `api_key_here` with your actual OpenAI API key.
+
+6. Ensure that the `python-dotenv` package is installed in your virtual environment.
+7. The function from the `dotenv` module is setted on the script to automatically load environment variables from the `.env` file.
+
+    ```python
+    from dotenv import load_dotenv
+    load_dotenv()
+    ```
+
+8. Start the chatbot by running the `run.py` file inside the `/backend` folder. *(You can find more backend documentation in the README.md file in `/backend/conf/README.md` for better understanding.)*
+
+9. If the API log shows the Flask server active, you may refresh the frontend chat interface and start the interaction with the AI Assistant through the frontend interface server.
+
+10. To use the local node web-server for the frontend interface, run `npm run start` inside the `/frontend` folder. *(Check out the README.md frontend file in `/frontend/conf/README.md` for better understanding.)*
 
 ## Frontend Integration
 

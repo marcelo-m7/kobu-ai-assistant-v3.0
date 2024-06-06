@@ -1,34 +1,40 @@
 import { Conversation } from './conversation.js';
 
+
 export class StartConversation {
   constructor() {
-    // Constants
     this.userId = Conversation.generateUserId();
-    this.userChat = new Conversation(this.userId);
-    const chatboxOpenButton = document.getElementById("chatbox-open-button");
-    const chatboxCloseButton = document.getElementById("chatbox-close-button");
-    const chatboxContainer = document.getElementById("chatbox-container");
+    this.conversation = new Conversation(this.userId);
 
-    // Listeners
+    // Interface HTML Elements
+    const chatboxWrapper = document.getElementById("chatbox-wrapper");
+      const chatboxOpenButton = document.getElementById("chatbox-open-button");
+      const chatboxContainer = document.getElementById("chatbox-container");
+      const chatboxCloseButton = document.getElementById("chatbox-close-button");
+
+    // When clicking on the open chat button
     chatboxOpenButton.addEventListener("click", async () => {
-      chatboxContainer.style.opacity = 1;
-      chatboxCloseButton.style.opacity = 1;
-      chatboxOpenButton.style.opacity = 1;
-      await this.userChat.openChat(this.main.bind(this));
+      chatboxCloseButton.classList.remove("status-closed")
+      chatboxContainer.classList.remove("status-closed")
+      chatboxWrapper.classList.remove("status-closed")
+      await this.conversation.openChat(this.main.bind(this));
     });
+    // When clicking on the close chat button
     chatboxCloseButton.addEventListener("click", async () => {
-      chatboxContainer.style.opacity = 0;
-      chatboxCloseButton.style.opacity = 0;
-      chatboxOpenButton.style.opacity = 1;
+      chatboxCloseButton.classList.add("status-closed")
+      chatboxContainer.classList.add("status-closed")
+      chatboxWrapper.classList.add("status-closed")
     });
+    // When clicking on the send chat icon
     document.getElementById("send-icon").addEventListener('click', async (e) => {
       e.preventDefault();
-      var optionText = this.userChat.userInput() 
-      if (!optionText) { // Verifica se a string está vazia após o trim
+      var optionText = this.conversation.userInput() 
+      if (!optionText) {
           return false;
       }
-        await this.userChat.openChat(this.main());
+        await this.conversation.openChat(this.main());
     });
+    // When presssing 'Enter' key
     document.getElementById("user-input-container").addEventListener('keyup', async (e) => {
       await this.enterClick(e);
     });
@@ -44,69 +50,67 @@ export class StartConversation {
    */
   async main() {
     const inputElement = document.getElementById('user-input');
-    const userChatActive = this.userChat; // Fixing the scope issue
-
-    switch (userChatActive.currentStage) {
+    switch (this.conversation.currentStage) {
 
       case undefined:
       case '':
       case null:
-      case userChatActive.WELCOME_STAGE:
+      case this.conversation.WELCOME_STAGE:
         console.log("Main: starts welcomeMessage()");
-        userChatActive.showSpinner();
+        this.conversation.showSpinner();
         inputElement.placeholder = '';
-        userChatActive.currentStage = userChatActive.WELCOME_STAGE; // First interaction with the API
+        this.conversation.currentStage = this.conversation.WELCOME_STAGE; // First interaction with the API
 
-        var request = userChatActive.requestData("Hi, there!");
-        var response = await userChatActive.sendRequest(request);
-        await userChatActive.assistantResponseHandler(response);
+        var request = this.conversation.requestData("Hi, there!");
+        var response = await this.conversation.sendRequest(request);
+        await this.conversation.assistantResponseHandler(response);
         if (response.current_stage === 'error') {
           break;
         }
-        await userChatActive.setVideo();
-        userChatActive.currentStage = userChatActive.CHOOSE_SUBJECT_STAGE;
-        console.log("Main: finish welcomeMessage() ", userChatActive.currentStage);
+        await this.conversation.setVideo();
+        this.conversation.currentStage = this.conversation.CHOOSE_SUBJECT_STAGE;
+        console.log("Main: finish welcomeMessage() ", this.conversation.currentStage);
         if (response.orientation === false) {
           break;
         }
 
-      case userChatActive.CHOOSE_SUBJECT_STAGE:
+      case this.conversation.CHOOSE_SUBJECT_STAGE:
         console.log("Main: starts chooseSubject()");
         inputElement.placeholder = '';
-        userChatActive.showSpinner();
-        userChatActive.currentStage = userChatActive.CHOOSE_SUBJECT_STAGE; // Ask for the subejects list
+        this.conversation.showSpinner();
+        this.conversation.currentStage = this.conversation.CHOOSE_SUBJECT_STAGE; // Ask for the subejects list
         
-        var request = userChatActive.requestData() // input="Choose subject stage")
+        var request = this.conversation.requestData() // input="Choose subject stage")
         inputElement.value = '';
         inputElement.placeholder = '';
-        var response = await userChatActive.sendRequest(request);
+        var response = await this.conversation.sendRequest(request);
 
         if (response.message === false) {
           inputElement.placeholder = 'Please, choose a option.'
           
           break;
         }
-        await userChatActive.assistantResponseHandler(response); 
+        await this.conversation.assistantResponseHandler(response); 
         inputElement.placeholder = 'Type a message'
 
         break;
       
       // It is missing to add a case to send the history or div state to the API, to send the conversation settings and history by client side
       default:
-        userChatActive.showSpinner();
-        userChatActive.setUserResponse()
-        var request = userChatActive.requestData()
+        this.conversation.showSpinner();
+        this.conversation.setUserResponse()
+        var request = this.conversation.requestData()
         inputElement.value = '';
         inputElement.placeholder = '';
         
-        var response = await userChatActive.sendRequest(request);
+        var response = await this.conversation.sendRequest(request);
 
         if (response.message === false) {
           break;
         }
-        await userChatActive.assistantResponseHandler(response);
+        await this.conversation.assistantResponseHandler(response);
         inputElement.placeholder = 'Type a message';
-        console.log("Main: finish default() ", userChatActive.currentStage); 
+        console.log("Main: finish default() ", this.conversation.currentStage); 
 
         break;
 

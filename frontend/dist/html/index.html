@@ -9,13 +9,13 @@
     <script type="module" src="../js/scripts.js" defer></script>
 </head>
 <body>
-    <section class="chatbox-wrapper" aria-labelledby="chatbox-heading">
+    <section class="chatbox-wrapper status-closed" id="chatbox-wrapper" aria-labelledby="chatbox-heading">
 
         <button class="chatbox-open-button" id="chatbox-open-button" aria-label="Open Chat">
             <img src="../img/kobu-chatbox-icon.svg" class="chatbox-icon" alt="Chat Icon">
         </button>
 
-        <div class="chatbox-container" id="chatbox-container" role="dialog" aria-modal="true" aria-labelledby="chatbox-heading">
+        <div class="chatbox-container status-closed" id="chatbox-container" role="dialog" aria-modal="true" aria-labelledby="chatbox-heading">
             <div class="messages-container" id="messages-container" aria-live="polite">
                 <!-- <div class="message assistant-message">
                     <p>Greetings, dear visitor! Thank you for stopping by and showing interest in contacting KOBU Agency. Nuno has something quite intriguing to share with you. Let's see what he's got up his sleeve! 🎥</p>
@@ -65,7 +65,7 @@
             </form>
         </div>
 
-        <button class="chatbox-close-button" id="chatbox-close-button" aria-label="Close Chat"><p class="visually-hidden">Close</p><div class="x-symbol"></div>
+        <button class="chatbox-close-button status-closed" id="chatbox-close-button" aria-label="Close Chat"><p class="visually-hidden">Close</p><div class="x-symbol"></div>
         </button>
         
     </section>
