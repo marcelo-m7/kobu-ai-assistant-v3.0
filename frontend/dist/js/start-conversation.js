@@ -1,140 +1,139 @@
 import { Conversation } from './conversation.js';
 
+const ELEMENTS = {
+  statusClosed: "status-closed",
+  chatboxWrapper: "chatbox-wrapper",
+    chatboxOpenButton: "chatbox-open-button",
+    chatboxContainer: "chatbox-container",
+      userInputContainer: "user-input-container",
+        userInput: "user-input",
+        sendIcon: "send-icon",
+    chatboxCloseButton: "chatbox-close-button"
+};
 
 export class StartConversation {
   constructor() {
     this.userId = Conversation.generateUserId();
     this.conversation = new Conversation(this.userId);
 
-    // Interface HTML Elements
-    const chatboxWrapper = document.getElementById("chatbox-wrapper");
-      const chatboxOpenButton = document.getElementById("chatbox-open-button");
-      const chatboxContainer = document.getElementById("chatbox-container");
-      const chatboxCloseButton = document.getElementById("chatbox-close-button");
-
-    // When clicking on the open chat button
-    chatboxOpenButton.addEventListener("click", async () => {
-      chatboxCloseButton.classList.remove("status-closed")
-      chatboxContainer.classList.remove("status-closed")
-      chatboxWrapper.classList.remove("status-closed")
-      await this.conversation.openChat(this.main.bind(this));
-    });
-    // When clicking on the close chat button
-    chatboxCloseButton.addEventListener("click", async () => {
-      chatboxCloseButton.classList.add("status-closed")
-      chatboxContainer.classList.add("status-closed")
-      chatboxWrapper.classList.add("status-closed")
-    });
-    // When clicking on the send chat icon
-    document.getElementById("send-icon").addEventListener('click', async (e) => {
-      e.preventDefault();
-      var optionText = this.conversation.userInput() 
-      if (!optionText) {
-          return false;
-      }
-        await this.conversation.openChat(this.main());
-    });
-    // When presssing 'Enter' key
-    document.getElementById("user-input-container").addEventListener('keyup', async (e) => {
-      await this.enterClick(e);
-    });
-    document.getElementById("user-input-container").addEventListener('keypress', async (e) => {
-      await this.enterClick(e);
-    });
+    this.initInterfaceElements();
+    this.initInterfaceEventListeners();
   }
 
-  /**
-   * Main function for managing the chat interface and interaction with the AI assistant.
-   * Sets up event listeners for opening and closing the chat, handling user input, and executing the conversation logic.
-   * @returns {Promise<void>} - A promise that resolves once the main function completes.
-   */
-  async main() {
-    const inputElement = document.getElementById('user-input');
-    switch (this.conversation.currentStage) {
+  initInterfaceElements() {
+    this.chatboxWrapper = document.getElementById(ELEMENTS.chatboxWrapper);
+    this.chatboxOpenButton = document.getElementById(ELEMENTS.chatboxOpenButton);
+    this.chatboxContainer = document.getElementById(ELEMENTS.chatboxContainer);
+    this.chatboxCloseButton = document.getElementById(ELEMENTS.chatboxCloseButton);
+    this.sendIcon = document.getElementById(ELEMENTS.sendIcon);
+    this.userInputContainer = document.getElementById(ELEMENTS.userInputContainer);
+    this.userInput = document.getElementById(ELEMENTS.userInput);
+  }
 
+  initInterfaceEventListeners() {
+    this.chatboxOpenButton.addEventListener("click", this.openChat.bind(this));
+    this.chatboxCloseButton.addEventListener("click", this.closeChat.bind(this));
+    this.sendIcon.addEventListener('click', this.sendMessage.bind(this));
+    this.userInputContainer.addEventListener('keyup', this.handleKeyUp.bind(this));
+    this.userInputContainer.addEventListener('keypress', this.handleKeyPress.bind(this));
+  }
+
+  async openChat() {
+    this.toggleChatbox(false);
+    await this.conversation.openChat(this.main.bind(this));
+  }
+
+  closeChat() {
+    this.toggleChatbox(true);
+  }
+
+  async sendMessage(e) {
+    e.preventDefault();
+    const optionText = this.conversation.userInput();
+    if (!optionText) return;
+    await this.conversation.openChat(this.main.bind(this));
+  }
+
+  async handleKeyUp(e) {
+    await this.handleEnterKey(e);
+  }
+
+  async handleKeyPress(e) {
+    await this.handleEnterKey(e);
+  }
+
+  async handleEnterKey(e) {
+    if (e.keyCode === 13 || e.which === 13) {
+      const text = this.userInput.value;
+      if (text.trim() === "") {
+        e.preventDefault();
+        return false;
+      }
+      e.preventDefault();
+      this.userInput.blur();
+      await this.main();
+      return true;
+    }
+    return false;
+  }
+
+  toggleChatbox(statusClosed) {
+    const action = statusClosed ? 'add' : 'remove';
+    [this.chatboxCloseButton, this.chatboxContainer, this.chatboxWrapper].forEach(el => el.classList[action](ELEMENTS.statusClosed));
+  }
+
+  async main() {
+    this.conversation.showSpinner();
+    const inputElement = this.userInput;
+    inputElement.blur();
+
+    switch (this.conversation.currentStage) {
       case undefined:
       case '':
       case null:
       case this.conversation.WELCOME_STAGE:
-        console.log("Main: starts welcomeMessage()");
-        this.conversation.showSpinner();
-        inputElement.placeholder = '';
-        this.conversation.currentStage = this.conversation.WELCOME_STAGE; // First interaction with the API
-
-        var request = this.conversation.requestData("Hi, there!");
-        var response = await this.conversation.sendRequest(request);
-        await this.conversation.assistantResponseHandler(response);
-        if (response.current_stage === 'error') {
-          break;
-        }
-        await this.conversation.setVideo();
-        this.conversation.currentStage = this.conversation.CHOOSE_SUBJECT_STAGE;
-        console.log("Main: finish welcomeMessage() ", this.conversation.currentStage);
-        if (response.orientation === false) {
-          break;
-        }
-
+        await this.handleWelcomeStage();
+        // break;
       case this.conversation.CHOOSE_SUBJECT_STAGE:
-        console.log("Main: starts chooseSubject()");
-        inputElement.placeholder = '';
-        this.conversation.showSpinner();
-        this.conversation.currentStage = this.conversation.CHOOSE_SUBJECT_STAGE; // Ask for the subejects list
-        
-        var request = this.conversation.requestData() // input="Choose subject stage")
-        inputElement.value = '';
-        inputElement.placeholder = '';
-        var response = await this.conversation.sendRequest(request);
-
-        if (response.message === false) {
-          inputElement.placeholder = 'Please, choose a option.'
-          
-          break;
-        }
-        await this.conversation.assistantResponseHandler(response); 
-        inputElement.placeholder = 'Type a message'
-
+        await this.handleChooseSubjectStage();
         break;
-      
-      // It is missing to add a case to send the history or div state to the API, to send the conversation settings and history by client side
       default:
-        this.conversation.showSpinner();
-        this.conversation.setUserResponse()
-        var request = this.conversation.requestData()
-        inputElement.value = '';
-        inputElement.placeholder = '';
-        
-        var response = await this.conversation.sendRequest(request);
-
-        if (response.message === false) {
-          break;
-        }
-        await this.conversation.assistantResponseHandler(response);
-        inputElement.placeholder = 'Type a message';
-        console.log("Main: finish default() ", this.conversation.currentStage); 
-
-        break;
-
+        await this.handleDefaultStage();
     }
   }
 
-  /**
-   * Handles user responses triggered by pressing the Enter key.
-   * @param {Event} e - The event object representing the keypress event.
-   * @returns {Promise<boolean>} - A promise that resolves to true if the Enter key is pressed and the user input is not empty or consists only of whitespace; otherwise, resolves to false.
-   */
-  async enterClick(e) {
-    var keyCode = e.keyCode || e.which;
-    var text = document.getElementById("user-input").value;
+  async handleWelcomeStage() {
+    console.log("Main: starts welcomeMessage()");
+    const request = this.conversation.requestData("Hi, there!");
+    const response = await this.conversation.sendRequest(request);
+    await this.conversation.assistantResponseHandler(response);
+    if (response.current_stage === 'error') return;
+    await this.conversation.setVideo();
+    this.conversation.currentStage = this.conversation.CHOOSE_SUBJECT_STAGE;
+    console.log("Main: finish welcomeMessage()", this.conversation.currentStage);
+  }
 
-    if (keyCode === 13) {
-      if (text == "" || text.trim() == "") {
-        e.preventDefault();
-        return false;
-      } else {
-        e.preventDefault();
-        document.getElementById("user-input").blur();
-        await this.main();
-      }
+  async handleChooseSubjectStage() {
+    console.log("Main: starts chooseSubject()");
+    const request = this.conversation.requestData();
+    const response = await this.conversation.sendRequest(request);
+    if (response.message === false) {
+      this.userInput.placeholder = 'Please, choose an option.';
+      return;
     }
+    await this.conversation.assistantResponseHandler(response);
+    this.userInput.placeholder = 'Type a message';
+  }
+
+  async handleDefaultStage() {
+    this.conversation.setUserResponse();
+    const request = this.conversation.requestData();
+    const inputElement = this.userInput
+    inputElement.value = ''
+    const response = await this.conversation.sendRequest(request);
+    if (response.message === false) return;
+    await this.conversation.assistantResponseHandler(response);
+    this.userInput.placeholder = 'Type a message';
+    console.log("Main: finish default()", this.conversation.currentStage);
   }
 }

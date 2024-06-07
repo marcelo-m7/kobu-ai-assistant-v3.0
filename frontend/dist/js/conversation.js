@@ -93,15 +93,15 @@ export class Conversation extends Interface {
         this.scrollToBottomOfResults();
 
         var inputElement = document.getElementById('user-input');
+        inputElement.value = '';
         if (this.options ) {
             inputElement.blur();
-            inputElement.placeholder = '';
             this.scrollToBottomOfResults();
             await this.setAssistantSuggestion(this.options);
-            inputElement.blur();
+            // inputElement.blur();
             await this.addOptionListinner();
         }
-        inputElement.value = '';
+        // inputElement.value = '';
         console.log("assistantResponseHandler after await");
         this.chatHistoryBuffer(null, this.message);
     };
