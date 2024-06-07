@@ -1,5 +1,14 @@
 import { Interface } from './conversation-interface.js';
 
+const LOCAL_PROXY_URL = 'http://localhost:3000/proxy';
+const CONTACT_URL = "https://kobu.agency/contact";
+const CHAT_HISTORY_KEY = 'chat_history';
+const USER_ID_KEY = 'userId';
+const ERROR_RESPONSE = {
+  "message": `Sorry, but I'm unable to assist you at the moment. Please contact <a href='${CONTACT_URL}'>Kobu.agency/Contact</a> for further assistance.`,
+  "current_stage": "error"
+};
+
 /**
  * Represents a conversation between a user and an AI assistant.
  * Extends Interface class to handle conversation interface.
@@ -17,16 +26,17 @@ export class Conversation extends Interface {
     this.orientation = 'proceed';
     this.message = null;
 
-    document.addEventListener('DOMContentLoaded', this.setupEventListeners.bind(this));
+    (this.setupSuggestionListener.bind(this))();
   }
 
-  setupEventListeners() {
+  setupSuggestionListener() {
     const elements = document.getElementsByClassName('input-suggestion');
     Array.from(elements).forEach(element => {
       element.addEventListener('click', async (e) => {
         e.stopImmediatePropagation();
         const optionText = e.target.textContent.trim();
         console.log(e, optionText);
+        this.currentStage = this.nextStage;
         await this.optionListener(optionText);
       });
     });
@@ -38,10 +48,8 @@ export class Conversation extends Interface {
    * @returns {Promise<object>} - A promise resolving to the response data from the server.
    */
   async sendRequest(data = this.requestData()) {
-    const url = 'http://localhost:3000/proxy'; // Default local proxy
-
     try {
-      const response = await fetch(url, {
+      const response = await fetch(LOCAL_PROXY_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,16 +58,13 @@ export class Conversation extends Interface {
         body: JSON.stringify(data)
       });
 
-      if (!response.ok) throw new Error('Network Error');
+      if (!response.ok) throw new Error(`Network Error: ${response.statusText}`);
 
       const responseData = await response.json();
       return responseData;
     } catch (error) {
-      console.error(error);
-      return {
-        "message": "Sorry, but I'm unable to assist you at the moment. Please contact <a href='https://kobu.agency/contact'>Kobu.agency/Contact</a> for further assistance.",
-        "current_stage": "error"
-      };
+      console.error('Fetch error:', error);
+      return ERROR_RESPONSE;
     }
   }
 
@@ -69,11 +74,11 @@ export class Conversation extends Interface {
    * @returns {string} - The generated or retrieved unique user ID.
    */
   static generateUserId() {
-    if (!localStorage.getItem('userId')) {
+    if (!localStorage.getItem(USER_ID_KEY)) {
       const userId = Date.now().toString() + Math.floor(Math.random() * 1000);
-      localStorage.setItem('userId', userId);
+      localStorage.setItem(USER_ID_KEY, userId);
     }
-    return localStorage.getItem('userId');
+    return localStorage.getItem(USER_ID_KEY);
   }
 
   /**
@@ -176,12 +181,12 @@ export class Conversation extends Interface {
    * @param {string} assistantMessage - The assistant's message.
    */
   chatHistoryBuffer(userInput, assistantMessage) {
-    let chatHistory = localStorage.getItem('chat_history');
+    let chatHistory = localStorage.getItem(CHAT_HISTORY_KEY);
     chatHistory = chatHistory ? JSON.parse(chatHistory) : [];
 
     if (userInput) chatHistory.push({ user: userInput });
     if (assistantMessage) chatHistory.push({ assistant: assistantMessage, system: Date.now().toString() });
 
-    localStorage.setItem('chat_history', JSON.stringify(chatHistory));
+    localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(chatHistory));
   }
 }
