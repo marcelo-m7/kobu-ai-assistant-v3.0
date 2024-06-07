@@ -33,53 +33,9 @@ export class StartConversation {
   initInterfaceEventListeners() {
     this.chatboxOpenButton.addEventListener("click", this.openChat.bind(this));
     this.chatboxCloseButton.addEventListener("click", this.closeChat.bind(this));
-    this.sendIcon.addEventListener('click', this.sendMessage.bind(this));
-    this.userInputContainer.addEventListener('keyup', this.handleKeyUp.bind(this));
-    this.userInputContainer.addEventListener('keypress', this.handleKeyPress.bind(this));
-  }
-
-  async openChat() {
-    this.toggleChatbox(false);
-    await this.conversation.openChat(this.main.bind(this));
-  }
-
-  closeChat() {
-    this.toggleChatbox(true);
-  }
-
-  async sendMessage(e) {
-    e.preventDefault();
-    const optionText = this.conversation.userInput();
-    if (!optionText) return;
-    await this.conversation.openChat(this.main.bind(this));
-  }
-
-  async handleKeyUp(e) {
-    await this.handleEnterKey(e);
-  }
-
-  async handleKeyPress(e) {
-    await this.handleEnterKey(e);
-  }
-
-  async handleEnterKey(e) {
-    if (e.keyCode === 13 || e.which === 13) {
-      const text = this.userInput.value;
-      if (text.trim() === "") {
-        e.preventDefault();
-        return false;
-      }
-      e.preventDefault();
-      this.userInput.blur();
-      await this.main();
-      return true;
-    }
-    return false;
-  }
-
-  toggleChatbox(statusClosed) {
-    const action = statusClosed ? 'add' : 'remove';
-    [this.chatboxCloseButton, this.chatboxContainer, this.chatboxWrapper].forEach(el => el.classList[action](ELEMENTS.statusClosed));
+    this.sendIcon.addEventListener('click', this.hendleSendIcon.bind(this));
+    this.userInputContainer.addEventListener('keyup', this.handleKeyUpPress.bind(this));
+    this.userInputContainer.addEventListener('keypress', this.handleKeyUpPress.bind(this));
   }
 
   async main() {
@@ -136,4 +92,42 @@ export class StartConversation {
     this.userInput.placeholder = 'Type a message';
     console.log("Main: finish default()", this.conversation.currentStage);
   }
+
+  async openChat() {
+    this.toggleChatbox(false);
+    await this.conversation.openChat(this.main.bind(this));
+  }
+
+  closeChat() {
+    this.toggleChatbox(true);
+  }
+  // Set or remove .statusClosed class to the HTML Elements
+  toggleChatbox(statusClosed) {
+    const action = statusClosed ? 'add' : 'remove';
+    [this.chatboxCloseButton, this.chatboxContainer, this.chatboxWrapper].forEach(el => el.classList[action](ELEMENTS.statusClosed));
+  }
+
+  async hendleSendIcon(e) {
+    e.preventDefault();
+    const optionText = this.conversation.userInput();
+    if (!optionText) return;
+    await this.conversation.openChat(this.main.bind(this));
+  }
+
+  async handleKeyUpPress(e) {
+    if (e.keyCode === 13 || e.which === 13) {
+      const text = this.userInput.value;
+      if (text.trim() === "") {
+        e.preventDefault();
+        return false;
+      }
+      e.preventDefault();
+      this.userInput.blur();
+      await this.main();
+      return true;
+    }
+    return false;
+  }
+
+
 }
