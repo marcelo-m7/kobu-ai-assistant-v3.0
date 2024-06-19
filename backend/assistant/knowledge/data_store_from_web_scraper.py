@@ -4,9 +4,6 @@ from langchain_openai import OpenAIEmbeddings
 from typing import List
 from langchain_community.vectorstores.faiss import VectorStore, Document, Embeddings, FAISS
 from dotenv import load_dotenv
-
-# Set OpenAI API Key
-# os.environ["OPENAI_API_KEY"] = "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"
 load_dotenv()
 
 
@@ -46,7 +43,7 @@ class VectorStoreBuilder:
                         documents.append(Document(title=title, page_content=content, metadata=metadata))
             
             # Print examples of loaded documents for verification
-            print("Loaded documents[0]:\n", documents[0], documents[8], documents[15])
+            # print("Loaded documents[0]:\n", documents[0], documents[8], documents[15])
             print("\nLoaded documents[15]:\n", documents[15])
             return documents
         
@@ -76,7 +73,7 @@ class VectorStoreBuilder:
                         documents.append(Document(title=title, page_content=content_with_metadata, metadata=metadata))
             
             # Print examples of loaded documents for verification
-            print("Loaded documents[0]:\n", documents[0], documents[8], documents[15])
+            # print("Loaded documents[0]:\n", documents[0], documents[8], documents[15])
             print("\nLoaded documents[15]:\n", documents[15])
             return documents
         

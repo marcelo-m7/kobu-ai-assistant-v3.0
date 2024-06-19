@@ -1,8 +1,8 @@
 from langchain_openai import ChatOpenAI
-from .data_store import DataStore
 from ..tools.manager_tools import *
 from ..consts import ChatConsts
 from .data_store_from_web_scraper import get_vector_store
+# from .data_store import DataStore     # Old form to obtain Vector Store
 
 
 class KnowledgeLoaders(ChatConsts):
@@ -15,6 +15,8 @@ class KnowledgeLoaders(ChatConsts):
         llm_conversation (ChatOpenAI): Language model for conversation.
         llm_validation (ChatOpenAI): Language model for validation.
         llm_retriver (ChatOpenAI): Language model for retrieval.
+
+    Methodos parameters definitions:
         stage (str): Current stage of the conversation.
         subject_name (str): Name of the current subject.
         subject_instance (object): Instance of the current subject class.

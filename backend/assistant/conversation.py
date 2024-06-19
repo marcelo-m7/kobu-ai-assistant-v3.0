@@ -29,17 +29,8 @@ class Conversation(Assistant, LeadHandlers):
         self.save_chat_mode = False
         self.lead_generation = True # Default
         print("Current subject number: ", subject)
-        ManagerTools.logger_print(self)
     
-    @property
-    def subject(self) -> int:
-        """int: The subject of the chat."""
-        return self._subject
 
-    @subject.setter
-    def subject(self, new_subject: int) -> None:
-        self._subject = new_subject
-        self.update_dependent_attributes()
 
     @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
     @ManagerTools.debugger_exception_decorator # It is seted in this function for to test proposes 
@@ -78,7 +69,7 @@ class Conversation(Assistant, LeadHandlers):
         Answers the user_input and manages conversation state changes based on data detection for lead generation.
 
         Args:
-            user_request (dict, optional): The user's request. Defaults to {}.
+            user_request (dict, optional): The user's request.
 
         Returns:
             dict: The response to the user's request.
@@ -110,33 +101,6 @@ class Conversation(Assistant, LeadHandlers):
                         else:
                             self.current_stage = self.next_stage
                             continue
-                    
-                    # The ACCEPTANCE_OF_TERMS_STAGE case is beeing integrated.
-                    case self.ACCEPTANCE_OF_TERMS_STAGE:
-                        response = await self.acceptance_of_terms(user_request)
-                        self.set_user_attributes(response)
-                        # print("ACCEPTANCE_OF_TERMS Response:\n", response)
-
-                        if response['orientation'] == self.VERIFY_ANSWER and response['message'] not in ['false', 'true']:
-                            print("Inside of if response['orientation'] == self.VERIFY_ANSWER")
-                            self.next_stage = self.ACCEPTANCE_OF_TERMS_STAGE
-                            break
-                        
-                        else:
-                            if response['message'] == 'true':
-                                self.current_stage = self.next_stage = self.CHOOSE_SUBJECT_STAGE
-                                self.orientation = self.PROCEED
-                                print("Inside of if response['message'] == 'true': ")
-                                
-
-                            else:
-                                response['current_stage'] = self.next_stage = self.current_stage = self.WELCOME_STAGE # Missing to configurate a stage for decline terms
-                                response['orientation'] = self.orientation = self.VERIFY_ANSWER
-                                print("New current_stage after message 'false': ", self.current_stage)
-                                print("Current Stage After False: ", self.current_stage, self.orientation)
-        
-                            del response['options']
-                            continue
 
                     case self.CHOOSE_SUBJECT_STAGE:
                         response = await self.choose_subject(user_request)
@@ -148,7 +112,7 @@ class Conversation(Assistant, LeadHandlers):
                             self.orientation = self.PROCEED
                             self.subject = response['choosed_subject']
                             print("Subject choosed: ", self.subject_name)
-                            print("subject_instance: ", self.subject_instance)
+                            # print("subject_instance: ", self.subject_instance)
                             continue
 
                         else:
@@ -186,7 +150,6 @@ class Conversation(Assistant, LeadHandlers):
                         # self.debugger_sleeper(2)
 
                         if response['orientation'] == self.VERIFY_ANSWER and response['message'] not in ['false', 'true']:
-                            print("Inside of if response['orientation'] == self.VERIFY_ANSWER")
                             self.next_stage = self.RESUME_VALIDATION_STAGE
                             break
                         
@@ -194,13 +157,12 @@ class Conversation(Assistant, LeadHandlers):
                             if response['message'] == 'true':
                                 self.current_stage = self.next_stage = self.SEND_VALIDATION_STAGE
                                 self.orientation = self.PROCEED
-                                print("Inside of if response['message'] == 'true': ")
 
-                            else:    # elif response['message'] == 'false':  # IT IS NOT WORKIG AS IT SHOULD
+                            else:
                                 response['current_stage'] = self.next_stage = self.current_stage = self.DATA_COLLECTING_STAGE
                                 response['orientation'] = self.orientation = self.VERIFY_ANSWER
-                                print("New current_stage after message 'false': ", self.current_stage)
-                                print("Current Stage After False: ", self.current_stage, self.orientation)
+                                # print("New current_stage after message 'false': ", self.current_stage)
+                                # print("Current Stage After False: ", self.current_stage, self.orientation)
         
                             del response['options']
                             continue
@@ -224,16 +186,14 @@ class Conversation(Assistant, LeadHandlers):
                                 self.orientation = self.PROCEED
                                 del response['options']
 
-                            else:   # elif response['message'] == 'false':
+                            else:
                                 response['current_stage'] =  self.current_stage = self.next_stage = self.RESUME_VALIDATION_STAGE
                                 response['orientation'] = self.orientation = self.VERIFY_ANSWER
 
-                            # del response['options']
                             continue
 
                     case self.FREE_CONVERSATION_STAGE:   # Stop going verifications
                         response = await self.free_conversation(user_request)
-                        # print("Free Conversation Response:\n", response)
                         break
                     
                     case self.CRITICAL: # To bem implemented
@@ -289,3 +249,13 @@ class Conversation(Assistant, LeadHandlers):
 
         finally:
             return response
+        
+    @property
+    def subject(self) -> int:
+        """int: The subject of the chat."""
+        return self._subject
+
+    @subject.setter
+    def subject(self, new_subject: int) -> None:
+        self._subject = new_subject
+        self.update_dependent_attributes()

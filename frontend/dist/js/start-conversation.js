@@ -14,29 +14,12 @@ const ELEMENTS = {
 export class StartConversation {
   constructor() {
     this.userId = Conversation.generateUserId();
-    this.conversation = new Conversation(this.userId);
+    this.conversation = new Conversation();
 
     this.initInterfaceElements();
     this.initInterfaceEventListeners();
   }
 
-  initInterfaceElements() {
-    this.chatboxWrapper = document.getElementById(ELEMENTS.chatboxWrapper);
-    this.chatboxOpenButton = document.getElementById(ELEMENTS.chatboxOpenButton);
-    this.chatboxContainer = document.getElementById(ELEMENTS.chatboxContainer);
-    this.chatboxCloseButton = document.getElementById(ELEMENTS.chatboxCloseButton);
-    this.sendIcon = document.getElementById(ELEMENTS.sendIcon);
-    this.userInputContainer = document.getElementById(ELEMENTS.userInputContainer);
-    this.userInput = document.getElementById(ELEMENTS.userInput);
-  }
-
-  initInterfaceEventListeners() {
-    this.chatboxOpenButton.addEventListener("click", this.openChat.bind(this));
-    this.chatboxCloseButton.addEventListener("click", this.closeChat.bind(this));
-    this.sendIcon.addEventListener('click', this.hendleSendIcon.bind(this));
-    this.userInputContainer.addEventListener('keyup', this.handleKeyUpPress.bind(this));
-    this.userInputContainer.addEventListener('keypress', this.handleKeyUpPress.bind(this));
-  }
 
   async main() {
     this.conversation.showSpinner();
@@ -57,7 +40,7 @@ export class StartConversation {
         await this.handleDefaultStage();
     }
   }
-
+  // Stage Handlers
   async handleWelcomeStage() {
     console.log("Main: starts welcomeMessage()");
     const request = this.conversation.requestData("Hi, there!");
@@ -91,6 +74,25 @@ export class StartConversation {
     await this.conversation.assistantResponseHandler(response);
     this.userInput.placeholder = 'Type a message';
     console.log("Main: finish default()", this.conversation.currentStage);
+  }
+
+  // Interface Handlers
+  initInterfaceElements() {
+    this.chatboxWrapper = document.getElementById(ELEMENTS.chatboxWrapper);
+    this.chatboxOpenButton = document.getElementById(ELEMENTS.chatboxOpenButton);
+    this.chatboxContainer = document.getElementById(ELEMENTS.chatboxContainer);
+    this.chatboxCloseButton = document.getElementById(ELEMENTS.chatboxCloseButton);
+    this.sendIcon = document.getElementById(ELEMENTS.sendIcon);
+    this.userInputContainer = document.getElementById(ELEMENTS.userInputContainer);
+    this.userInput = document.getElementById(ELEMENTS.userInput);
+  }
+
+  initInterfaceEventListeners() {
+    this.chatboxOpenButton.addEventListener("click", this.openChat.bind(this));
+    this.chatboxCloseButton.addEventListener("click", this.closeChat.bind(this));
+    this.sendIcon.addEventListener('click', this.hendleSendIcon.bind(this));
+    this.userInputContainer.addEventListener('keyup', this.handleKeyUpPress.bind(this));
+    this.userInputContainer.addEventListener('keypress', this.handleKeyUpPress.bind(this));
   }
 
   async openChat() {
@@ -128,6 +130,5 @@ export class StartConversation {
     }
     return false;
   }
-
 
 }
