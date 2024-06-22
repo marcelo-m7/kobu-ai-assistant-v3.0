@@ -128,7 +128,7 @@ class GeneralContact(LeadExtractor):
     def __init__(self, subject_name):
         super().__init__(subject_name)
     
-    @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
+    # @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
     def get_leads_info(self, chat_history) -> dict:
         """Extract and return the conversation data for Lead Generation."""
         print("GeneralContact get_leads_info() - Extracting data to generate lead.")
@@ -178,7 +178,7 @@ class JoinTheTeam(LeadExtractor):
     def __init__(self, subject_name):
         super().__init__(subject_name)
         
-    @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
+    # @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
     def get_leads_info(self, chat_history) -> json:
         """Extracts and returns the conversation data for Lead Generation."""
         print("JoinTheTeam get_leads_info() - Extracting datas to generate lead.")

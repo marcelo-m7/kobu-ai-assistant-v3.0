@@ -1,0 +1,132 @@
+PS C:\Users\marce\OneDrive - Universidade do Algarve\Vida Pessoal e Estágio\Estágio Kobu Agency\GitHub\kobu-ai-assistant-v3.0> cd .\backend\
+PS C:\Users\marce\OneDrive - Universidade do Algarve\Vida Pessoal e Estágio\Estágio Kobu Agency\GitHub\kobu-ai-assistant-v3.0\backend> & "c:/Users/marce/OneDrive - Universidade do Algarve/Vida Pessoal e Estágio/Estágio Kobu Agency/GitHub/kobu-ai-assistant-v3.0/.venv/Scripts/python.exe" "c:/Users/marce/OneDrive - Universidade do Algarve/Vida Pessoal e Estágio/Estágio Kobu Agency/GitHub/kobu-ai-assistant-v3.0/backend/run_api-ai-assistant.py"
+
+Loaded documents[15]:
+ page_content="Title: Creating LAB Terrace - 2017 | KOBU Agency Case Study\nMetadata: {'url': 'https://kobu.agency/case-studies/lab-2017/'}\n Page Content: LAB Lounge Terrace visuals were born from the study of Ria Formosa’s fauna and flora against the backdrop of the usual cocktail-themed elements. what about LAB 2018? Shaped in 2017, the brand identity of this pop up terrace resulted in a fresh, colourful and organic visual language, based on illustration, that celebrates the fauna and flora of th plant species from Ria Formosa complemented the picture. For this project, a variety of materials and pieces were designed as brand applications. Beyond the main stationary, the visual language was further extended to include informative flyers, plastic covers with the LAB Lounge Terrace graphic elements, menus, t-shirts and merchandising and the full set of signage for the venue. We also worked with digital media, developing all major social media graphic aspects: profile picture, page cover and event covers. Facebook event covers We used photography to wrap up the communication, capturing the major venue highlights and a few lifestyle inspiration materials and scenes. This included Fiúza, LAB Lounge Terrace’s flagship wine. what about LAB 2018? more case studies\n" metadata={'url': 'https://kobu.agency/case-studies/lab-2017/'}
+Vector store built successfully!
+Program completed.
+ * Serving Flask app 'api.app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+
+Loaded documents[15]:
+ page_content="Title: Creating LAB Terrace - 2017 | KOBU Agency Case Study\nMetadata: {'url': 'https://kobu.agency/case-studies/lab-2017/'}\n Page Content: LAB Lounge Terrace visuals were born from the study of Ria Formosa’s fauna and flora against the backdrop of the usual cocktail-themed elements. what about LAB 2018? Shaped in 2017, the brand identity of this pop up terrace resulted in a fresh, colourful and organic visual language, based on illustration, that celebrates the fauna and flora of this privileged location. LAB Lounge Terrace’s concept is built around the idea of a summer lounge bar, set up against the backdrop of Ria Formosa. The ideal place to experience the joy of sharing moments with friends while celebrating life, and embracing the awe-inspiring sunsets. The dynamics and mood of this terrace were captured into the brand logo through the use of a experimental typeface where the characters in the LAB wordmark move relative to one another.  Representing the Ria Formosa landscapes, the typical bar drinks and the exuberance and originality of this location was a challenge from the start but it was clear that we would be using one of the most iconic species from this natural treasure of Algarve as a visual key: the western swamphen (Porphyrio porphyrio). Its buoyant colours ended up inspiring the palette that runs through the visuals. Additional graphic elements such as citric fruits and some endogenous plant species from Ria Formosa complemented the picture. For this project, a variety of materials and pieces were designed as brand applications. Beyond the main stationary, the visual language was further extended to include informative flyers, plastic covers with the LAB Lounge Terrace graphic elements, menus, t-shirts and merchandising and the full set of signage for the venue. We also worked with digital media, developing all major social media graphic aspects: profile picture, page cover and event covers. Facebook event covers We used photography to wrap up the communication, capturing the major venue highlights and a few lifestyle inspiration materials and scenes. This included Fiúza, LAB Lounge Terrace’s flagship wine. what about LAB 2018? more case studies\n" metadata={'url': 'https://kobu.agency/case-studies/lab-2017/'}
+Vector store built successfully!
+Program completed.
+ * Debugger is active!
+ * Debugger PIN: 168-125-170
+Request received by the API: {'user_input': 'Hi, there!', 'current_stage': 'welcome', 'next_stage': '', 'choosed_subject': None, 'subject': None, 'orientation': 'proceed'}
+Basic instructions:  assistant/knowledge/data_store_files/default/basic_instructions.json
+assistant_instructions instructions:  assistant/knowledge/data_store_files/general_contact/general_contact_instructions.json
+data_required:  assistant/knowledge/data_store_files/general_contact/general_contact_data_required.txt
+Current subject number:  0
+New user connected
+Conversation: main() Starts
+chat_buffer Buffer saved in self.chat_history list
+INFO:root:Current stage: welcome
+Assistant: welcome()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+ERROR:root:Chat get_assistant_response() Error: cannot access local variable 'message' where it is not associated with a value
+chat_buffer Buffer saved in self.chat_history list
+RequestHandler - Response to be send:
+ {'message': "I'm not feeling ok... Would you mind if we talk another time?", 'orientation': 'next_stage', 'current_stage': 'error'}
+127.0.0.1 - - [20/Jun/2024 01:58:11] "POST /kobu-assistant HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2024 01:58:11] "POST /kobu-assistant HTTP/1.1" 200 -
+Request received by the API: {'user_input': '', 'current_stage': 'error', 'orientation': 'next_stage'}
+Conversation: main() Starts
+chat_buffer Buffer saved in self.chat_history list
+INFO:root:Current stage: error
+INFO:root:Stage and orientation set to: choose_subject, proceed
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+chain_invoker(): The chain has been invoked.
+Assistant: choose_subject()
+prompt_chooser(): Prompt returned.
+INFO:httpx:HTTP Request: POST https://

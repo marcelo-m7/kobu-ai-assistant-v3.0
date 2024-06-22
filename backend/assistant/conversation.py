@@ -1,10 +1,16 @@
 import asyncio
 from .tools.manager_tools import *
-from .tools.lead_handlers import LeadHandlers
-from .assistant import Assistant
+from .stage_handlers import StageHandlers
+import logging
 
 
-class Conversation(Assistant, LeadHandlers):
+class Conversation(StageHandlers):
+# import asyncio
+# from .tools.manager_tools import ManagerTools, retry, wait_random_exponential, stop_after_attempt
+# from .tools.lead_handlers import LeadHandlers
+# from .assistant import Assistant
+
+# class Conversation(Assistant, LeadHandlers):
     """
     Represents a chat interface that manages communication between users and an assistant.
 
@@ -21,7 +27,7 @@ class Conversation(Assistant, LeadHandlers):
             stage (str): The current stage of the chat.
             subject (int, optional): The subject of the chat. Defaults to 0.
         """
-        super().__init__(stage) #, subject)
+        super().__init__(stage)
         self._subject = subject
         self.stage = stage
         self.chat_history = []
@@ -29,11 +35,10 @@ class Conversation(Assistant, LeadHandlers):
         self.save_chat_mode = False
         self.lead_generation = True # Default
         print("Current subject number: ", subject)
-    
+        logging.basicConfig(level=logging.INFO)
 
-
-    @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-    @ManagerTools.debugger_exception_decorator # It is seted in this function for to test proposes 
+    # @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
+    # @ManagerTools.debugger_exception_decorator # It is seted in this function for to test proposes 
     async def main(self, user_request) -> dict: 
         """
         Manages traffic responses to messages sent and received. 
@@ -64,156 +69,8 @@ class Conversation(Assistant, LeadHandlers):
         finally:
             return response
 
-    async def get_assistant_response(self, user_request: dict = {}) -> dict:
-        """
-        Answers the user_input and manages conversation state changes based on data detection for lead generation.
-
-        Args:
-            user_request (dict, optional): The user's request.
-
-        Returns:
-            dict: The response to the user's request.
-        """
-        try:
-            print("get_assistant_response() Current stage: ", self.current_stage)
-            if not self.current_stage:
-                self.current_stage = self.WELCOME_STAGE
-                print("Current stage changed from '' to: ", self.current_stage)
-
-            if self.orientation == self.NEXT_STAGE:
-                self.current_stage = self.next_stage
-                self.orientation = self.PROCEED
-                print("Current stage changed to: ", self.current_stage)
-                print("Orientation changed to: ", self.orientation)
-
-            while True:
-                match self.current_stage:
-                    case self.WELCOME_STAGE:
-                        response = await self.welcome(user_request)
-                        self.set_user_attributes(response)
-                        # print("Welcome Response:\n", response)
-
-                        if response['orientation'] == self.NEXT_STAGE:
-                            self.next_stage = self.CHOOSE_SUBJECT_STAGE
-                            # self.next_stage = self.ACCEPTANCE_OF_TERMS_STAGE # The ACCEPTANCE_OF_TERMS_STAGE case is beeing integrated.
-                            break
-
-                        else:
-                            self.current_stage = self.next_stage
-                            continue
-
-                    case self.CHOOSE_SUBJECT_STAGE:
-                        response = await self.choose_subject(user_request)
-                        self.set_user_attributes(response)
-                        # print("Choose Subject Response:\n", response)
-
-                        if response['orientation'] == self.NEXT_STAGE:
-                            self.next_stage = self.current_stage = self.DATA_COLLECTING_STAGE
-                            self.orientation = self.PROCEED
-                            self.subject = response['choosed_subject']
-                            print("Subject choosed: ", self.subject_name)
-                            # print("subject_instance: ", self.subject_instance)
-                            continue
-
-                        else:
-                            self.current_stage = self.next_stage
-                            break
-                                
-                    case self.DATA_COLLECTING_STAGE:
-                        validation = await asyncio.create_task(self.data_colecting_validation(user_request))
-                        # response = await asyncio.create_task(self.data_colecting_in_changing(user_request))
-                        response = await asyncio.create_task(self.data_colecting(user_request))
-                        self.set_user_attributes(response)
-                        # print("Data Collecting Response:\n", response)
-
-                        if validation['orientation'] == self.PROCEED:
-                            self.next_stage = self.DATA_COLLECTING_STAGE
-                            self.orientation = self.VERIFY_ANSWER
-                            break
-                            # del response['options']
-
-                        elif validation['orientation'] == self.NEXT_STAGE:
-                            # response = await self.data_colecting(user_request)
-                            self.current_stage = self.next_stage = self.RESUME_VALIDATION_STAGE
-                            self.orientation = self.PROCEED
-
-                            # self.lead = self.subject_instance.get_leads_info(self.chat_history)
-                            await asyncio.create_task(self.chat_buffer(system_message=f"Datas detected: {self.lead}"))
-
-                            continue
-
-                    case self.RESUME_VALIDATION_STAGE:
-                        response = await self.resume_validation(user_request)
-                        # print("Resume Validation Response:\n", response)
-                        self.set_user_attributes(response)
-                        # self.debugger_print(response)
-                        # self.debugger_sleeper(2)
-
-                        if response['orientation'] == self.VERIFY_ANSWER and response['message'] not in ['false', 'true']:
-                            self.next_stage = self.RESUME_VALIDATION_STAGE
-                            break
-                        
-                        else:   # if response['orientation'] == self.NEXT_STAGE:
-                            if response['message'] == 'true':
-                                self.current_stage = self.next_stage = self.SEND_VALIDATION_STAGE
-                                self.orientation = self.PROCEED
-
-                            else:
-                                response['current_stage'] = self.next_stage = self.current_stage = self.DATA_COLLECTING_STAGE
-                                response['orientation'] = self.orientation = self.VERIFY_ANSWER
-                                # print("New current_stage after message 'false': ", self.current_stage)
-                                # print("Current Stage After False: ", self.current_stage, self.orientation)
-        
-                            del response['options']
-                            continue
-
-                    case self.SEND_VALIDATION_STAGE:
-                        response = await self.send_validation(user_request)
-                        self.set_user_attributes(response)
-                        # print("Send Validation Response:\n", response)
-
-                        if response['orientation'] == self.VERIFY_ANSWER and response['message'] not in ['false', 'true']:
-                            self.next_stage = self.SEND_VALIDATION_STAGE
-                            break
-
-                        else:    # if response['orientation'] == self.NEXT_STAGE:
-                            if response['message'] == 'true':
-
-                                self.lead = self.subject_instance.get_leads_info(self.chat_history)
-                                await asyncio.create_task(self.send_leads_info())
-                                self.subject = 0
-                                self.current_stage = self.next_stage = self.FREE_CONVERSATION_STAGE
-                                self.orientation = self.PROCEED
-                                del response['options']
-
-                            else:
-                                response['current_stage'] =  self.current_stage = self.next_stage = self.RESUME_VALIDATION_STAGE
-                                response['orientation'] = self.orientation = self.VERIFY_ANSWER
-
-                            continue
-
-                    case self.FREE_CONVERSATION_STAGE:   # Stop going verifications
-                        response = await self.free_conversation(user_request)
-                        break
-                    
-                    case self.CRITICAL: # To bem implemented
-                        response = await self.critical(user_request)
-                        print("Critial Conversation Response:\n", response)
-                        break
-
-        except Exception as e:
-            print(f"Chat get_assistant_response() Error {e}")
-
-            message = "I'm not feeling ok... Would you mind if we talk another time?"
-            response = {"message": message,'orientation': self.orientation, 'current_stage': 'error'}
-    
-        finally:
-            # self.debugger_print(response)
-            self.set_user_attributes(response)
-            return response
-
     # The follow methodol is not completed integrated.
-    @ManagerTools.debugger_exception_decorator
+    # @ManagerTools.debugger_exception_decorator
     async def main_critical(self, user_request) -> dict: 
         """
         [METHOD IN TESTING] Manages traffic responses to messages in case of Critical Mode. 

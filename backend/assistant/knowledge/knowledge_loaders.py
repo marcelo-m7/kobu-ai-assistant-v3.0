@@ -61,7 +61,7 @@ class KnowledgeLoaders(ChatConsts):
         self.data_required = self._data_required_loader()
 
     @ManagerTools.debugger_exception_decorator
-    @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
+    # @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
     def update_dependent_attributes(self, mode = False) -> None:
         """
         Updates dependent attributes based on the mode or subject.

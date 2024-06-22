@@ -91,7 +91,7 @@ class Utils(Prompts):
         except Exception as e:
             print(f"chat_buffer_saver Error {e}")
 
-    @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
+    # @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
     def chain_invoker(self, chain, user_input: str = '', extra_context = '') -> str:
         """
         Invoke the main chain and return the assistant response.

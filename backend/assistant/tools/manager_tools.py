@@ -1,8 +1,8 @@
-from tenacity import retry, wait_random_exponential, stop_after_attempt
+# from tenacity import retry, wait_random_exponential, stop_after_attempt
 
 
 class ManagerTools:
-    RETRY = lambda: retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
+    # RETRY = lambda: retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
 
     @classmethod
     def debugger_exception_decorator(cls, func):
