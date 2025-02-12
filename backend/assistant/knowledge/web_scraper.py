@@ -3,7 +3,6 @@ import requests
 from bs4 import BeautifulSoup
 import json
 from urllib.parse import urlparse
-from datetime import datetime
 
 class WebScraper:
     """
@@ -194,3 +193,4 @@ def web_scraper_start(base_url='https://kobu.agency/',
 
 if __name__ == "__main__":
     web_scraper_start()
+    

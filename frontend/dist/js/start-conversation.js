@@ -20,7 +20,6 @@ export class StartConversation {
     this.initInterfaceEventListeners();
   }
 
-
   async main() {
     this.conversation.showSpinner();
     const inputElement = this.userInput;

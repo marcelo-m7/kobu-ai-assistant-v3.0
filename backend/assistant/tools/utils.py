@@ -169,15 +169,16 @@ class Utils(Prompts):
                 print("self.extra_context == True")
                 
                 chain = create_stuff_documents_chain(
-                llm=self.llm_retriver,
-                prompt=prompt
+                    llm=self.llm_retriver,
+                    prompt=prompt
                 )
 
                 retriever = self.vector_store.as_retriever(search_kwargs={"k": self.search_kwargs})
                     
                 retriever_prompt = ChatPromptTemplate.from_messages([
                     # MessagesPlaceholder(variable_name="chat_history"),
-                    ("human", "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation"),
+                    ("human", """Given the above conversation, generate a search query to look up 
+                     in order to get information relevant to the conversation"""),
                     ("system", "Messages History: {chat_history}"),
                     ("human", "{input}")
                 ])
