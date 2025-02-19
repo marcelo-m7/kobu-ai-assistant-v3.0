@@ -43,49 +43,21 @@ class Subjects:
     """
     Utility class containing constant values used throughout the chat application.
     """
-    from assistant_resources.subjects_lead_extractor import HireUs, GeneralContact, JoinTheTeam, LeadExtractor
-    
     # SUBJECTS POSSIBLES
     GENERAL_CONTACT = 'general_contact'
     HIRE_US = 'hire_us'
     JOIN_THE_TEAM = 'join_the_team'
-    # Initialize instances of subjects
-    CLASS_GENERAL_CONTACT = GeneralContact(GENERAL_CONTACT)
-    CLASS_HIRE_US = HireUs(HIRE_US)
-    CLASS_JOIN_THE_TEAM = JoinTheTeam(JOIN_THE_TEAM)
-    
-    def subject_instance(self, subject) -> LeadExtractor:
-        match subject:
-            case self.GENERAL_CONTACT:
-                return self.CLASS_GENERAL_CONTACT
-            case self.HIRE_US:
-                return self.CLASS_HIRE_US
-            case self.JOIN_THE_TEAM:
-                return self.CLASS_JOIN_THE_TEAM
               
 class Paths:
+    # ASSISTANT BUFFER PATHS
     BUFFER_SAVER_FILE_PATH = 'kobu-assistant/.buffer/buffer.json'
     EXPOERTED_LEAD_DATAS = 'kobu-assistant/.buffer/lead_datas.json'
-
-class KnowledgeDatas:
+    # KNWOLEDGE PATHS
     EXTRA_CONTEXT_FLAG: bool = True
-    BASIC_INSTRUCTIONS_PATH =  'kobu-assistant/core/knowledge/default/basic_instructions.json'
-
-    def __init__(self):
-        super().__init__()
-        self.assistant_instructions_path: str = 'kobu-assistant/core/knowledge/{subject_name}/{self.subject_name}_instructions.json'
-        self.data_required_path: str = 'kobu-assistant/core/knowledge/{subject_name}/{subject_name}_data_required.txt'
-        self.basic_instructions_path: str = 'kobu-assistant/core/knowledge/default/basic_instructions.json'
-
-    @property
-    def assistant_instructions_path(self, subject_name):
-        return self.assistant_instructions_path.format(subject_name=subject_name)
-    
-    @property
-    def data_required_path(self, subject_name):
-        return self.data_required_path.format(subject_name=subject_name)
-
-         
+    BASIC_INSTRUCTIONS_PATH =  'kobu-assistant/core/knowledge/basic_instructions.json'
+    DATA_REQUIRED_PATH: str = 'kobu-assistant/core/knowledge/{subject_name}/{subject_name}_data_required.txt'
+    ASSISTANT_INSTRUCTIONS_PATH: str = 'kobu-assistant/core/knowledge/{subject_name}/{self.subject_name}_instructions.json'
+    FUNCTION_DESCRIPTION_PATH ='kobu-assistant/core/knowledge/{subject_name}/{subject_name}_function_description.json'
 
 class ChatConsts(Stages, FlowOrientations, Subjects, Paths):
     pass

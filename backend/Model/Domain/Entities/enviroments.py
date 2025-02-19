@@ -12,6 +12,7 @@ class ConversationAttributes(User):
         self.conversation_subject = str
         self.conversation_history = list
         self.current_conversation_stage = str
+        self.extra_context : bool = True
 
         self.assistant_response_message = str
         self.assistant_reponse_orientation = str

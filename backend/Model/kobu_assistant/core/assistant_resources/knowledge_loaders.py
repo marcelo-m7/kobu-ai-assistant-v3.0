@@ -1,15 +1,12 @@
 from langchain_openai import ChatOpenAI
-from consts import ChatConsts
 from Model.Domain.Utilities.data_store_from_web_scraper import get_vector_store
 from Model.Domain.Utilities.manager_tools import ManagerTools
 from tenacity import retry, wait_random_exponential, stop_after_attempt
-from consts import KnowledgeDatas as kw
-from consts import Subjects
-from consts import Stages
-# from .data_store import DataStore     # Old form to obtain Vector Store
+from consts import Subjects, Stages
+from consts import Paths as p
 
 
-class KnowledgeLoaders(ChatConsts):
+class KnowledgeLoaders:
     """
     A class representing the knowledge base for the chat application.
 
@@ -19,21 +16,10 @@ class KnowledgeLoaders(ChatConsts):
         llm_conversation (ChatOpenAI): Language model for conversation.
         llm_validation (ChatOpenAI): Language model for validation.
         llm_retriver (ChatOpenAI): Language model for retrieval.
-
-    Methodos parameters definitions:
-        stage (str): Current stage of the conversation.
-        subject_name (str): Name of the current subject.
-        subject_instance (object): Instance of the current subject class.
-        search_kwargs (int): Number of search arguments.
-        assistant_instructions_path (str): Path to assistant instructions.
-        data_required_path (str): Path to data required file.
-        basic_instructions_path (str): Path to basic instructions file.
-        basic_instructions (str): Basic instructions for the assistant.
-        subject_instructions (str): Instructions specific to the current subject.
-        data_required (str): Data required for the current subject.
     """
     
     extra_context = True
+    # from .data_store import DataStore     # Old form to obtain Vector Store
     # vector_store = DataStore.get_vector_store() if extra_context else None
     vector_store = get_vector_store() if extra_context else None
 
@@ -41,27 +27,14 @@ class KnowledgeLoaders(ChatConsts):
     llm_validation = ChatOpenAI(temperature=0.6, model="gpt-3.5-turbo")
     llm_retriver = ChatOpenAI(temperature=0.6, model="gpt-3.5-turbo")
 
-    def __init__(self, stage: str = None) -> None:
-        """
-        Initializes a Knowledge instance.
-
-        Args:
-            stage (str): Current stage of the conversation.
-        """
-        # Essential chat parameters (default configuration)
-        # self.stage = stage if stage is not None else self.WELCOME_STAGE
-        # self.subject_name = self.GENERAL_CONTACT
-        # self.subject_instance = self.CLASS_GENERAL_CONTACT
-        # self.search_kwargs = 3
-        
+    def __init__(self) -> None:
         self.subject_name: Subjects
-        self.stage : Stages
-        self.extra_context = kw.EXTRA_CONTEXT_FLAG
-
+        self.stage: Stages
+        self.search_kwargs: int
         # Paths
-        self.assistant_instructions_path = kw.assistant_instructions_path(self.subject_name)
-        self.data_required_path = kw.data_required_path(self.subject_name)
-        self.basic_instructions_path = kw.basic_instructions_path(self.subject_name)
+        self.assistant_instructions_path = p.ASSISTANT_INSTRUCTIONS_PATH.format(self.subject_name)
+        self.data_required_path = p.DATA_REQUIRED_PATH.format(self.subject_name)
+        self.basic_instructions_path = p.BASIC_INSTRUCTIONS_PATH.format(self.subject_name)
 
         # Knowledge Holders
         self.basic_instructions = self._basic_instructions_loader()
@@ -84,17 +57,17 @@ class KnowledgeLoaders(ChatConsts):
         elif self.subject_name == Subjects.JOIN_THE_TEAM:
             self.search_kwargs = 2
         
-        self.assistant_instructions_path = kw.assistant_instructions_path(self.subject_name)
+        self.assistant_instructions_path = p.ASSISTANT_INSTRUCTIONS_PATH.format(self.subject_name)
 
         if stage == Stages.FREE_CONVERSATION_STAGE:       
-            self.assistant_instructions_path = self.assistant_instructions_path(Stages.FREE_CONVERSATION_STAGE)
+            self.assistant_instructions_path = p.ASSISTANT_INSTRUCTIONS_PATH.format(Stages.FREE_CONVERSATION_STAGE)
             self.subject_name = Subjects.GENERAL_CONTACT
             self.search_kwargs = 4
 
         print("self.assistant_instructions_path", self.assistant_instructions_path)
 
-        self.basic_instructions_path = kw.BASIC_INSTRUCTIONS_PATH
-        self.data_required_path = self.data_required_path(subject_name)
+        self.basic_instructions_path = p.BASIC_INSTRUCTIONS_PATH
+        self.data_required_path = p.DATA_REQUIRED_PATH.format(subject_name)
         self.basic_instructions = self._basic_instructions_loader()
         self.subject_instructions = self._subject_instructions_loader()
         self.data_required = self._data_required_loader()

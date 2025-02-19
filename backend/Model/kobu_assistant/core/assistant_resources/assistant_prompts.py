@@ -7,8 +7,19 @@ class Prompts(KnowledgeLoaders):
     """
     A class representing the knowledge base for the chat application.
     """
+    # self.extra_context: bool = True
+    def __init__(self):
+        super().__init__()
 
-    async def prompt_chooser(self, stage: str = None) -> ChatPromptTemplate:
+    prompt_parameters = {
+        "basic_instructions": "Instruções gerais para o assistente.",
+        "input": "Mensagem do usuário.",
+        "conversation_history": "Histórico de conversa até o momento.",
+        "data_required": "Lista de dados obrigatórios que devem ser coletados do usuário.",
+        "context": "Informações adicionais do site da KOBU Agency.",
+    }
+
+    async def prompt_chooser(self, current_conversation_stage: str = c.WELCOME_STAGE) -> ChatPromptTemplate:
         """
         Chooses the appropriate prompt based on the stage of the conversation.
 
@@ -18,10 +29,8 @@ class Prompts(KnowledgeLoaders):
         Returns:
             ChatPromptTemplate: Prompt template.
         """
-        if stage == None:
-            stage = c.WELCOME_STAGE
-        
-        match stage:
+
+        match current_conversation_stage:
             case c.WELCOME_STAGE:
                 prompt = ChatPromptTemplate.from_messages([
                     ("system", "{basic_instructions}"),
