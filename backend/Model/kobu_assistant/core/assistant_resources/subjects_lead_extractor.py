@@ -2,11 +2,10 @@ from abc import ABC, abstractmethod
 from dotenv import load_dotenv
 from openai import OpenAI
 from datetime import datetime
-from .manager_tools import *
 import json
-import os
+from tenacity import retry, wait_random_exponential, stop_after_attempt
 
-
+# import os
 # os.environ["OPENAI_API_KEY"] = "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"
 load_dotenv()
 
@@ -23,11 +22,11 @@ class LeadExtractor(ABC):
             self.function_description = json.load(json_file)
         
     @abstractmethod
-    def get_leads_info(self, chat_history):
+    def get_leads_info(self, conversation_history) -> json:
         """Abstract method to extract and return lead data."""
         pass
     
-    def extract_data(self, chat_history, tool_choice='auto'):
+    def extract_data(self, conversation_history, tool_choice='auto'):
         """Extracts data from chat history using GPT-3."""
         functions_descriptions = self.function_description
         print("Lead Extractor - extract_datas(): Extracting data to generate lead...")
@@ -41,7 +40,7 @@ class LeadExtractor(ABC):
                 {'role': 'system', 'content': 'If the conversation contains all the required data for Lead Generation, you extract the data into json from the entire conversation'},
                 {'role': 'system', 'content': 'The resume of the user needs you may store in the project_description arguments, if project_description exists.'},
                 {'role': 'system', 'content': 'If there is more relevant data, store in the other_data arguments'},
-                {"role": "user", "content": f'{chat_history}'}],
+                {"role": "user", "content": f'{conversation_history}'}],
             tools=functions_descriptions,
             tool_choice=tool_choice)
 
@@ -65,13 +64,13 @@ class HireUs(LeadExtractor):
         super().__init__(subject_name)
 
     # @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-    def get_leads_info(self, chat_history = []) -> json:
+    def get_leads_info(self, conversation_history = []) -> json:
         """Extracts and returns the conversation data for Lead Generation."""
 
         print("HireUS get_leads_info() - Extracting datas to generate lead.")
 
         try:
-            function_arguments = self.extract_data(chat_history)
+            function_arguments = self.extract_data(conversation_history)
 
             person_name = function_arguments['person_name']
             email_address = function_arguments['email_address']
@@ -129,12 +128,12 @@ class GeneralContact(LeadExtractor):
         super().__init__(subject_name)
     
     @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-    def get_leads_info(self, chat_history) -> dict:
+    def get_leads_info(self, conversation_history) -> dict:
         """Extract and return the conversation data for Lead Generation."""
         print("GeneralContact get_leads_info() - Extracting data to generate lead.")
 
         try:
-            function_arguments = self.extract_data(chat_history)
+            function_arguments = self.extract_data(conversation_history)
             print(function_arguments)
 
             # Define default values
@@ -179,12 +178,12 @@ class JoinTheTeam(LeadExtractor):
         super().__init__(subject_name)
         
     @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-    def get_leads_info(self, chat_history) -> json:
+    def get_leads_info(self, conversation_history) -> json:
         """Extracts and returns the conversation data for Lead Generation."""
         print("JoinTheTeam get_leads_info() - Extracting datas to generate lead.")
 
         try:
-            function_arguments = self.extract_data(chat_history)
+            function_arguments = self.extract_data(conversation_history)
 
             person_name = function_arguments['person_name']
             email_address = function_arguments['email_address']

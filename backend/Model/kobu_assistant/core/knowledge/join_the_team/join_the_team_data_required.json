@@ -1,0 +1,9 @@
+{
+  "Data required for Lead Generation": "Person Name\nEmail Address\nRole of Person\nType of Industry \nProject Name\nType of Project\nAvailable budget\nTimeframe for the project\nHow did you find us?",
+  "required": {
+    "person_name": {"type": "string", "description": "The name of the person."},
+    "email_address": {"type": "string", "description": "The email address."},
+    "video_url": {"type": "string", "description": "Video URL address."},
+    "how_found_us": {"type": "string", "description": "How the person found us."}
+}
+}

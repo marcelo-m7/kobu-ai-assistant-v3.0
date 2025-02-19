@@ -1,0 +1,36 @@
+[
+    {
+        "type": "function",
+        "function": {
+            "name": "extract_datas_for_lead_generation",
+            "description": "Extract the datas provided during the chat hystory  for Lead Generation",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "person_name": {"type": "string", "description": "The name of the person."},
+                    "email_address": {"type": "string", "description": "The email address."},
+                    "role_of_person": {"type": "string", "description": "The role of the person."},
+                    "type_of_industry": {"type": "string", "description": "The type of industry."},
+                    "brand": {"type": "string", "description": "The name of the user's company or brand."},
+                    "type_of_project": {"type": "string", "description": "The type of project."},
+                    "available_budget": {"type": "number", "description": "The available budget for the project"},
+                    "timeframe_for_project": {"type": "string", "description": "The timeframe for the project"},
+                    "how_found_us": {"type": "string", "description": "How the person found us."},
+                    "project_description": {"type": "string", "description": "The description of the project"},
+                    "other_data": {"type": "string", "description": "Other information provided by the user"}
+                },
+                "required": [
+                    "person_name",
+                    "email_address",
+                    "role_of_person",
+                    "type_of_industry",
+                    "brand",
+                    "type_of_project",
+                    "available_budget",
+                    "timeframe_for_project",
+                    "how_found_us"
+                ]
+            }
+        }
+    }
+]

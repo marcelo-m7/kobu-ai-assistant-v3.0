@@ -70,7 +70,7 @@ class KobuAssistant(BaseAssistant):
 
             # If has been provided (True), try to extract the datas.
             if 'true' in status:
-                lead = c.subject_instance.get_leads_info(c)
+                lead = self.extract_lead_from_conversation(cv) # c.subject_instance.get_leads_info(c)
                 lead_json = lead = json.loads(lead)
                 print("Lead sucessfull extracted") # :\n", lead)
 
@@ -117,130 +117,57 @@ class KobuAssistant(BaseAssistant):
                         cv.lead = lead_json
                         return True
 
+    async def resume_validation_stage(self, cv: ConversationEnviroment) -> ConversationEnviroment: 
+        """Assistant that asks the user if the contact resume provided is ok."""
 
-    # async def resume_validation(self, user_request: dict) -> dict:
-    #     """Assistant that asks the user if the contact resume provided is ok."""
-    #     self.current_stage = self.RESUME_VALIDATION_STAGE
-    #     print("Assistant: resume_validation()")
+        if cv.assistant_reponse_orientation == c.STAGE_FINISHED:
+            cv.current_conversation_orientation = c.STAGE_FINISHED
+            cv.assistant_reponse_orientation = c.PROCEED
 
-    #     try:
-    #         user_input = user_request.get('user_input')
+        elif cv.assistant_reponse_orientation == c.VERIFY_ANSWER:
+            cv.conversation_subject = c.RESUME_VALIDATION_STAGE_OPTIONS.index(cv.user_input)
+            cv.conversation_options_flag = False
+            cv.current_conversation_orientation = c.STAGE_FINISHED
+            cv.assistant_reponse_orientation = c.PROCEED
 
-    #         if self.orientation == self.VERIFY_ANSWER: # It may be improved
-    #             try:
-    #                 message = self.RESUME_VALIDATION_STAGE_OPTIONS.index(user_input)
-    #                 if message == 0:
-    #                     message = 'true'
-    #                     self.orientation = self.NEXT_STAGE
-    #                 else:
-    #                     message = 'false'
-    #                     self.orientation = self.VERIFY_ANSWER
-    #             except ValueError:
-    #                 self.orientation = self.PROCEED
-                
-    #         if self.orientation == '' or self.orientation == self.PROCEED:
-    #             prompt = await self.prompt_chooser(stage=self.current_stage)
-    #             chain = prompt | self.llm_conversation
-    #             message = self.chain_invoker(chain=chain)
-    #             self.orientation = self.VERIFY_ANSWER
-    #             # options = True
+        else:   # elif cv.assistant_reponse_orientation == c.PROCEED:
+            cv.assistant_response_message = self.obtain_assistant_message_response(cv=cv)
+            cv.conversation_options = c.RESUME_VALIDATION_STAGE_OPTIONS
+            cv.conversation_options_flag = True
 
-    #     except Exception as e:
-    #         print(f"Assistant: resume_validation() Error {e}")
+            cv.current_conversation_orientation = c.RESPONSE_READY
+            cv.assistant_reponse_orientation = c.VERIFY_ANSWER
+        
+        return cv
 
-    #     finally:
-    #         # print(message)
-    #         response = {"message": message, 'options': self.RESUME_VALIDATION_STAGE_OPTIONS, 'orientation': self.orientation, "current_stage": self.current_stage}
-    #         return response
+    async def send_validation_stage(self, cv: ConversationEnviroment) -> ConversationEnviroment: 
+        """Assistant that asks the user if the contact resume provided is ok."""
 
-    # async def send_validation(self, user_request: dict) -> dict:
-    #     """Assistant that asks the user if the assistant can send the contact solicitation"""
-    #     self.current_stage = self.SEND_VALIDATION_STAGE
-    #     print("Assistant: send_validation()")
-    #     # options  = None
+        if cv.assistant_reponse_orientation == c.STAGE_FINISHED:
+            cv.current_conversation_orientation = c.STAGE_FINISHED
+            cv.assistant_reponse_orientation = c.PROCEED
 
-    #     try:
-    #         user_input = user_request.get('user_input')
-    #         if self.orientation == self.VERIFY_ANSWER: # It may be improved
-    #             try:                
-    #                 message = self.SEND_VALIDATION_STAGE_OPTIONS.index(user_input)
-    #                 if message == 0:
-    #                     message = 'true'
-    #                     self.orientation = self.NEXT_STAGE
-    #                 else:
-    #                     message = 'false'
-    #                     self.orientation = self.VERIFY_ANSWER
-    #                 # options = False
-                        
-    #             except ValueError:
-    #                 self.orientation = self.PROCEED
+        elif cv.assistant_reponse_orientation == c.VERIFY_ANSWER:
+            cv.conversation_subject = c.SEND_VALIDATION_STAGE_OPTIONS.index(cv.user_input)
+            cv.conversation_options_flag = False
+            cv.current_conversation_orientation = c.STAGE_FINISHED
+            cv.assistant_reponse_orientation = c.PROCEED
 
-    #         if self.orientation == '' or self.orientation == self.PROCEED:
-    #             prompt = await self.prompt_chooser(stage=self.current_stage)
-    #             chain = prompt | self.llm_conversation
-    #             message = self.chain_invoker(chain=chain)
-    #             self.orientation = self.VERIFY_ANSWER
-    #             # options = True
+        else:   # elif cv.assistant_reponse_orientation == c.PROCEED:
+            cv.assistant_response_message = self.obtain_assistant_message_response(cv=cv)
+            cv.conversation_options = c.SEND_VALIDATION_STAGE_OPTIONS
+            cv.conversation_options_flag = True
 
-    #     except Exception as e:
-    #         print(f"Assistant: send_validation() Error {e}")
+            cv.current_conversation_orientation = c.RESPONSE_READY
+            cv.assistant_reponse_orientation = c.VERIFY_ANSWER
+        
+        return cv
 
-    #     finally:
-    #         response = {"message": message, 'options': self.SEND_VALIDATION_STAGE_OPTIONS, 'orientation': self.orientation, "current_stage": self.current_stage}
-    #         # if options:
-    #         return response
-
-    # async def free_conversation(self, user_request: dict) -> dict:
-    #     """Assistant that keeps the conversation after lead genereted."""
-    #     self.current_stage = self.FREE_CONVERSATION_STAGE
-    #     print("Assistant: free_conversation()")
-
-    #     try:
-    #         user_input = user_request.get('user_input')
-    #         if self.orientation == '' or self.orientation == self.PROCEED or self.orientation == self.NEXT_STAGE:
-    #             chain = await self.chain_builder(stage=self.current_stage)
-    #             message = self.chain_invoker(chain=chain, user_input=user_input)
-    #             self.orientation = self.PROCEED
-
-    #         else:   # To be implementing: subject changer
-    #             options = ["No, it is fine.", "Actually, I do."]
-
-    #             if user_input not in options:
-    #                 prompt = await self.prompt_chooser(stage='change_subject')
-    #                 chain = prompt | self.llm_conversation
-    #                 message = self.chain_invoker(chain=chain, user_input=user_input)
-    #                 self.orientation = self.VERIFY_ANSWER
-
-    #             else: # if self.orientation == 'verify':
-    #                     message = options.index(user_input)
-    #                     if message == 0:
-    #                         message = 'false'
-    #                     else:
-    #                         message = 'true'
-    #                     self.orientation = self.PROCEED  
-    #     except Exception as e:
-    #         print(f"Assistant: free_conversation() Error {e}")
-
-    #     finally:
-    #         response = {"message": message, 'orientation': self.orientation, 'current_stage': self.current_stage}
-    #         return response
-    
-    # # To be implemented
-    # async def critical(self, user_request: dict) -> dict: 
-    #     """[METHODOL IN TESTE] Response with the basic prompt message to the user."""
-    #     print("Assistant: welcome()")
-    #     self.current_stage = self.CRITICAL
-
-    #     try:
-    #         user_input = user_request.get('user_input')
-    #         prompt = await self.prompt_chooser(stage=self.current_stage)
-    #         chain = prompt | self.llm_conversation
-    #         message = self.chain_invoker(chain=chain, user_input=user_input)
-    #         self.orientation = self.NEXT_STAGE
-
-    #     except Exception as e:
-    #         print(f"Assistant: welcome() Error {e}")
-
-    #     finally:
-    #         response = {"message": message, 'orientation': self.orientation, 'current_stage': self.current_stage}
-    #         return response
+    async def free_conversation_stage(self, cv: ConversationEnviroment) -> ConversationEnviroment:
+        """Assistant that keeps the conversation after lead genereted."""
+        cv.assistant_response_message = self.obtain_assistant_message_response(cv=cv)
+        cv.current_conversation_orientation = c.RESPONSE_READY
+        cv.assistant_reponse_orientation = c.PROCEED
+        
+        # Add a stage change verifier
+        return cv

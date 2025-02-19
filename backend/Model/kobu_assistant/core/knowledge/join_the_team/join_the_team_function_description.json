@@ -1,0 +1,25 @@
+[
+    {
+        "type": "function",
+        "function": {
+            "name": "extract_datas_for_lead_generation",
+            "description": "Extract the datas provided during the chat hystory for Lead Generation",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "person_name": {"type": "string", "description": "The user name"},
+                    "email_address": {"type": "string", "description": "The user email address."},
+                    "video_url": {"type": "string", "description": "The user Video URL address."},
+                    "how_found_us": {"type": "string", "description": "How the person found Kobu Agency."},
+                    "other_data": {"type": "string", "description": "Other information or description provided by the user"}
+                },
+                "required": [
+                    "person_name",
+                    "email_address",
+                    "video_url",
+                    "how_found_us"
+                ]
+            }
+        }
+    }
+]

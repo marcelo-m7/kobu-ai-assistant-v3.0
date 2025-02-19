@@ -1,7 +1,11 @@
 from langchain_openai import ChatOpenAI
-from ..tools.manager_tools import *
-from ..consts import ChatConsts
-from .data_store_from_web_scraper import get_vector_store
+from consts import ChatConsts
+from Model.Domain.Utilities.data_store_from_web_scraper import get_vector_store
+from Model.Domain.Utilities.manager_tools import ManagerTools
+from tenacity import retry, wait_random_exponential, stop_after_attempt
+from consts import KnowledgeDatas as kw
+from consts import Subjects
+from consts import Stages
 # from .data_store import DataStore     # Old form to obtain Vector Store
 
 
@@ -50,10 +54,14 @@ class KnowledgeLoaders(ChatConsts):
         # self.subject_instance = self.CLASS_GENERAL_CONTACT
         # self.search_kwargs = 3
         
+        self.subject_name: Subjects
+        self.stage : Stages
+        self.extra_context = kw.EXTRA_CONTEXT_FLAG
+
         # Paths
-        self.assistant_instructions_path = f'assistant/knowledge/data_store_files/{self.subject_name}/{self.subject_name}_instructions.json'
-        self.data_required_path = f'assistant/knowledge/data_store_files/{self.subject_name}/{self.subject_name}_data_required.txt'
-        self.basic_instructions_path =  'assistant/knowledge/data_store_files/default/basic_instructions.json'
+        self.assistant_instructions_path = kw.assistant_instructions_path(self.subject_name)
+        self.data_required_path = kw.data_required_path(self.subject_name)
+        self.basic_instructions_path = kw.basic_instructions_path(self.subject_name)
 
         # Knowledge Holders
         self.basic_instructions = self._basic_instructions_loader()
@@ -62,49 +70,36 @@ class KnowledgeLoaders(ChatConsts):
 
     @ManagerTools.debugger_exception_decorator
     @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-    def update_dependent_attributes(self, mode = False) -> None:
+    def update_assistant_knowledge(self, subject_name: Subjects, stage: Stages) -> None:
         """
         Updates dependent attributes based on the mode or subject.
-
-        Args:
-            mode (str): Mode to update attributes to.
         """
-        if self.subject == 0:
-            self.subject_name = self.GENERAL_CONTACT
-            self.subject_instance = self.CLASS_GENERAL_CONTACT
+        self.subject_name == subject_name
+        self.stage = stage
+
+        if self.subject_name == Subjects.GENERAL_CONTACT:
             self.search_kwargs = 4
-            
-        elif self.subject == 1:
-            self.subject_name = self.HIRE_US
-            self.subject_instance = self.CLASS_HIRE_US
+        elif self.subject_name == Subjects.HIRE_US:
             self.search_kwargs = 2
-
-        elif self.subject == 2:
-            self.subject_name = self.JOIN_THE_TEAM
-            self.subject_instance = self.CLASS_JOIN_THE_TEAM
+        elif self.subject_name == Subjects.JOIN_THE_TEAM:
             self.search_kwargs = 2
         
-        self.extra_context = True
-        
-        self.assistant_instructions_path = f'assistant/knowledge/data_store_files/{self.subject_name}/{self.subject_name}_instructions.json'
+        self.assistant_instructions_path = kw.assistant_instructions_path(self.subject_name)
 
-        if self.stage == self.FREE_CONVERSATION_STAGE:       
-            self.assistant_instructions_path = f'assistant/knowledge/data_store_files/default/{self.FREE_CONVERSATION_STAGE}_instructions.txt'
-            self.subject = 0
-            self.subject_name = self.GENERAL_CONTACT
-            self.subject_instance = self.CLASS_GENERAL_CONTACT
+        if stage == Stages.FREE_CONVERSATION_STAGE:       
+            self.assistant_instructions_path = self.assistant_instructions_path(Stages.FREE_CONVERSATION_STAGE)
+            self.subject_name = Subjects.GENERAL_CONTACT
             self.search_kwargs = 4
 
         print("self.assistant_instructions_path", self.assistant_instructions_path)
 
-        self.basic_instructions_path =  'assistant/knowledge/data_store_files/default/basic_instructions.json'
-        self.data_required_path = f'assistant/knowledge/data_store_files/{self.subject_name}/{self.subject_name}_data_required.txt'
-
+        self.basic_instructions_path = kw.BASIC_INSTRUCTIONS_PATH
+        self.data_required_path = self.data_required_path(subject_name)
         self.basic_instructions = self._basic_instructions_loader()
         self.subject_instructions = self._subject_instructions_loader()
         self.data_required = self._data_required_loader()
 
-        print("update_dependent_attributes(): The assistant instructions has been refreshed to the subject: ", self.subject_name)
+        print("update_assistant_knowledge(): The assistant instructions has been refreshed to the subject: ", self.subject_name)
         
     def _basic_instructions_loader(self) -> str:
         """

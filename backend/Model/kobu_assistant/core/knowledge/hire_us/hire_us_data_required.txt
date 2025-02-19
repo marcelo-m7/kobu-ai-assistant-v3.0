@@ -1,0 +1,9 @@
+"Data required for Lead Generation: Person Name,
+  Email Address,
+  Role of Person (who the person contacting is),
+  Type of the Company,
+  Company/brand,
+  Type of Project (new brand, website, etc),
+  Available budget (minimum engagement of 10.000EUR)
+  Timeframe for the project,
+  How did you find us?"

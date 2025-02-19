@@ -7,14 +7,15 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain.chains.history_aware_retriever import create_history_aware_retriever
 from Domain.Entities.enviroments import ConversationEnviroment
+from consts import Paths as p
 
 
-class Utils():
+class Utils:
     """
     Utility functions for handling chat history, saving lead data, and invoking chat chains.
     """
-    buffer_saver_file_path = 'assistant/buffer/buffer.json'
-    exported_lead_datas = 'assistant/buffer/lead_datas.json'
+    buffer_saver_file_path = p.BUFFER_SAVER_FILE_PATH
+    exported_lead_datas = p.EXPOERTED_LEAD_DATAS
 
     async def conversation_buffer(self, cv: ConversationEnviroment,
                                   user_input: bool = False, 
@@ -98,7 +99,7 @@ class Utils():
             cv.assistant_response_message = message
             return cv
 
-    async def chain_builder(self, stage: str = '') -> object:
+    async def chain_builder(self, stage: str = '') -> object: # Note to move to knowledge_loaders
         """
         Build the main chain that will answer the user_input.
         

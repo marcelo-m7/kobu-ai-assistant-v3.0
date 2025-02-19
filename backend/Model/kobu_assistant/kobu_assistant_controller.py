@@ -37,7 +37,6 @@ class Conversation(KobuAssistant):
 
                 case c.WELCOME_STAGE:
                     cv = await self.welcome_stage(cv)
-
                     if cv.current_conversation_orientation == c.RESPONSE_READY:
                         break
 

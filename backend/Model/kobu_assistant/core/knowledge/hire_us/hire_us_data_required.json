@@ -1,0 +1,16 @@
+{
+  "Data required for Lead Generation": "Person Name\nEmail Address\nRole of Person\nType of Industry \nProject Name\nType of Project\nAvailable budget\nTimeframe for the project\nHow did you find us?",
+  "required": {
+    "person_name": {"type": "string", "description": "The name of the person for lead generation"},
+    "email_address": {"type": "string", "description": "The email address for lead generation"},
+    "role_of_person": {"type": "string", "description": "The role of the person for lead generation"},
+    "type_of_industry": {"type": "string", "description": "The type of industry for lead generation"},
+    "brand": {"type": "string", "description": "The name of the company or user's brand for lead generation"},
+    "type_of_project": {"type": "string", "description": "The type of project for lead generation"},
+    "available_budget": {"type": "number", "description": "The available budget for the project"},
+    "timeframe_for_project": {"type": "string", "description": "The timeframe for the project"},
+    "how_found_us": {"type": "string", "description": "How the person found us for lead generation"},
+    "project_description": {"type": "string", "description": "The project description of the project"},
+    "other_data": {"type": "string", "description": "Other information provided by the user"}
+}
+}
