@@ -1,6 +1,6 @@
 import asyncio
 from flask import jsonify, json
-from backend.Interface.assistant_interface import interface_controller
+from backend.Controller.Bridge import interface_controller
 
 
 class RequestHandler():

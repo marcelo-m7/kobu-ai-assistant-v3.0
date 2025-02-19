@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS
-from .request_handler import RequestHandler
+from .RequestHandler import RequestHandler
 
 
 rh = RequestHandler()

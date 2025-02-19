@@ -1,6 +1,6 @@
 from langchain_openai import ChatOpenAI
-from Model.Domain.Utilities.data_store_from_web_scraper import get_vector_store
-from Model.Domain.Utilities.manager_tools import ManagerTools
+from Model.Domain._Utilities.data_store_from_web_scraper import get_vector_store
+from Model.Domain._Utilities.manager_tools import ManagerTools
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 from consts import Subjects, Stages
 from consts import Paths as p

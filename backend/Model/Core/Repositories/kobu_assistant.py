@@ -1,4 +1,4 @@
-from .core.base_assistant import *
+from ..App.kobu_assistant.core.base_assistant import *
 from backend.Model.kobu_assistant.core.consts import ChatConsts as c
 import json
 
