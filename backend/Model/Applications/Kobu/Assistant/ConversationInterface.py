@@ -1,23 +1,29 @@
-from langchain_core.prompts import ChatPromptTemplate
-from .knowledge_loaders import KnowledgeLoaders
-from core.consts import ChatConsts as c
+# from .knowledge_loaders import KnowledgeLoaders
+# from core.consts import ChatConsts as c
+from Core.Entities.Attributes import PromptsAttributes
 
 
-class Prompts(KnowledgeLoaders):
+class Prompts(PromptsAttributes):
     """
     A class representing the knowledge base for the chat application.
     """
+
     # self.extra_context: bool = True
-    def __init__(self):
+    def __init__(self, 
+                 basic_instructions,
+                 conversation_history,
+                 user_input,
+                 data_required,
+                 extra_context_flag,
+                 conversation_subject,
+                 conversation_current_stage):
         super().__init__()
 
-    prompt_parameters = {
         "basic_instructions": "Instruções gerais para o assistente.",
         "input": "Mensagem do usuário.",
         "conversation_history": "Histórico de conversa até o momento.",
         "data_required": "Lista de dados obrigatórios que devem ser coletados do usuário.",
         "context": "Informações adicionais do site da KOBU Agency.",
-    }
 
     async def prompt_chooser(self, current_conversation_stage: str = c.WELCOME_STAGE) -> ChatPromptTemplate:
         """

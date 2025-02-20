@@ -1,5 +1,5 @@
 import asyncio
-from Domain.Entities.enviroments import ConversationEnviroment
+from Domain.Entities. import ConversationEnviroment
 from backend.Model.kobu_assistant.kobu_assistant import KobuAssistant
 from backend.Model.kobu_assistant.core.consts import ChatConsts as c
 

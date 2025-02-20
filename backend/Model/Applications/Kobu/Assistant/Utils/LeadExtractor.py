@@ -3,8 +3,7 @@ from openai import OpenAI
 from datetime import datetime
 import json
 from tenacity import retry, wait_random_exponential, stop_after_attempt
-from consts import Paths as p
-
+from Consts import Paths as p
 load_dotenv()
 
 

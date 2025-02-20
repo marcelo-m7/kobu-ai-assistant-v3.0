@@ -28,7 +28,6 @@ class Stages:
         "Wait. Do not send it yet, please."
     ]  # Options for the send validation stage
 
-
 class FlowOrientations:
     # CONVERSATION POSSIVLES ORIENTATIONS
     RESPONSE_READY = 'response_ready'
